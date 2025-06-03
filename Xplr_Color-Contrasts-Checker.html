@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Color Contrasts Checker | benoit poulain</title>
+	<!-- <script src="https://colorjs.io/dist/color.global.js"></script> -->
+	<script src="./libs/color.js"></script>
+	<script src="./libs/reef.js"></script>
+	<style type="text/css">
+		:root{ --width: 4.5rem; }
+		* { box-sizing: border-box; }
+		html { font-family: monospace; }
+
+		h1, fieldset, fieldset div, #options, section, ol, ul, li, .aContrast, .colorName, .demoTxB, .aCharacteristic, .label, .value { display: flex; }
+		fieldset, ol, ul, li, label { margin : 0; padding: 0; flex-wrap: nowrap; }
+
+		h1 { justify-content: center; }
+		fieldset{ flex-direction: row; border: none; }
+		fieldset div{ flex-direction: column; margin: 2rem; }
+		fieldset div:nth-child(1) { flex: 1; }
+		fieldset div:nth-child(2) { flex: 3; }
+		fieldset label { margin-bottom: 1rem; }
+		.symbol { font-size: 2rem; }
+		textarea { resize: vertical }
+		#inputColorBackground { min-height: 6rem; }
+		#inputColorText { min-height: 3rem; }
+
+		#options, #options li { flex-direction: row; justify-content: center; align-items: center;}
+		#options li { padding: 1rem; }
+
+		section { flex: 1 1 auto; }
+		ol { flex-direction: column; gap: 0.25rem; }
+		ul { flex-direction: row; gap: 0.25rem; }
+
+		.Col, .Row { justify-content: flex-end; align-items: center; padding: 1rem; }
+		.Row { position: sticky; left: 0rem; background: white; }
+		.colorName { font-size: 1.2rem; font-weight: bold; text-align: end; display: inline-flex; justify-content: flex-end; align-items: center; gap: 0.5rem;}
+
+/*		.Col{ min-width: calc(var(--width)*5); }*/
+		.Row, .Col.Row { min-width: calc(var(--width)*2); flex: 0; }
+
+		.Col, .aContrast { flex: 1 1 100%; }
+		.isSameColor > * { visibility: hidden; }
+		.demoColor { display: inline-block; width: 2rem; height: 2rem; border: 1px solid #CCC; border-radius: 0.5rem; }
+
+		.aContrast { flex-direction: row; padding: 0.25rem; border : 0.5px solid #CCC; align-items: center; }
+		.demoTxB{ padding: 0.5rem; min-width: var(--width); justify-content: center; box-sizing: content-box; border: 1rem solid --background;}
+		.demoTxB span { margin: 0.25rem; }
+		.demoTxB2 { width: 100%; }
+		.aCharacteristic { flex-direction: column; min-width: var(--width); }
+		.aCharacteristic[data-checked="unchecked"] { display: none; }
+		.label, .value { justify-content: flex-end; }
+		.label { font-size: 0.8rem; }
+		.value, .demoTxB { font-size:1.2rem; }
+
+		.aContrast[data-threshold="NOK"] > * { visibility: hidden; }
+
+		a { display: inline-block; margin: 2rem; }
+
+		.debug { display: none !important; }
+
+/*		ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(10%, 1fr)) }*/
+
+/*		.aContrast { background: white !important; }
+		.colorName { min-width: calc(var(--width)*3); }
+		.demoTxB2, .Lstar, .deltaE { display: none; }*/
+
+/*		.colorName { min-width: calc(var(--width)*3); }
+		.APCA, .WCAG, .demoTxB { display: none; }
+		.demoTxB2 { padding: 0.5rem; min-width: calc(var(--width)/2); justify-content: center; }
+		html, textarea { background: black; color: white; }*/
+	</style>
+</head>
+<body>
+
+<h1>Color Contrasts Checker • APCA, WCAG, L*, CIEDE2000</h1>
+<div id="app"></div>
+
+<a href="https://git.apcacontrast.com/documentation/APCAeasyIntro#use-case-ranges">APCA - ranges</a>
+
+<script type="text/javascript">
+
+let {signal, component} = reef;
+
+// Create a reactive signal
+let colors = signal({
+	// store the Foreground & Background colors, the min Threshold to apply
+	colorsText : ["#FFFFFF", "#00FFFF", "#FF00FF", "#FFFF00"],
+	colorsBackground : ["#000000", "#FF0000", "#00FF00", "#0000FF"],
+	colorsThreshold : {
+		type: undefined,
+		value: undefined
+	},
+
+	// options
+	options : [
+			{
+				label : "APCA",
+				fLabel : "contrastAPCA",
+				isVisible : "checked",
+				thresholds : [45, 75]
+			},
+			{
+				label : "WCAG",
+				fLabel : "contrastWCAG",
+				isVisible : "unchecked",
+				thresholds : [2, 4, 8.1]
+			},
+			{
+				label : "L*",
+				fLabel : "contrastLstar",
+				isVisible : "unchecked",
+				thresholds : [10, 12]
+			},
+			{
+				label : "ΔE2000",
+				fLabel : "deltaE2000",
+				isVisible : "checked",
+				thresholds : [10, 12]
+			}
+		],
+
+	// store for each combination foreground / background
+	// > colorText : hex value of foreground color
+	// > colorBackground : hex value of background color
+	// > contrastAPCA
+	computations : []
+});
+
+// compute all combinations
+function ComputeAllCombinations (colorsText, colorsBackground, colorsThreshold) {
+	let aTableContrasts = [];
+	colorsBackground.map( function (aBackground, index){
+		let aRowContrasts = [];
+		colorsText.map( function (aText, jndex){
+			// define ojects
+			let aColorText = new Color(aText);
+			let aColorBackground = new Color(aBackground);
+			let aCombination = {};
+			if (aText !== aBackground) {
+			// if (true) {
+				aCombination = {
+					colorText : aText,
+					colorBackground : aBackground,
+					contrastAPCA : aColorBackground.contrast(aColorText, "APCA"),
+					contrastWCAG : aColorBackground.contrast(aColorText, "WCAG21"),
+					contrastLstar : aColorBackground.contrast(aColorText, "Lstar"),
+					deltaE2000 : aColorBackground.deltaE(aColorText, "2000")
+				}
+			 } else {
+				aCombination = {
+					colorText : aText,
+					colorBackground : aBackground,
+					isSameColor : true,
+					contrastAPCA : 0,
+					contrastWCAG : 0,
+					contrastLstar : 0,
+					deltaE2000 : 0
+				}
+			}
+			!colorsThreshold || (Math.abs(aCombination[colorsThreshold.type]) < colorsThreshold.value) ? (aCombination.threshold = "NOK") : (aCombination.threshold = "OK"); 
+			aRowContrasts.push(aCombination);
+		})
+		// aRowContrasts.unshift(colorsBackground[index]);
+		aTableContrasts.push(aRowContrasts);
+	})
+	// aTableContrasts.unshift(colorsText);
+	// insert empty Cell to fix alignments
+	// aTableContrasts[0].unshift("#000000");
+	return aTableContrasts;
+}
+
+colors.computations = ComputeAllCombinations(colors.colorsText, colors.colorsBackground, colors.colorsThreshold);
+console.log(colors.computations);
+
+/*
+	Perceived lightness (l from lab)
+	UNUSED SO FAR
+	*/
+function LabLightness (ArrColors){
+	let LABtest = [];
+	ArrColors.map( function (aColor){
+		let testAColor = new Color(aColor).lab_d65[0];
+		LABtest.push(aColor + " : " + testAColor);
+	});
+	console.log("LabLightness");
+	console.log(LABtest);
+}
+LabLightness(colors.colorsText.concat(colors.colorsBackground));
+
+
+function ListAllThresholds () {
+
+}
+
+/*
+	TEMPLATE for FORM part
+	*/
+function TemplateForm () {
+	return `<!-- 2 inputs text/backgrounds to insert/modify colors -->
+		<fieldset>
+			<div class="inputColorBackground">
+				<label for="inputColorBackground">Background colors <span class="symbol">↓</span></label>
+				<textarea id="inputColorBackground">#000000, #FF0000, #00FF00, #0000FF</textarea>
+			</div>
+			<div class="inputColorText">
+				<label for="inputColorText">Text colors <span class="symbol">→</span></label>
+				<textarea id="inputColorText">#FFFFFF, #00FFFF, #FF00FF, #FFFF00</textarea>
+			</div>
+  	</fieldset>`;
+}
+
+
+
+/*
+	Template for Options : Properties & Thresholds
+*/
+function TemplateOptions () {
+	return `<!-- list of options -->
+	<fieldset>
+	<legend>Property to show :</legend>
+	<ul id="options">
+		${colors.options.map( (anOption, index) => {
+			return `
+				<li>
+					<input type="checkbox" id="${anOption.label}" name="${anOption.label}" ${anOption.isVisible} data-id="${index}" />
+					<label for="${anOption.label}">${anOption.label}</label>
+				</li>`
+		}).join('')}
+	</ul>
+	</fieldset>
+	<label for="thresholds">Min threshold targeted :</label>
+	<select name="threshold" id="thresholds">
+		<option value="none">None</option>
+		${colors.options.map( (aGroup, index) => {
+			return`
+			${aGroup.thresholds.map( (aThreshold, jndex) => {
+				return`
+					<option value="${index}" data-type="${aGroup.fLabel}" data-value="${aThreshold}">${aGroup.label} > ${aThreshold}</option>`
+			}).join('')}`
+		}).join('')}
+	</select>
+	`;
+}
+
+
+/* Template of a cell
+    @param i
+    @param j
+  */
+function CellTemplate(i, j, className = "") {
+    return `<li class="aContrast ${className}" style="--background:${colors.computations[i][j].colorBackground}" data-Threshold="${colors.computations[i][j].threshold}">
+      <div class="debug">(${colors.computations[i][j].colorText}, ${colors.computations[i][j].colorBackground})</div>
+				<div class="demoTxB"style="color:${colors.computations[i][j].colorText}; background:${colors.computations[i][j].colorBackground}">
+				<span>Abc</span>
+				<span class="demoTxB2"style="background:${colors.computations[i][j].colorText}">&nbsp;</span></div>
+				<div class="aCharacteristic APCA" data-checked="${colors.options[0].isVisible}"><span class="label">APCA</span><span class="value">${colors.computations[i][j].contrastAPCA.toFixed(0)}</span></div>
+				<div class="aCharacteristic WCAG" data-checked="${colors.options[1].isVisible}"><span class="label">WCAG</span><span class="value">${colors.computations[i][j].contrastWCAG.toFixed(1)}</span></div>
+				<div class="aCharacteristic Lstar" data-checked="${colors.options[2].isVisible}"><span class="label">L*</span><span class="value">${colors.computations[i][j].contrastLstar.toFixed(0)}</span></div>
+				<div class="aCharacteristic deltaE" data-checked="${colors.options[3].isVisible}"><span class="label">∆E*</span><span class="value">${colors.computations[i][j].deltaE2000.toFixed(0)}</span></div>
+    </li>`;
+}
+
+/* Template of a cell
+    @param i
+    @param j
+  */
+function HeadCellTemplate(i, j, val, className) {
+    return `<li class="${className}">
+<div class="debug">(${colors.computations[i][j][val]})</div>
+<span class="colorName"><span class="demoColor" style="background:${colors.computations[i][j][val]}">&nbsp;</span>${colors.computations[i][j][val]}</span>
+</li>`;
+}
+
+// /* Template of an empty cell
+//     @param i
+//   */
+// function EmptyCellTemplate(i) {
+//     return `<li class="aContrast Invisible" style="background:${colors.computations[i][i].colorText}">
+// <div class="debug">(${colors.computations[i][i].colorText})</div>
+// <span class="colorName isSameColor">&nbsp;</span>
+// </li>`;
+// }
+/* Template of an empty cell
+    @param i
+  */
+function EmptyCellTemplate(i, j) {
+    return `<li class="aContrast isSameColor" style="background:${colors.computations[i][j].colorBackground}">
+      <div class="debug">(${colors.computations[i][j].colorText}, ${colors.computations[i][j].colorBackground})</div>
+				<span class="colorName isSameColor">&nbsp;</span>
+</li>`;
+}
+
+/* Template of a cell
+    @param i
+  */
+function RowTemplate(i) {
+    return `<ul>
+			${HeadCellTemplate(i, 0, "colorBackground", "Row")}
+			${colors.computations[i].map( (j, jndex) => {
+				return (!colors.computations[i][jndex].isSameColor) ? `${CellTemplate(i, jndex)}` : `${CellTemplate(i, jndex, "isSameColor")}`;
+			}).join('')}
+		</ul>`;
+}
+
+/* Template of the table
+ */
+function TableTemplate() {
+    return `<section><ol>
+		  <ul>
+		    <li class="Col Row">&nbsp;</li>
+		    ${colors.computations[0].map( (j, jndex) => {
+		      return HeadCellTemplate(0, jndex, "colorText", "Col");
+		    }).join('')}
+		  </ul>
+		    ${colors.computations.map(function (i, index) {
+		      return RowTemplate(index);
+		    }).join('')}
+		</ol></section>`;
+}
+
+
+// concatenate all templates
+function AppTemplate () {
+	return TemplateForm() + TemplateOptions() + TableTemplate();
+}
+
+// render the UI
+component('#app', AppTemplate);
+
+// Update the DOM whenever the user types
+document.addEventListener('input', function (event) {
+
+		// TODOS : update computations only if color is correctly formated
+		// update data model when text color is modified
+    if (event.target.matches('#inputColorText')){
+			colors.colorsText = event.target.value.split(", ");
+			console.log(colors.colorsText);
+			colors.computations = ComputeAllCombinations(colors.colorsText, colors.colorsBackground, colors.colorsThreshold);
+    }
+		// update data model when text color is modified
+    else if (event.target.matches('#inputColorBackground')){
+    	colors.colorsBackground = event.target.value.split(", ");
+			console.log(colors.colorsBackground);
+			colors.computations = ComputeAllCombinations(colors.colorsText, colors.colorsBackground, colors.colorsThreshold);	
+    }
+    // update options
+    else if (event.target.matches('[type="checkbox"]')){
+    	let optionId = event.target.dataset.id;
+    	let currentState = event.target.checked;
+    	colors.options[optionId].isVisible = currentState ? "checked" : "unchecked";
+    }
+    // select threshold
+    else if(event.target.matches('select')){
+    	let optionId = event.target.options.selectedIndex;
+    	let optionType = event.target.options[optionId].dataset.type;
+    	let optionValue = event.target.options[optionId].dataset.value;
+    	console.log(`select : ${optionId} / ${optionType} ${optionValue}`);
+    	colors.colorsThreshold.type = optionType;
+    	colors.colorsThreshold.value = optionValue;
+			colors.computations = ComputeAllCombinations(colors.colorsText, colors.colorsBackground, colors.colorsThreshold);
+			console.log(colors.colorsThreshold);
+    }
+    // ignore...
+    else { return console.log(event) };
+
+});
+
+</script>
+
+</body>
+</html>

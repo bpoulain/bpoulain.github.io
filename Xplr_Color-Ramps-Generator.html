@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="./libs/color.js"></script>
+	<script src="./libs/reef.js"></script>
+	<title>Color Ramps Generator | benoit poulain</title>
+	<style type="text/css">
+
+		:root{
+			--base: 3rem;
+		}
+		
+		*,
+		:after,
+		:before {
+			box-sizing:border-box;
+			margin:0;
+			padding:0;
+		}
+
+		body {
+			font-family: monospace;
+			padding: 0.5rem;
+		}
+
+		#app {}
+		ul, section, .aColor { display: flex; }
+		ul, li{ list-style-type: none }
+		#app,
+		.palette{ flex-direction: row; }
+		.links,
+		.aColor { flex-direction: column; }
+
+		[data-grayscale="true"] { filter : grayscale(1); }
+		[data-grayscale="false"] { filter : grayscale(0); }
+
+		[data-details="true"] .details { display: block; }
+		[data-details="false"] .details { display: none; }
+
+
+		[data-details="true"] .aColor:before { display: unset; }
+		[data-details="false"] .aColor:before { display: none; }
+
+		.ramp, 
+		.inputs{ flex-direction: column; }
+
+		.inputs li{
+			width: calc(var(--base)*1.5);
+			height: var(--base);
+			display: inline-flex;
+		}
+		label { display: none; }
+		input { width: calc(var(--base)*0.8); }
+
+		.inputs li,
+		.aColor {
+			align-items: center;
+			justify-content: center;
+		}
+
+		.aHue,
+		.anIndex div {
+			display:inline-flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.aColor,
+		.aHue{
+			height: var(--base);
+			width: calc(var(--base)*1.5);
+		}
+		.aColor{
+			position: relative;
+			background: oklch(var(--lightness) var(--chroma) var(--hue));
+			font-size: 12px;
+			color: var(--apcatext);
+		}
+		.aColor:before{
+			display: block;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: calc(var(--base)/3);
+			height: calc(var(--base)/3);
+			background-color: var(--hex);
+/*			border: 0.5px dotted var(--apcatext);*/
+			content: " ";
+		}
+		.details{
+			padding: 0.25rem 0.5rem 0 0.5rem;
+		}
+
+		.bulk li{
+			width: auto;
+		}
+
+	</style>
+</head>
+<body>
+
+<h1>Color Ramps Generator</h1>
+<div id="app"></div>
+
+<ul class="links">
+<li><a href="https://oklch.com" target="_blank">OKLCH</a></li>
+<li><a href="https://colorjs.io/" target="_blank">COLORJS</a></li>
+<li><a href="https://www.myndex.com/APCA/" target="_blank">APCA</a></li>
+<li><a href="https://matthewstrom.com/writing/generating-color-palettes/" target="_blank">How to generate color palettes for design systems by @ilikescience</a></li>
+<li><a href="https://accessiblepalette.com" target="_blank">Accessible Palette by @efedorenko</a></li>
+<li><a href="https://colorbox.io/" target="_blank">Colorbox by @kvyn_</a></li>
+<li><a href="https://primer.style/prism/" target="_blank">Primer Prism by GitHub</a></li>
+<li><a href="https://leonardocolor.io" target="_blank">Leonardo by @NateBaldwinArt</a></li>
+</ul>
+
+
+<script type="text/javascript">
+
+let {signal, component} = reef;
+
+/*
+OKLCH
+ _ lightness : 0 – 1
+ _ chroma : 0 – 0.4
+ _ hue : 0 – 360
+
+OKHSL
+ _ hue : 0 – 360
+ _ saturation : 0 – 1
+ _ lightness : 0 – 1
+*/
+
+let data = signal( {
+	lightness: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
+	chroma: [0.045, 0.07, 0.09, 0.11, 0.135, 0.155, 0.135, 0.105, 0.08, 0.05],
+	saturation: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
+	hues: [],
+	rampIndex: ["050", "100", "200", "300", "400", "500", "600", "700", "800", "900"],
+	settings: {
+		space: "OKHSL",
+		sides: ["saturation", "lightness"],
+		grayscale: false,
+		details: false
+	},
+	colors: []
+} );
+
+function generateHue(start, delta, number) {
+	let hues = [];
+	hues.push(start);
+	let n = 1;
+	while(n < number) {
+		let hue = start + n * delta;
+		hues.push(hue);
+		n++;
+	}
+	return hues;
+}
+data.hues = generateHue(0, 20, 18);
+// data.hues = [250, 145, 20, 70];
+
+/*
+S(n) = -4(Smax-Smin)n^2+4(Smax-Smin)n+Smin
+*/
+function generateSaturation() {
+	const SMAX = 0.75;
+	const SMIN = 0.25;
+	let index = 0;
+	let saturation = [];
+	while (index <= 9) {
+		let n = (index+1)/11;
+		let value = -4*(SMAX-SMIN)*n*n + 4*(SMAX-SMIN)*n + SMIN;
+		saturation.push( parseFloat(value.toFixed(2)) );
+		index++;
+	}
+	console.table(saturation);
+	return saturation;
+}
+data.saturation = generateSaturation();
+
+/*
+L(n) = 1-n;
+*/
+function generateLightness() {
+	const LMAX = 0.98;
+	const LCOEF = 0.90;
+	let index = 0;
+	let lihtness = [];
+	while (index <= 9) {
+		let n = (index+1)/11;
+		let value = (LMAX - n) * LCOEF;
+		lihtness.push( parseFloat(value.toFixed(2)) );
+		index++;
+	}
+	console.table(lihtness);
+	return lihtness;
+}
+data.lightness = generateLightness();
+
+
+function generateColor(index, hue) {
+	let color = {};
+	color.APCAtext = index >= 5 ? "white" : "black";
+	let TextColor = new Color(color.APCAtext);
+	let n = index/10;
+
+	switch (data.settings.space) {
+		case 'OKLCH':
+			color.lightness = data.lightness[index];
+			color.chroma = data.chroma[index];
+			color.hue = hue;
+			color.OKLCH = new Color("oklch", [data.lightness[index], data.chroma[index], hue]);
+			color.APCA = TextColor.contrast(color.OKLCH, "APCA");
+			color.sRGB = color.OKLCH.to("srgb");
+			color.hex = sRGBtoHex(color.sRGB.coords[0], color.sRGB.coords[1], color.sRGB.coords[2]).toUpperCase();
+			color.index = data.rampIndex[index];
+			break;
+		case 'OKHSL':
+			color.hue = hue + 5*(1-n);
+			color.saturation = data.saturation[index];
+			color.lightness = data.lightness[index];
+			color.OKHSL = new Color("okhsl", [hue, color.saturation, color.lightness]);
+			color.OKLCH = color.OKHSL.to("oklch");
+			color.APCA = TextColor.contrast(color.OKHSL, "APCA");
+			color.sRGB = color.OKHSL.to("srgb");
+			color.hex = sRGBtoHex(color.sRGB.coords[0], color.sRGB.coords[1], color.sRGB.coords[2]).toUpperCase();
+			color.index = data.rampIndex[index];
+			// console.log(color);
+			break;
+	}
+	return color;
+}
+
+function sRGBtoHex (sR, sG, sB) {
+	// Convert sRGB values from 0-1 range to 0-255 range
+	sR = Math.round(sR * 255);
+	sG = Math.round(sG * 255);
+	sB = Math.round(sB * 255);
+
+	// Ensure input values are within the valid range (0-255)
+	sR = Math.max(0, Math.min(255, sR));
+	sG = Math.max(0, Math.min(255, sG));
+	sB = Math.max(0, Math.min(255, sB));
+
+	// Convert each component to a two-digit hexadecimal string
+	const redHex = sR.toString(16).padStart(2, '0');
+	const greenHex = sG.toString(16).padStart(2, '0');
+	const blueHex = sB.toString(16).padStart(2, '0');
+
+	// Combine the components and return the hexadecimal color code
+	return `#${redHex}${greenHex}${blueHex}`;
+}
+
+function generateARamp(hue) {
+	let ramp = [];
+	let i = 0;
+	while(i<10) {
+		ramp.push( generateColor(i, hue) );
+		i++;
+	}
+	return ramp;
+}
+
+function generateAllRamps(hues) {
+	for(i=0; i<hues.length; i++) {
+		data.colors.push( generateARamp(hues[i]) );
+	}
+}
+generateAllRamps(data.hues);
+console.table(data.colors[1]);
+
+function updateParameter(multiplier, type, index, value, id) {
+	let delta = 0.05;
+	data[type][index] = parseFloat(multiplier * delta) + parseFloat(value);
+	data.colors = [];
+	return generateAllRamps(data.hues);
+}
+
+function deleteHue(hue) {
+	let ndex = data.hues.indexOf(parseFloat(hue));
+	data.hues.splice(ndex, 1);
+	data.colors = [];
+	return generateAllRamps(data.hues);
+}
+
+function exportColors() {
+	let exportColors = {};
+	let inputs = {};
+	let outputs = {};
+	switch (data.settings.space) {
+		case 'OKLCH':
+			inputs.chroma = data.chroma;
+		case 'OKHSL':
+			inputs.saturation = data.saturation;
+		default:
+			inputs.lightness = data.lightness;
+			inputs.hues = data.hues;
+			exportColors.inputs = inputs;
+	}
+	data.colors.forEach( (aHue, index) => {
+		aHue.forEach( (aColor, jndex) => {
+			let tokenName = `RawColor-${data.hues[index].toString().padStart(3, 0)}-${data.rampIndex[jndex]}`;
+			outputs[tokenName] = {};
+			outputs[tokenName].OKLCH = `${aColor.OKLCH.coords[0].toFixed(3)} ${aColor.OKLCH.coords[1].toFixed(3)} ${aColor.OKLCH.coords[2].toFixed(0)}`;
+			outputs[tokenName].Hex = `${aColor.hex}`;
+		});
+		exportColors.outputs = outputs;
+	});
+	console.log(exportColors);
+	// return exportJSONToTXT(inputs);
+	return exportJSONToTXT(exportColors);
+}
+
+function exportJSONToTXT (jsonObject, fileName = 'dataJson.json') {
+	const jsonString = JSON.stringify(jsonObject, null, 2);
+	const blob = new Blob([jsonString], { type: 'text/plain' });
+	const link = document.createElement('a');
+	link.download = fileName;
+	link.href = URL.createObjectURL(blob);
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+}
+
+/* \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ */
+
+function templateColor(aColor) {
+	return `<div class= "aColor" style="--lightness: ${aColor.OKLCH.coords[0]}; --chroma: ${aColor.OKLCH.coords[1]}; --hue: ${aColor.OKLCH.coords[2]}; --hex: ${aColor.hex}; --apcatext: ${aColor.APCAtext}" data-OKLCH="${aColor.OKLCH.coords[0]} ${aColor.OKLCH.coords[1]} ${aColor.OKLCH.coords[2]}" data-hex="${aColor.hex}" data-APCA="${aColor.APCA}" data-APCAtext="${aColor.APCAtext}">
+			<span class="details hex">${aColor.hex}</span>
+			<span class="details APCA">${aColor.APCA.toFixed(0)}</span>
+		</div>`;
+}
+
+function templateRamp(aHue, index) {
+	return `<ul class="ramp">
+		<li class="aHue">h${data.hues[index].toString().padStart(3, 0)}</li>
+		${aHue.map( (aColor, jndex) => {
+			return `<li>${templateColor(aColor)}</li>`;
+		}).join('')}
+		<li class="delete"><button type="button" id="delete${data.hues[index]}" data-Hue="${data.hues[index]}">⌫ ${data.hues[index].toString().padStart(3, 0)}</li>
+		</ul>`;
+}
+
+function templateHeader(){
+	return`<li><ul class="ramp">
+		<li class="anIndex"><div class="aColor">&nbsp;</div></li>
+		${data.rampIndex.map( (i, index) => {
+			return `<li class="anIndex"><div class="aColor">${i}</div></li>`}).join('')}
+		</ul></li>`;
+}
+
+function templateInputs(typeInput) {
+	return `<ul class="inputs ${typeInput}">
+		<li>${typeInput.slice(0,3)}</li>
+		${data[typeInput].map( (item, index) => {
+			return `<li>{<label for="${typeInput}_${index}">${item}</label>
+						<input type="text" id="${typeInput}_${index}" class="parameter" data-type="${typeInput}"  data-index="${index}" @value="${item}">}</li>`;
+		}).join('')}
+		</ul>`;
+}
+
+function templateSettings() {
+	return `<ul class="settings">
+		<li><button type="button" id="space">space : ${data.settings.space}</button></li>
+		<li><button type="button" id="grayscale" data-grayscale="${data.settings.grayscale}">Color / Grayscale</button></li>
+		<li><button type="button" id="details" data-details="${data.settings.details}">Details</button></li>
+		<li><button type="button" id="export">Export</button></li>
+		<li><label for="bulkInput">bulk input</label><textarea id="bulkInput" class="bulk" value="" rows="5" cols="100"></textarea></li>
+		</ul>`;
+}
+
+function templatePalette() {
+	return `
+		${templateSettings()}
+		<section data-grayscale="${data.settings.grayscale}" data-details="${data.settings.details}">
+			${templateInputs(data.settings.sides[0])}
+			${templateInputs(data.settings.sides[1])}
+			<ul class="palette">
+			${templateHeader()}
+			${data.colors.map( (aHue, index) => {
+				return `<li>${templateRamp(aHue, index)}</li>`;
+			}).join('')}
+			</ul>
+		</section>`;
+}
+
+component( '#app', templatePalette );
+
+/* \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ */
+
+document.addEventListener('input', (event) => {
+	if (event.target.matches('.parameter')) {
+		let value = event.target.value;
+		let type = event.srcElement.dataset.type;
+		let index = event.srcElement.dataset.index;
+		data[type][index] = parseFloat(value);
+		console.log(data[type][index]);
+		data.colors = [];
+		return generateAllRamps(data.hues);
+	} else if (event.target.matches('.bulk')) {
+		// console.log(event);
+		let value1 = event.target.value;
+		let value = JSON.parse(value1);
+		value.hues ? data.hues = value.hues : "";
+		value.saturation ? data.saturation = value.saturation : "";
+		value.lightness ? data.lightness = value.lightness : "";
+		value.chroma ? data.chroma = value.chroma : "";
+		data.colors = [];
+		return generateAllRamps(data.hues);
+	}
+});
+
+document.addEventListener('click', (event) => {
+	if (event.target.matches('[id=grayscale]')) {
+		data.settings.grayscale = !data.settings.grayscale;
+	} else if (event.target.matches('[id=space]')) {
+		switch (data.settings.space) {
+			case 'OKLCH':
+				data.settings.space = "OKHSL";
+				data.settings.sides = ["saturation", "lightness"];
+				break;
+			case 'OKHSL':
+				data.settings.space = "OKLCH";
+				data.settings.sides = ["lightness", "chroma"];
+				break;
+		}
+		data.colors = [];
+		return generateAllRamps(data.hues);
+	} else if (event.target.matches('[id=details]')) {
+		data.settings.details = !data.settings.details;
+	} else if (event.target.matches('[id^=delete]')) {
+		let hue = event.srcElement.dataset.hue;
+		return deleteHue(hue);
+	} else if (event.target.matches('[id=export')) {
+		return exportColors();
+	}
+});
+
+document.addEventListener('keydown', (event) => {
+	if (event.keyCode == 40) {
+		// console.log("down");
+		let id = event.srcElement.id;
+		let multiplier = -1;
+		let type = event.srcElement.dataset.type;
+		let index = event.srcElement.dataset.index;
+		let value = event.target.value;
+		updateParameter(multiplier, type, index, value, id);
+	} else if (event.keyCode == 38) {
+		// console.log("up");
+		let id = event.srcElement.id;
+		let multiplier = 1;
+		let type = event.srcElement.dataset.type;
+		let index = event.srcElement.dataset.index;
+		let value = event.target.value;
+		updateParameter(multiplier, type, index, value, id);
+	}  
+});
+
+/* \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+>>> todos 🧪 color ramp generator <<<
+
+BUGS
+[x] lightness 0.1 not working with direct inputs > parseFloat(value);
+
+DONE
+[x] build multiple OKLCH ramps dynamically
+[x] handle modification of L,C through direct input
+[x] handle slight adjustement of L,C through keyUp/Down
+[x] Handle grayscale On/Off
+[x] Add APCA overlay
+[x] Try OKHSL space
+[x] Export inputs in json
+[x] Export outputs in json
+[x] Toggle OKLCH / OKHSL
+
+MUST
+[ ] Handle modification of Hues
+[ ] Add ramp name per hue
+[ ] Add/Delete a L,C,H
+[ ] Handle modification of the hue accross aRamp
+[ ] Bulk edition L,C,H / json
+[ ] RGB fallback
+[ ] Display OKLCH + RGB
+[ ] Use easings to spread homogeneously
+[ ] Compare to reference DS (Tailwind, Reshaped, ...)
+[ ] Handle parameters in URL bi-directional update
+
+SHOULD
+[ ] Theme dark/light
+[ ] Imports json with inputs
+[ ] Add/Delete with reorder ?
+[ ] Export to default W3C Tokens format
+[ ] Export SVG file
+
+COULD
+[ ] Display Graphs L,C,H
+[ ] Handle multiple palettes 
+[ ] Handle update L,C,H per color ?
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ */
+
+
+</script>
+
+</body>
+</html>

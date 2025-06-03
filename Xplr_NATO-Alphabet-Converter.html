@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NATO Alphabet Converter | benoit poulain</title>
+  <script src="./libs/reef.js"></script>
+  <style type="text/css"></style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script type="text/javascript">
+let {signal, component} = reef;
+
+
+// Create a reactive signal
+let toConvert = signal({
+  "input" : "",
+  "output": [],
+  "Alphabet" : {
+  "A" : "alfa",
+  "B" : "bravo",
+  "C" : "charlie",
+  "D" : "delta",
+  "E" : "echo",
+  "F" : "foxtrot",
+  "G" : "golf",
+  "H" : "hotel",
+  "I" : "india",
+  "J" : "juliett",
+  "K" : "kilo",
+  "L" : "lima",
+  "M" : "mike",
+  "N" : "november",
+  "O" : "oscar",
+  "P" : "papa",
+  "Q" : "quebec",
+  "R" : "romeo",
+  "S" : "sierra",
+  "T" : "tango",
+  "U" : "uniform",
+  "V" : "victor",
+  "W" : "whiskey",
+  "X" : "xray",
+  "Y" : "yankee",
+  "Z" : "zulu",
+  "0" : "zero",
+  "1" : "one",
+  "2" : "two",
+  "3" : "three",
+  "4" : "four",
+  "5" : "five",
+  "6" : "six",
+  "7" : "seven",
+  "8" : "eight",
+  "9" : "nine",
+  "," : "decimal",
+  "00" : "hundred",
+  "000" : "thousand"
+}
+});
+
+// Conversion 
+function convert () {
+  // for (var i = toConvert.input.length; i >= 0; i--) {
+  //   let char = toConvert.input.charAt(i).toUpperCase();
+  //   let convert = toConvert.Alphabet.char;
+  //   console.log(convert);
+  //   toConvert.output += convert;
+  // }
+  let stringArray = toConvert.input.split('');
+  toConvert.output = [];
+  stringArray.map(function(letter){
+    return toConvert.output.push(toConvert.Alphabet[letter.toUpperCase()].toUpperCase());
+  });
+  console.log(toConvert.output);
+}
+
+// Create a template
+function template () {
+  return `
+    <label for="toConvert">Type the words to convert</label><br>
+    <input id="toConvert"><br>
+    <div><em>${toConvert.input.length > 0 ? `${toConvert.output}` : ''}</em></div>`;
+}
+
+component('#app', template);
+
+// Update the DOM whenever the user types
+document.addEventListener('input', function (event) {
+
+    // Only run when the #username field is updated
+    if (!event.target.matches('#toConvert')) return;
+
+    // Update the state and DOM
+    toConvert.input = event.target.value;
+
+    // Update the conversion
+    convert();
+
+});
+</script>
+
+</body>
+</html>
