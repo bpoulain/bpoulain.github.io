@@ -29,20 +29,25 @@
 - **Corey Ginnivan** • [@coreyginnivan](https://twitter.com/CoreyGinnivan) • [www  ❐](https://read.cv/coreyginnivan)
 - **Dan Hollick** • [@DanHollick](https://twitter.com/DanHollick) • [www  ❐](https://alcohollick.com/)
 - **David Aerne** • [@meodai](https://x.com/meodai) • [www  ❐](https://bento.me/meodai)
-- **Dmitry Belyaev** • [@blvdmitry](https://twitter.com/blvdmitry)
-- **Dmitriy Bunin** • [@buninux](https://twitter.com/buninux)
+- **Dmitry Belyaev** • [@blvdmitry](https://twitter.com/blvdmitry) • [www  ❐](https://blvdmitry.me/)
+- **Dmitriy Bunin** • [@buninux](https://twitter.com/buninux) • [www  ❐](https://buninux.com/)
 - **Daryl Koopersmith** • [@koop](https://twitter.com/koop)
 - **Erik D. Kennedy** • [@erikdkennedy](https://twitter.com/erikdkennedy) • [www  ❐](https://www.learnui.design/)
 - **Eugene Fedorenko** • [@efedorenko](https://twitter.com/efedorenko) • [www  ❐](https://efedorenko.com/)
-- **Gleb Stroganov** : [@strongeron](https://twitter.com/strongeron)
+- **Gleb Stroganov** • [@strongeron](https://twitter.com/strongeron) • [www  ❐](https://glebstroganov.com/)
+- **Gregor Aisch** • [@gka](https://vis.social/@gka) • [www  ❐](https://www.vis4.net)
 - **Hayk An** • [@hihayk](https://twitter.com/hihayk) • [www  ❐](https://hayk.design/)
 - **Kevyn Arnott** • [@kvyn_](https://twitter.com/kvyn_) • [www  ❐](https://kevyn.work/)
 - **Kilian Valkhof** • [@kilianvalkhof](https://twitter.com/kilianvalkhof) • [www  ❐](kilianvalkhof.com)
 - **Lea Verou** • [@leaverou](https://twitter.com/leaverou) • [www  ❐](https://lea.verou.me/)
 - **Nate Baldwin** • [@NateBaldwinArt](https://twitter.com/NateBaldwinArt) • [www  ❐](https://natebaldw.in/)
+- **Nathan A Curtis** . [@nathanacurtis](https://twitter.com/nathanacurtis)
 - **Matt Ström-Awn** • [@ilikescience](https://twitter.com/ilikescience) • [www  ❐](https://matthewstrom.com/)
 - **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en)
-- **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) 
+- **Saneef Ansari** • [@saneef](https://twitter.com/saneef) • [www  ❐](https://saneef.com/)
+
+- **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) • [www  ❐](https://www.steveschoger.com/)
+- **Zak Erving** • [@zakerving](https://twitter.com/zakerving)
 
 ## Cies
 
@@ -99,33 +104,30 @@
 
 - [Who can use this color combination ?](https://www.whocanuse.com/) (visual impairment simulator) by @coreyginnivan
 
----
+- [ColorContrast](https://colorcontrast.app/) by @kilianvalkhof / Polypane
+
+- [Accessible Palette](https://accessiblepalette.com/) by @efedorenko - Create color systems with consistent lightness and contrast
+    - [Accessible Palette: stop using HSL for color systems](https://wildbit.com/blog/accessible-palette-stop-using-hsl-for-color-systems)
+
+- [Primer Prism](https://primer.style/prism/ ) by GitHub : a tool for creating and maintaining cohesive, consistent, and accessible color palettes [GitHub](https://github.com/primer/prism)
 
 
-- ColorContrast by Polypane : https://colorcontrast.app/
-
-- Accessible Palette by  @efedorenko - Create color systems with consistent lightness and contrast
-    - Accessible Palette : https://accessiblepalette.com/
-    - Accessible Palette: stop using HSL for color systems : https://wildbit.com/blog/accessible-palette-stop-using-hsl-for-color-systems 
-
-- Primer Prism by GitHub : a tool for creating and maintaining cohesive, consistent, and accessible color palettes
-    - Primer Prism : https://primer.style/prism/ 
-    - GitHub repo : https://github.com/primer/prism
-
-- WCAG 3
+- **WCAG 3**
     - Visual Contrast of Text Subgroup : https://www.w3.org/WAI/GL/task-forces/silver/wiki/Visual_Contrast_of_Text_Subgroup
     - Contrast Ratio Math and Related Visual Issues : https://github.com/w3c/wcag/issues/695
 
-- APCA
-    - Have you ever wondered why the WCAG colour contrast ratio doesn't always seem to work? by @DanHollick : https://twitter.com/DanHollick/status/1417895151003865090
-    - WCAG 3 and APCA by @DanHollick : https://typefully.com/u/DanHollick/t/sle13GMW2Brp
-    - The Easy Intro to the APCA Contrast Method by Myndex https://git.apcacontrast.com/documentation/APCAeasyIntro 
-    - Accurate Contrast Using the APCA by Myndex : https://github.com/Myndex
-    - The Realities And Myths Of Contrast And Color by Andrew Somers https://www.smashingmagazine.com/2022/09/realities-myths-contrast-color/
+- **APCA**
+    - [Have you ever wondered why the WCAG colour contrast ratio doesn't always seem to work?](https://twitter.com/DanHollick/status/1417895151003865090) by @DanHollick 
+    - [WCAG 3 and APCA](https://typefully.com/u/DanHollick/t/sle13GMW2Brp) by @DanHollick
+    - [The Easy Intro to the APCA Contrast Method](https://git.apcacontrast.com/documentation/APCAeasyIntro) by Myndex 
+    - [Accurate Contrast Using the APCA](https://github.com/Myndex) by Myndex
+    - [The Realities And Myths Of Contrast And Color](https://www.smashingmagazine.com/2022/09/realities-myths-contrast-color/) by Andrew Somers 
 
-- Color JS library by @leaverou & @svgeesus  : https://colorjs.io/
+- [Color JS library](https://colorjs.io/) by @leaverou & @svgeesus
 
-- Chroma JS library - all kinds of color conversions and color scales by Gregor Aisch : https://github.com/gka/chroma.js
+- [Chroma JS library](https://github.com/gka/chroma.js) - all kinds of color conversions and color scales by Gregor Aisch
+
+---
 
 - Google
     - The Science of Color & Design by @materialdesign : https://material.io/blog/science-of-color-design
