@@ -52,8 +52,8 @@
 
 - [Color and Contrast](https://colorandcontrast.com/) by @NateBaldwinArt
 
-- **Leonardo by Adobe** - creating, managing, and sharing accessible color systems for user interface design and data visualization
-    - [Leonardo](https://leonardocolor.io)
+- **Leonardo by Adobe**
+    - [Leonardo, one-of-a-kind tool for creating, managing, and sharing accessible color systems for user interface design and data visualization](https://leonardocolor.io)
     - [Leonardo: an open source contrast-based color generator](https://medium.com/@NateBaldwin/leonardo-an-open-source-contrast-based-color-generator-92d61b6521d2)
     - [Creating contrast-based themes with Leonardo](https://uxdesign.cc/creating-contrast-based-themes-with-leonardo-32b6219a090f) - A feature enhancement to Leonardo, Adobe’s open-source tool for creating beautiful, accessible, and adaptive color systems using contrast-ratio based generated colors
     - Part 1 : [Adaptive Color in Design Systems](https://medium.com/thinking-design/adaptive-color-in-design-systems-7bcd2e664fa0)
@@ -62,10 +62,10 @@
     - [Colorimetry and the Cartography of Color](https://medium.com/thinking-design/colorimetry-and-the-cartography-of-color-415ef5315c0a) - An introduction to these topics in relation to user interface design and design systems
 
 - **Evil Martians**
-    - [Harmony, Accessible UI Color Palette](https://evilmartians.com/opensource/harmony), [Harmony (Figma Library)](https://www.figma.com/community/file/1287828769207775946/harmony-accessible-ui-color-palette), [GitHub](https://github.com/evilmartians/harmony)
+    - [Harmony](https://evilmartians.com/opensource/harmony) Accessible UI Color Palette, ([Figma Library](https://www.figma.com/community/file/1287828769207775946/harmony-accessible-ui-color-palette)), ([GitHub](https://github.com/evilmartians/harmony))
     - [Polychrom Contrast Checker (Figma Plugin)](https://www.figma.com/community/plugin/1281280685402026529/polychrom) 
     - [OKLCH Picker Converter](https://oklch.com/)
-    - [OKLCH Color Picker & Converter](https://evilmartians.com/opensource/oklch-color-picker)
+    - [OKLCH in CSS: why we moved from RGB and HSL](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl)
     - [How OKLCH works by @antiflasher](https://twitter.com/antiflasher/status/1715339355055653193)
 
 - [Color in UI Design: A (Practical) Framework](https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html) by @erikdkennedy 
