@@ -99,3 +99,110 @@
 
 - [Who can use this color combination ?](https://www.whocanuse.com/) (visual impairment simulator) by @coreyginnivan
 
+---
+
+
+- ColorContrast by Polypane : https://colorcontrast.app/
+
+- Accessible Palette by  @efedorenko - Create color systems with consistent lightness and contrast
+    - Accessible Palette : https://accessiblepalette.com/
+    - Accessible Palette: stop using HSL for color systems : https://wildbit.com/blog/accessible-palette-stop-using-hsl-for-color-systems 
+
+- Primer Prism by GitHub : a tool for creating and maintaining cohesive, consistent, and accessible color palettes
+    - Primer Prism : https://primer.style/prism/ 
+    - GitHub repo : https://github.com/primer/prism
+
+- WCAG 3
+    - Visual Contrast of Text Subgroup : https://www.w3.org/WAI/GL/task-forces/silver/wiki/Visual_Contrast_of_Text_Subgroup
+    - Contrast Ratio Math and Related Visual Issues : https://github.com/w3c/wcag/issues/695
+
+- APCA
+    - Have you ever wondered why the WCAG colour contrast ratio doesn't always seem to work? by @DanHollick : https://twitter.com/DanHollick/status/1417895151003865090
+    - WCAG 3 and APCA by @DanHollick : https://typefully.com/u/DanHollick/t/sle13GMW2Brp
+    - The Easy Intro to the APCA Contrast Method by Myndex https://git.apcacontrast.com/documentation/APCAeasyIntro 
+    - Accurate Contrast Using the APCA by Myndex : https://github.com/Myndex
+    - The Realities And Myths Of Contrast And Color by Andrew Somers https://www.smashingmagazine.com/2022/09/realities-myths-contrast-color/
+
+- Color JS library by @leaverou & @svgeesus  : https://colorjs.io/
+
+- Chroma JS library - all kinds of color conversions and color scales by Gregor Aisch : https://github.com/gka/chroma.js
+
+- Google
+    - The Science of Color & Design by @materialdesign : https://material.io/blog/science-of-color-design
+    - High Definition CSS Color Guide by @ChromiumDev : https://developer.chrome.com/docs/css-ui/high-definition-css-color-guide
+
+- HueTone by @ardovalexey : https://huetone.ardov.me/
+- HuePlot : Explore color spaces by @ardovalexey : https://hueplot.ardov.me
+
+- Huey by @zakerving - Rapid color palettes across the rainbow : https://huey.design/
+
+- Colorbox by Lyft :
+    - Colorbox by @kvyn_ :  https://colorbox.io/ 
+    - Re-approaching Color : https://design.lyft.com/re-approaching-color-9e604ba22c88
+    - Introducing the new ColorBox : https://kvyn.medium.com/introducing-the-new-colorbox-e0109c021729
+
+- color x color by Saneef : https://colorcolor.in/
+
+- Scale by @hihayk : https://hihayk.github.io/scale/ 
+
+- IBM Design
+    - Color Design Language : https://www.ibm.com/design/language/color/
+    - Carbon color by @_carbondesign : https://carbondesignsystem.com/guidelines/color/overview/
+
+- Adobe
+    - Spectrum : https://spectrum.adobe.com/page/color-palette/
+
+- Apple
+    - Color : https://developer.apple.com/design/human-interface-guidelines/color
+    - Dark mode : https://developer.apple.com/design/human-interface-guidelines/dark-mode
+
+- Polaris by Shopify
+    - Color → Palettes and roles : https://polaris.shopify.com/design/colors/palettes-and-roles
+
+- Tailwind colors by Steve Schroger
+    - Tailwind 1 colors : https://v1.tailwindcss.com/docs/customizing-colors
+    - Tailwind 2 colors : https://tailwindcss.com/docs/customizing-colors
+
+- Radix by @blvdmitry
+    - https://www.radix-ui.com/colors
+    - Preview one of the Reshaped built-in themes and learn how to create your own themes. : https://reshaped.so/themes
+
+- FramesX by @buninux
+    - Frames X Color System: Best practices for colors in Figma : https://framesxdesign.com/comps/colors
+
+- 
+
+- Random A11Y by @components_ai : https://randoma11y.com/ 
+
+- List of DS inspiration for color Tokens ( https://x.com/LeaVerou/status/1795209852672733263 )
+    * Open color by heeyeun yeun: https://yeun.github.io/open-color/
+    * Open props by @argyleink : https://open-props.style/#colors
+    * Tailwind : https://tailwindcss.com/docs/customizing-colors
+    * Material : https://m2.material.io/design/color/the-color-system.html
+    * Adobe Spectrum : https://spectrum.adobe.com/page/color-fundamentals/
+    * GitHub Primer : https://primer.style/foundations/color/
+    * Ant Design : https://ant.design/docs/spec/colors
+    * IBM Design Language : https://www.ibm.com/design/language/color/
+    * Radix UI : https://www.radix-ui.com/colors
+    * Bootstrap : https://getbootstrap.com/docs/4.1/utilities/colors/
+    * Harmony by @evilmartians : https://www.figma.com/community/file/1287828769207775946/harmony-accessible-ui-color-palette
+    * US Web Design System : https://designsystem.digital.gov/design-tokens/color/system-tokens/https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3
+
+WCAG 2.1 Contrast Ratio 
+https://github.com/color-js/color.js/blob/main/src/contrast/WCAG21.js   
+
+Relative luminance
+https://www.w3.org/WAI/GL/wiki/Relative_luminance
+
+
+https://colorusage.arc.nasa.gov/luminance_cont.php
+
+https://twitter.com/DanHollick/status/1417895210646867973/photo/1
+https://zschuessler.github.io/DeltaE/learn/
+
+https://fr.wikipedia.org/wiki/%C3%89cart_de_couleur
+https://opg.optica.org/directpdfaccess/67641710-d8a3-4e6e-93befb4d90cc0837_223041/josk-15-3-310.pdf
+https://zschuessler.github.io/DeltaE/learn/
+
+https://typefully.com/u/DanHollick/t/sle13GMW2Brp
+
