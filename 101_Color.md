@@ -3,7 +3,7 @@
 ## People
 
 - **Alexey Ardov** • [@ardovalexey](https://twitter.com/ardovalexey) • [ardov.me](https://ardov.me/)
-- **Andrew Somers** • [❐](https://www.linkedin.com/in/andrew-m-somers/)
+- **Andrew Somers** • [in ❐](https://www.linkedin.com/in/andrew-m-somers/)
 - **Anton Lovchikov** • [@antiflasher](https://twitter.com/antiflasher)
 - **Björn Ottosson** • [@bjornornorn](https://twitter.com/bjornornorn) • [bottosson.github.io](https://bottosson.github.io/)
 - **Chris Lilley** • [@svgeesus](https://twitter.com/svgeesus) • [svgees.us](https://svgees.us/)
@@ -23,7 +23,7 @@
 - **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en)
 - **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) 
 
-## Company
+## Companies
 
 - **Google**
 	- **Material Design** • [@materialdesign](https://twitter.com/@materialdesign)
@@ -33,15 +33,19 @@
 ## Articles & Tools
 
 - **WCAG 2**
-	- 1.4.3 Contrast minimum Level AA – Success criterion[❐](https://www.w3.org/TR/WCAG/#contrast-minimum), Understanding SC[❐](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), How to Meet WCAG[❐](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143#contrast-minimum)
-	- 1.4.11 Non-text Contrast Level AA (Added in 2.1) – Success criterion[❐](https://www.w3.org/TR/WCAG/#non-text-contrast), Understanding SC[❐](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), How to Meet WCAG[❐](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143,1411#non-text-contrast)
+	- 1.4.3 Contrast minimum Level AA – [Success criterion](https://www.w3.org/TR/WCAG/#contrast-minimum), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [How to Meet WCAG(https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143#contrast-minimum)
+	- 1.4.11 Non-text Contrast Level AA (Added in 2.1) – [Success criterion](https://www.w3.org/TR/WCAG/#non-text-contrast), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143,1411#non-text-contrast)
 
 - **WebAIM**
-	- Contrast and Color Accessibility - Understanding WCAG 2 Contrast and Color Requirements[❐](https://webaim.org/articles/contrast/)
-	- Contrast checker[❐](https://webaim.org/resources/contrastchecker/)
+	- Contrast and Color Accessibility - [Understanding WCAG 2 Contrast and Color Requirements](https://webaim.org/articles/contrast/)
+	- [Contrast checker](https://webaim.org/resources/contrastchecker/)
 
 - **EightShape**
-	- Contrast Grid [❐](https://contrast-grid.eightshapes.com)
-	- Github [❐](https://github.com/EightShapes/contrast-grid)
+	- [Contrast Grid](https://contrast-grid.eightshapes.com), ([GitHub](https://github.com/EightShapes/contrast-grid))
 
-- Color in UI Design: A (Practical) Framework by @erikdkennedy [❐(https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html)
+- **Color Theory for Designers** by [Smashing Magazine](https://twitter.com/smashingmag)
+    - Part 1: [The Meaning of Color](https://www.smashingmagazine.com/2010/01/color-theory-for-designers-part-1-the-meaning-of-color/)
+    - Part 2: [Understanding Concepts And Color Terminology](https://www.smashingmagazine.com/2010/02/color-theory-for-designers-part-2-understanding-concepts-and-terminology/)
+    - Part 3: [How To Create Your Own Color Schemes](https://www.smashingmagazine.com/2010/02/)color-theory-for-designer-part-3-creating-your-own-color-palettes/
+
+- [Color in UI Design: A (Practical) Framework](https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html) by @erikdkennedy 
