@@ -26,6 +26,18 @@
 ## Company
 
 - **Google**
-	- **Material Design** • @materialdesign
-	- **Chrome for Developers • @ChromiumDev
-- **IBM** • @ibmdesign & @_carbondesign
+	- **Material Design** • [@materialdesign](https://twitter.com/@materialdesign)
+	- **Chrome for Developers** • [@ChromiumDev](https://twitter.com/@ChromiumDev)
+- **IBM** • [@ibmdesign](https://twitter.com/@ibmdesign) & [@_carbondesign](https://twitter.com/@_carbondesign)
+
+## Articles and Tools
+
+
+- **WCAG 2**
+    - 1.4.3 Contrast minimum Level AA – [Success criterion](https://www.w3.org/TR/WCAG/#contrast-minimum), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143#contrast-minimum)
+    - 1.4.11 Non-text Contrast Level AA(Added in 2.1) – [Success criterion](https://www.w3.org/TR/WCAG/#non-text-contrast), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143,1411#non-text-contrast)
+
+- **WebAIM**
+    - Color contrast : https://webaim.org/resources/contrastchecker/
+    - Link contrast checker : https://webaim.org/resources/linkcontrastchecker/
+    
