@@ -2,13 +2,21 @@
 
 ## People
 
-- **Isaac Newton** (1642 – 1727)
-- **Johann Wolfgang von Goethe** (1749 – 1832), _Theory of Colours_ (1810)
-- **Thomas Young** (1773 – 1829)
-- **James Clerk Maxwell** (1831 – 1879)
-- **Albert Henry Munsell** (1858 – 1918), _Atlas of the Munsell color system_ (1915)
-- **Johannes Itten** (1888 – 1967), _The art of color : the subjective experience and objective rationale of color_ (1961)
-- **Josef Albers** (1888 – 1976), _Interaction of Color_ (1963)
+- **Aristotle** (384–322 BC), _On colors_
+- **Isaac Newton** (1642-1727), disappearing color disk / ROYGBIV (1672)
+- **Johann Wolfgang von Goethe** (1749-1832), _Theory of Colours_ (1810)
+- **Charles Hayter** (1761–1835), _A New Practical Treatise on the Three Primitive Colours Assumed as a Perfect System of Rudimentary Information_ (1826)
+- **Thomas Young** (1773–1829)
+- **Michel Eugène Chevreul** (1786–1899), _The principles of harmony and contrast of colours_ (1839)
+- **Arthur Schopenhauer** (1788–1860), _On Vision and Colours_ (1816)
+- **Charles Albert Keeley** (1821-1899), _The Colour Conundrum_ (1873)
+- **Hermann von Helmholtz** (1821-1894)
+- **James Clerk Maxwell** (1831-1879)
+- **Wilhelm Ostwald** (1853–1932), _The Color Harmony Manuals_ (1942), _The color primer; a basic treatise on the color system_ (1969)
+- **Albert Henry Munsell** (1858-1918), _Atlas of the Munsell color system_ (1915)
+- **Johannes Itten** (1888-1967), _The art of color : the subjective experience and objective rationale of color_ (1961)
+- **Josef Albers** (1888-1976), _Interaction of Color_ (1963)
+- **Faber Birren** (1900–1988), _Color in Vision_ (1928)
 
 ---
 
