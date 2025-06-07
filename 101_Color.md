@@ -35,9 +35,8 @@
 
 - **WCAG 2**
     - 1.4.3 Contrast minimum Level AA – [Success criterion](https://www.w3.org/TR/WCAG/#contrast-minimum), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143#contrast-minimum)
-    - 1.4.11 Non-text Contrast Level AA(Added in 2.1) – [Success criterion](https://www.w3.org/TR/WCAG/#non-text-contrast), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143,1411#non-text-contrast)
+    - 1.4.11 Non-text Contrast Level AA (Added in 2.1) – [Success criterion](https://www.w3.org/TR/WCAG/#non-text-contrast), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143,1411#non-text-contrast)
 
 - **WebAIM**
-    - Color contrast : https://webaim.org/resources/contrastchecker/
-    - Link contrast checker : https://webaim.org/resources/linkcontrastchecker/
-    
+	- [Contrast and Color Accessibility - Understanding WCAG 2 Contrast and Color Requirements](https://webaim.org/articles/contrast/)
+    - [Contrast checker](https://webaim.org/resources/contrastchecker/)
