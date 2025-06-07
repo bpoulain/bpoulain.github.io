@@ -3,7 +3,7 @@
 ## People
 
 - **Alexey Ardov** • [@ardovalexey](https://twitter.com/ardovalexey) • [ardov.me](https://ardov.me/)
-- **Andrew Somers**
+- **Andrew Somers** • [❐](https://www.linkedin.com/in/andrew-m-somers/)
 - **Anton Lovchikov** • [@antiflasher](https://twitter.com/antiflasher)
 - **Björn Ottosson** • [@bjornornorn](https://twitter.com/bjornornorn) • [bottosson.github.io](https://bottosson.github.io/)
 - **Chris Lilley** • [@svgeesus](https://twitter.com/svgeesus) • [svgees.us](https://svgees.us/)
@@ -42,6 +42,7 @@
 	- [Contrast checker](https://webaim.org/resources/contrastchecker/)
 
 - **EightShape**
-	- [Contrast Grid](https://contrast-grid.eightshapes.com)
-	- [GitHub](https://github.com/EightShapes/contrast-grid)
+	- Contrast Grid [❐](https://contrast-grid.eightshapes.com)
+	- Github [❐](https://github.com/EightShapes/contrast-grid)
 
+- Color in UI Design: A (Practical) Framework by @erikdkennedy [](https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html)
