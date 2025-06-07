@@ -2,10 +2,15 @@
 
 ## People
 
-- James Clerk Maxwell (1831 – 1879)
-- Albert Henry Munsell (1858 – 1918), _Atlas of the Munsell color system_ (1915)
-- Johannes Itten (1888 – 1967), _L'art de la couleur_ (1961)
-- Josef Albers (1888 – 1976), _L'interaction des couleurs_ (1963)
+- **Isaac Newton** (1642 – 1727)
+- **Johann Wolfgang von Goethe** (1749 – 1832), _Theory of Colours_ (1810)
+- **Thomas Young** (1773 – 1829)
+- **James Clerk Maxwell** (1831 – 1879)
+- **Albert Henry Munsell** (1858 – 1918), _Atlas of the Munsell color system_ (1915)
+- **Johannes Itten** (1888 – 1967), _The art of color : the subjective experience and objective rationale of color_ (1961)
+- **Josef Albers** (1888 – 1976), _Interaction of Color_ (1963)
+
+---
 
 - **Alex Cristache** • [@AlexCristache](https://twitter.com/AlexCristache)
 - **Alexey Ardov** • [@ardovalexey](https://twitter.com/ardovalexey) • [www  ❐](https://ardov.me/)
