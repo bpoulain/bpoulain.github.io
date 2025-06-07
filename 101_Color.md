@@ -7,6 +7,7 @@
 - **Anton Lovchikov** • [@antiflasher](https://twitter.com/antiflasher)
 - **Björn Ottosson** • [@bjornornorn](https://twitter.com/bjornornorn) • [bottosson.github.io](https://bottosson.github.io/)
 - **Chris Lilley** • [@svgeesus](https://twitter.com/svgeesus) • [svgees.us](https://svgees.us/)
+- **Corey Ginnivan** • [@coreyginnivan](https://twitter.com/CoreyGinnivan) • [coreyginnivan](https://read.cv/coreyginnivan)
 - **Dan Hollick** • [@DanHollick](https://twitter.com/DanHollick) • [alcohollick.com](https://alcohollick.com/)
 - **Dmitry Belyaev** • [@blvdmitry](https://twitter.com/blvdmitry)
 - **Dmitriy Bunin** • [@buninux](https://twitter.com/buninux)
@@ -48,4 +49,16 @@
     - Part 2: [Understanding Concepts And Color Terminology](https://www.smashingmagazine.com/2010/02/color-theory-for-designers-part-2-understanding-concepts-and-terminology/)
     - Part 3: [How To Create Your Own Color Schemes](https://www.smashingmagazine.com/2010/02/)color-theory-for-designer-part-3-creating-your-own-color-palettes/
 
+- [Color and Contrast](https://colorandcontrast.com/) by @NateBaldwinArt
+
 - [Color in UI Design: A (Practical) Framework](https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html) by @erikdkennedy 
+
+- **Stripe**
+    - [How to generate color palettes for design systems](https://matthewstrom.com/writing/generating-color-palettes/) by @ilikescience
+    - [Designing accessible color systems](https://stripe.com/blog/accessible-color-systems) by Stripe
+    - [What we’ve learned along the way](https://twitter.com/koop/status/1184229904977551360) by @koop & @wilsonminer
+
+- **Nasa Color Usage Research Lab**
+    - [Using color in information display graphics](https://colorusage.arc.nasa.gov/)
+
+- [Who can use this color combination ? (visual impairment simulator)](https://www.whocanuse.com/) by @coreyginnivan
