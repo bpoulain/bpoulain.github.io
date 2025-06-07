@@ -2,6 +2,11 @@
 
 ## People
 
+- James Clerk Maxwell (1831 – 1879)
+- Albert Henry Munsell (1858 – 1918), _Atlas of the Munsell color system_ (1915)
+- Johannes Itten (1888 – 1967), _L'art de la couleur_ (1961)
+- Josef Albers (1888 – 1976), _L'interaction des couleurs_ (1963)
+
 - **Alex Cristache** • [@AlexCristache](https://twitter.com/AlexCristache)
 - **Alexey Ardov** • [@ardovalexey](https://twitter.com/ardovalexey) • [www  ❐](https://ardov.me/)
 - **Andrew Somers** • [in ❐](https://www.linkedin.com/in/andrew-m-somers/)
@@ -10,6 +15,7 @@
 - **Chris Lilley** • [@svgeesus](https://twitter.com/svgeesus) • [www  ❐](https://svgees.us/)
 - **Corey Ginnivan** • [@coreyginnivan](https://twitter.com/CoreyGinnivan) • [www  ❐](https://read.cv/coreyginnivan)
 - **Dan Hollick** • [@DanHollick](https://twitter.com/DanHollick) • [www  ❐](https://alcohollick.com/)
+- **David Aerne** • [@meodai](https://x.com/meodai) • [www  ❐](https://bento.me/meodai)
 - **Dmitry Belyaev** • [@blvdmitry](https://twitter.com/blvdmitry)
 - **Dmitriy Bunin** • [@buninux](https://twitter.com/buninux)
 - **Daryl Koopersmith** • [@koop](https://twitter.com/koop)
@@ -25,7 +31,7 @@
 - **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en)
 - **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) 
 
-## Companies
+## Cies
 
 - **Google**
 	- **Material Design** • [@materialdesign](https://twitter.com/@materialdesign)
