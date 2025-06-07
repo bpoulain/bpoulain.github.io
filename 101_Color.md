@@ -20,7 +20,7 @@
 - **Lea Verou** • [@leaverou](https://twitter.com/leaverou) • [lea.verou.me](https://lea.verou.me/)
 - **Nate Baldwin** • [@NateBaldwinArt](https://twitter.com/NateBaldwinArt) • [natebaldw.in](https://natebaldw.in/)
 - **Matt Ström-Awn** • [@ilikescience](https://twitter.com/ilikescience) • [matthewstrom.com](https://matthewstrom.com/)
-- **Roman Shamin** : [@romanshamin_en](https://twitter.com/romanshamin_en)
+- **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en)
 - **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) 
 
 ## Company
@@ -34,9 +34,14 @@
 
 
 - **WCAG 2**
-    - 1.4.3 Contrast minimum Level AA – [Success criterion](https://www.w3.org/TR/WCAG/#contrast-minimum), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143#contrast-minimum)
-    - 1.4.11 Non-text Contrast Level AA (Added in 2.1) – [Success criterion](https://www.w3.org/TR/WCAG/#non-text-contrast), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143,1411#non-text-contrast)
+	- 1.4.3 Contrast minimum Level AA – [Success criterion](https://www.w3.org/TR/WCAG/#contrast-minimum), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143#contrast-minimum)
+	- 1.4.11 Non-text Contrast Level AA (Added in 2.1) – [Success criterion](https://www.w3.org/TR/WCAG/#non-text-contrast), [Understanding SC](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), [How to Meet WCAG](https://www.w3.org/WAI/WCAG22/quickref/?showtechniques=143,1411#non-text-contrast)
 
 - **WebAIM**
 	- [Contrast and Color Accessibility - Understanding WCAG 2 Contrast and Color Requirements](https://webaim.org/articles/contrast/)
-    - [Contrast checker](https://webaim.org/resources/contrastchecker/)
+	- [Contrast checker](https://webaim.org/resources/contrastchecker/)
+
+- **EightShape**
+	- [Contrast Grid](https://contrast-grid.eightshapes.com)
+	- [GitHub](https://github.com/EightShapes/contrast-grid)
+
