@@ -72,7 +72,7 @@
 - **Color Theory for Designers** by [Smashing Magazine](https://twitter.com/smashingmag)
     - Part 1: [The Meaning of Color](https://www.smashingmagazine.com/2010/01/color-theory-for-designers-part-1-the-meaning-of-color/)
     - Part 2: [Understanding Concepts And Color Terminology](https://www.smashingmagazine.com/2010/02/color-theory-for-designers-part-2-understanding-concepts-and-terminology/)
-    - Part 3: [How To Create Your Own Color Schemes](https://www.smashingmagazine.com/2010/02/)color-theory-for-designer-part-3-creating-your-own-color-palettes/
+    - Part 3: [How To Create Your Own Color Schemes](https://www.smashingmagazine.com/2010/02/color-theory-for-designer-part-3-creating-your-own-color-palettes/)
 
 - [Color and Contrast](https://colorandcontrast.com/) by @NateBaldwinArt
 
