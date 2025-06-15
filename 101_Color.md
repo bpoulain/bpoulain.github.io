@@ -7,6 +7,7 @@
 - **Johann Wolfgang von Goethe** (1749-1832), _Theory of Colours_ (1810)
 - **Charles Hayter** (1761–1835), _A New Practical Treatise on the Three Primitive Colours Assumed as a Perfect System of Rudimentary Information_ (1826)
 - **Thomas Young** (1773–1829)
+- **George Field** (1777–1854), _Definitive or Fundamental Scale of Colours. Chromatography, or, A treatise on colours and pigments, and of their powers in painting_ (1835)
 - **Michel Eugène Chevreul** (1786–1899), _The principles of harmony and contrast of colours_ (1839)
 - **Arthur Schopenhauer** (1788–1860), _On Vision and Colours_ (1816)
 - **Charles Albert Keeley** (1821-1899), _The Colour Conundrum_ (1873)
@@ -20,6 +21,7 @@
 
 ---
 
+- **Adham Dannaway** • [@AdhamDannaway](https://twitter.com/AdhamDannaway)
 - **Alex Cristache** • [@AlexCristache](https://twitter.com/AlexCristache)
 - **Alexey Ardov** • [@ardovalexey](https://twitter.com/ardovalexey) • [www  ❐](https://ardov.me/)
 - **Andrew Somers** • [in ❐](https://www.linkedin.com/in/andrew-m-somers/)
