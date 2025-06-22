@@ -8,11 +8,22 @@
 	<script src="./libs/color.js"></script>
 	<script src="./libs/reef.js"></script>
 	<style type="text/css">
+		.visually-hidden {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			border: 0;
+		}
+
 		:root{ --width: 4.5rem; }
 		* { box-sizing: border-box; }
 		html { font-family: monospace; }
 
-		h1, fieldset, fieldset div, #options, section, ol, ul, li, .aContrast, .colorName, .demoTxB, .aCharacteristic, .label, .value { display: flex; }
+		h1, h2, fieldset, fieldset div, #options, section, ol, ul, li, .aContrast, .colorName, .demoTxB, .aCharacteristic, .label, .value { display: flex; }
 		fieldset, ol, ul, li, label { margin : 0; padding: 0; flex-wrap: nowrap; }
 
 		h1 { justify-content: center; }
@@ -56,9 +67,12 @@
 
 		.aContrast[data-threshold="NOK"] > * { visibility: hidden; }
 
-		a { display: inline-block; margin: 2rem; }
-
 		.debug { display: none !important; }
+		footer {
+			border-top: 1px dotted #CCC;
+			margin: 0.5rem;
+			padding: 0.5rem;
+		}
 
 /*		ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(10%, 1fr)) }*/
 
@@ -77,7 +91,10 @@
 <h1>Color Contrasts Checker • APCA, WCAG, L*, CIEDE2000</h1>
 <div id="app"></div>
 
-<a href="https://git.apcacontrast.com/documentation/APCAeasyIntro#use-case-ranges">APCA - ranges</a>
+<footer>craft with <span class="icon-with-text"><i aria-hidden="true">♥</i><span class="visually-hidden">love</span></span>
+	by <a href="https://bpoulain.github.io/" target="_blank">benoit poulain</a>, <br>
+	inspired by <a href="https://contrast-grid.eightshapes.com/" target="_blank">EightShapes Contrast Grid</a> by <a href="eightshapes.com/nathan-curtis/" target="_blank">@nathanacurtis</a> & <a href="eightshapes.com/nathan-curtis/" target="_blank">@brownorama</a>,  <br>
+	built with <a href="https://reef.gomakethings.com/" target="_blank">Reef Js</a> by <a href="https://gomakethings.com/" target="_blank">@chrisferdinandi</a> & <a href="https://colorjs.io/" target="_blank">Color Js</a> by <a href="https://lea.verou.me/" target="_blank">@leaverou</a> & <a href="https://svgees.us/" target="_blank">@svgeesus</a></footer>
 
 <script type="text/javascript">
 
