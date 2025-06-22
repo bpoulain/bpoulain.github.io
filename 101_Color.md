@@ -132,6 +132,13 @@
 
 ---
 
+## bp explorations
+
+- [Color Ramps Generator](https://bpoulain.github.io/Xplr_Color-Ramps-Generator)
+- [Color Contrasts Checker](https://bpoulain.github.io//Xplr_Color-Contrasts-Checker)
+
+---
+
 - Google
     - The Science of Color & Design by @materialdesign : https://material.io/blog/science-of-color-design
     - High Definition CSS Color Guide by @ChromiumDev : https://developer.chrome.com/docs/css-ui/high-definition-css-color-guide
