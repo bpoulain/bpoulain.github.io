@@ -135,7 +135,7 @@
 ## bp explorations
 
 - [Color Ramps Generator](https://bpoulain.github.io/Xplr_Color-Ramps-Generator)
-- [Color Contrasts Checker](https://bpoulain.github.io//Xplr_Color-Contrasts-Checker)
+- [Color Contrasts Checker](https://bpoulain.github.io/Xplr_Color-Contrasts-Checker)
 
 ---
 
@@ -181,8 +181,6 @@
 
 - FramesX by @buninux
     - Frames X Color System: Best practices for colors in Figma : https://framesxdesign.com/comps/colors
-
-- 
 
 - Random A11Y by @components_ai : https://randoma11y.com/ 
 
