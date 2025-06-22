@@ -3,9 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Color Ramps Generator | benoit poulain</title>
+	<meta name="description" content="A color system generator based on OKLCH/OKLSH color space">
+	<meta name="author" content="benoit poulain">
 	<script src="./libs/color.js"></script>
 	<script src="./libs/reef.js"></script>
-	<title>Color Ramps Generator | benoit poulain</title>
 	<style type="text/css">
 		.visually-hidden {
 			position: absolute;
@@ -21,19 +23,24 @@
 		:root{
 			--base: 3rem;
 		}
+
+		* { box-sizing: border-box; }
 		
-		*,
+/*		*,
 		:after,
 		:before {
 			box-sizing:border-box;
 			margin:0;
 			padding:0;
-		}
+		}*/
 
 		body {
 			font-family: monospace;
 			padding: 0.5rem;
 		}
+
+		h1 { display: flex; justify-content: center; }
+		fieldset, ol, ul, li, label { margin : 0; padding: 0; flex-wrap: nowrap; }
 
 		#app {}
 		ul, section, .aColor { display: flex; }
@@ -374,7 +381,11 @@ function templateSettings() {
 		<li><button type="button" id="grayscale" data-grayscale="${data.settings.grayscale}">Color / Grayscale</button></li>
 		<li><button type="button" id="details" data-details="${data.settings.details}">Details</button></li>
 		<li><button type="button" id="export">Export</button></li>
-		<li><label for="bulkInput">bulk input</label><textarea id="bulkInput" class="bulk" value="" rows="5" cols="100"></textarea></li>
+		<li><label for="bulkInput">bulk input</label><textarea id="bulkInput" class="bulk" value="" rows="5" cols="100">{
+  "saturation": [0.42, 0.55, 0.65, 0.71, 0.75, 0.75, 0.71, 0.65, 0.55, 0.42],
+  "lightness": [0.8, 0.72, 0.64, 0.55, 0.47, 0.39, 0.31, 0.23, 0.15, 0.06],
+  "hues": [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340]
+}</textarea></li>
 		</ul>`;
 }
 
@@ -508,9 +519,15 @@ COULD
 [ ] Handle update L,C,H per color ?
 
 {
-	"hues": [0, 60, 120, 180, 240, 300],
-	"lightness": [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
-	"chroma": [0.045, 0.07, 0.09, 0.11, 0.135, 0.155, 0.135, 0.105, 0.08, 0.05]
+  "hues": [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340],
+  "lightness": [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
+  "chroma": [0.045, 0.07, 0.09, 0.11, 0.135, 0.155, 0.135, 0.105, 0.08, 0.05]
+}
+
+{
+  "saturation": [0.42, 0.55, 0.65, 0.71, 0.75, 0.75, 0.71, 0.65, 0.55, 0.42],
+  "lightness": [0.8, 0.72, 0.64, 0.55, 0.47, 0.39, 0.31, 0.23, 0.15, 0.06],
+  "hues": [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340]
 }
 
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/ */
