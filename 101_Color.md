@@ -13,6 +13,7 @@
 - **Charles Albert Keeley** (1821-1899), _The Colour Conundrum_ (1873)
 - **Hermann von Helmholtz** (1821-1894)
 - **James Clerk Maxwell** (1831-1879)
+- **Bonnie E. Snow** (-), _Snow’s Theory and Practice of Color_ (1918)
 - **Wilhelm Ostwald** (1853–1932), _The Color Harmony Manuals_ (1942), _The color primer; a basic treatise on the color system_ (1969)
 - **Albert Henry Munsell** (1858-1918), _Atlas of the Munsell color system_ (1915)
 - **Johannes Itten** (1888-1967), _The art of color : the subjective experience and objective rationale of color_ (1961)
@@ -47,7 +48,6 @@
 - **Matt Ström-Awn** • [@ilikescience](https://twitter.com/ilikescience) • [www  ❐](https://matthewstrom.com/)
 - **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en)
 - **Saneef Ansari** • [@saneef](https://twitter.com/saneef) • [www  ❐](https://saneef.com/)
-
 - **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) • [www  ❐](https://www.steveschoger.com/)
 - **Zak Erving** • [@zakerving](https://twitter.com/zakerving)
 
@@ -89,6 +89,7 @@
 
 - **Evil Martians**
     - [Harmony](https://evilmartians.com/opensource/harmony) Accessible UI Color Palette, ([Figma Library](https://www.figma.com/community/file/1287828769207775946/harmony-accessible-ui-color-palette)), ([GitHub](https://github.com/evilmartians/harmony))
+    - [Harmonizer](https://harmonizer.evilmartians.com/) generating accessible, consistent color palettes for user interfaces, ([Figma Plugin](https://www.figma.com/community/plugin/1483474069475958506/harmonizer)), ([GitHub](https://github.com/evilmartians/harmonizer))
     - [Polychrom Contrast Checker (Figma Plugin)](https://www.figma.com/community/plugin/1281280685402026529/polychrom) 
     - [OKLCH Picker Converter](https://oklch.com/)
     - [OKLCH in CSS: why we moved from RGB and HSL](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl)
