@@ -46,7 +46,7 @@
 - **Nate Baldwin** • [@NateBaldwinArt](https://twitter.com/NateBaldwinArt) • [www  ❐](https://natebaldw.in/)
 - **Nathan A Curtis** . [@nathanacurtis](https://twitter.com/nathanacurtis)
 - **Matt Ström-Awn** • [@ilikescience](https://twitter.com/ilikescience) • [www  ❐](https://matthewstrom.com/)
-- **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en)
+- **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en) • [www  ❐](https://www.romanshamin.me/)
 - **Saneef Ansari** • [@saneef](https://twitter.com/saneef) • [www  ❐](https://saneef.com/)
 - **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) • [www  ❐](https://www.steveschoger.com/)
 - **Zak Erving** • [@zakerving](https://twitter.com/zakerving)
