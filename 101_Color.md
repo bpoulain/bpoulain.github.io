@@ -48,6 +48,7 @@
 - **Matt Ström-Awn** • [@ilikescience](https://twitter.com/ilikescience) • [www  ❐](https://matthewstrom.com/)
 - **Roman Shamin** • [@romanshamin_en](https://twitter.com/romanshamin_en) • [www  ❐](https://www.romanshamin.me/)
 - **Saneef Ansari** • [@saneef](https://twitter.com/saneef) • [www  ❐](https://saneef.com/)
+- **Steph Ango** • [@saneef](https://twitter.com/kepano) • [www  ❐](https://stephango.com/)
 - **Steve Schoger** • [@steveschoger](https://twitter.com/steveschoger) • [www  ❐](https://www.steveschoger.com/)
 - **Zak Erving** • [@zakerving](https://twitter.com/zakerving)
 
@@ -138,6 +139,8 @@
 - color x color by Saneef : https://colorcolor.in/
 
 - Scale by @hihayk : https://hihayk.github.io/scale/ 
+
+- Flexoki by @kepano : https://stephango.com/flexoki
 
 - IBM Design
     - Color Design Language : https://www.ibm.com/design/language/color/
