@@ -13,6 +13,7 @@
 - **Charles Albert Keeley** (1821-1899), _The Colour Conundrum_ (1873)
 - **Hermann von Helmholtz** (1821-1894)
 - **James Clerk Maxwell** (1831-1879)
+- **Robert Ridgway** (1850–1929), _Color Standards and Color Nomenclature_ (1912)
 - **Bonnie E. Snow** (-), _Snow’s Theory and Practice of Color_ (1918)
 - **Wilhelm Ostwald** (1853–1932), _The Color Harmony Manuals_ (1942), _The color primer; a basic treatise on the color system_ (1969)
 - **Albert Henry Munsell** (1858-1918), _Atlas of the Munsell color system_ (1915)
