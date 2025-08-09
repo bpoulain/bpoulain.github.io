@@ -1,5 +1,7 @@
 # LEARN AI
-
+- [(2532-250809-06466) #ArtificialIntelligence#Prompt#LEARN : Steal These Prompts: 4 AI Workflows to Help You Ship Better Products](https://www.reforge.com/blog/steal-these-prompts)
+- [(2532-250809-06465) #ArtificialIntelligence#LEARN#REPLAY : MIT 6.S087: Foundation Models & Generative AI (2024)](https://www.youtube.com/playlist?list=PLXV9Vh2jYcjbnv67sXNDJiO8MWLA3ZJKR)
+- [(2532-250809-06453) #ArtificialIntelligence#Prompt#LEARN : The designer's guide to prompts and models - Best practices and examples by Romina Kavcic](https://learn.thedesignsystem.guide/p/the-designers-guide-to-prompts-and)
 - [(2532-250808-99999) #ArtificialIntelligence#DevPath#LEARN#Microsoft : Generative AI for beginners](https://github.com/microsoft/generative-ai-for-beginners/tree/main)
 - [(2532-250808-99999) #Python#DataScience#Microsoft#LEARN : Data Science for Beginners](https://microsoft.github.io/Data-Science-For-Beginners/)
 - [(2532-250808-06408) #ArtificialIntelligence#Agent#Anthropic : Claude Code Best Practices - Claude Code is a command line tool for agentic coding. This post covers tips and tricks that have proven effective for using Claude Code across various codebases, languages, and environments.\ Anthropic](https://www.anthropic.com/engineering/claude-code-best-practices)
