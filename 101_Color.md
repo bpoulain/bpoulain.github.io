@@ -120,8 +120,11 @@
     - [FarbVelo](https://farbvelo.elastiq.ch/) a random color cycler
     - [RYBitten SVG Color Sphere](https://codepen.io/meodai/pen/PwZpjMW)
     - [Color Names](https://github.com/meodai/color-names) a meticulously curated collection of 30119 unique color names
+    - [Color Name API](https://meodai.github.io/color-name-api/)
     - [Color scaler](https://codepen.io/meodai/full/GRyjQoZ)
     - [Paletter design-token visualization](https://codepen.io/meodai/full/XWMwYLM)
+    - [Der Bunt](https://codepen.io/meodai/full/JxgjNX) color pizza
+    - [Shimmer Tone Studio](https://shimmer-tone-studio.lovable.app/)
 
 ---
 
