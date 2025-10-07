@@ -113,6 +113,15 @@
     - [The Realities And Myths Of Contrast And Color](https://www.smashingmagazine.com/2022/09/realities-myths-contrast-color/) by Andrew Somers 
 - [Color JS library](https://colorjs.io/) by @leaverou & @svgeesus
 - [Chroma JS library](https://github.com/gka/chroma.js) - all kinds of color conversions and color scales by Gregor Aisch
+- **David Aerne**
+    - [Poline](https://meodai.github.io/poline/) an enigmatic color palette generation library
+    - [RampenSau](https://meodai.github.io/rampensau/) a color ramp generator using curves within the HSL color model
+    - [Fette Palette](https://meodai.github.io/fettepalette/) a color ramp generator using curves within the HSV color model
+    - [FarbVelo](https://farbvelo.elastiq.ch/) a random color cycler
+    - [RYBitten SVG Color Sphere](https://codepen.io/meodai/pen/PwZpjMW)
+    - [Color Names](https://github.com/meodai/color-names) a meticulously curated collection of 30119 unique color names
+    - [Color scaler](https://codepen.io/meodai/full/GRyjQoZ)
+    - [Paletter design-token visualization](https://codepen.io/meodai/full/XWMwYLM)
 
 ---
 
