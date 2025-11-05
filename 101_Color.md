@@ -120,6 +120,7 @@
     - [RampenSau](https://meodai.github.io/rampensau/) a color ramp generator using curves within the HSL color model
     - [Fette Palette](https://meodai.github.io/fettepalette/) a color ramp generator using curves within the HSV color model
     - [FarbVelo](https://farbvelo.elastiq.ch/) a random color cycler
+    - [RYBitten](https://rybitten.space/)
     - [RYBitten SVG Color Sphere](https://codepen.io/meodai/pen/PwZpjMW)
     - [Color Names](https://github.com/meodai/color-names) a meticulously curated collection of 30119 unique color names
     - [Color Name API](https://meodai.github.io/color-name-api/)
