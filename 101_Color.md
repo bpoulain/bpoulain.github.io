@@ -128,6 +128,7 @@
     - [Paletter design-token visualization](https://codepen.io/meodai/full/XWMwYLM)
     - [Der Bunt](https://codepen.io/meodai/full/JxgjNX) color pizza
     - [Shimmer Tone Studio](https://shimmer-tone-studio.lovable.app/)
+    - [Pro Color Harmonies](https://meodai.github.io/pro-color-harmonies/)
 - **Ryan Feigenbaum**
     - [Color Palette Pro](https://colorpalette.pro/)
     - [The Color Palette Pro is a Synthesizer for Color. Most color palette generators suck. Mine just sucks less.](https://ryanfeigenbaum.com/color-palette-pro/)
