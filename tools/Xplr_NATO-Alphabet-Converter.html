@@ -4,11 +4,43 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NATO Alphabet Converter | benoit poulain</title>
-  <script src="./libs/reef.js"></script>
-  <style type="text/css"></style>
+  <script src="../libs/reef.js"></script>
+  <style type="text/css">
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    :root{
+      --base: 3rem;
+    }
+
+    * { box-sizing: border-box; }
+    
+/*    *,
+    :after,
+    :before {
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }*/
+
+    body {
+      font-family: monospace;
+      padding: 0.5rem;
+    }
+
+    </style>
 </head>
 <body>
 
+<h1> NATO Alphabet Converter</h1>
 <div id="app"></div>
 
 <script type="text/javascript">

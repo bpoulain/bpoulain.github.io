@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Modification de titres Markdown</title>
+  <style>
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    :root{
+      --base: 3rem;
+    }
+
+    * { box-sizing: border-box; }
+    
+/*    *,
+    :after,
+    :before {
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }*/
+
+    body {
+      font-family: monospace;
+      padding: 0.5rem;
+    }
+
+
+
+    body {
+      /*font-family: system-ui, sans-serif;*/
+      /*margin: 20px;*/
+      margin: calc(var(--base)/2);
+    }
+    textarea {
+      width: 100%;
+      /*height: 300px;*/
+      height: calc(var(--base)*10);
+      box-sizing: border-box;
+      /*margin-bottom: 10px;*/
+      margin-bottom: calc(var(--base)/2);
+    }
+    button {
+      /*padding: 8px 16px;*/
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Modification de titres Markdown</h1>
+
+    <textarea
+      id="editor"
+      placeholder="Collez votre Markdown ici…"
+    ></textarea>
+
+    <button id="copy">⧉ Copier le résultat</button>
+  </div>
+
+  <script>
+    (function () {
+      const excludedTitles = ["Prompt", "Answer", "Error"];
+
+      const textarea = document.getElementById("editor");
+      const copyButton = document.getElementById("copy");
+
+      function processMarkdown(text) {
+        const lines = text.split(/\r?\n/);
+        const result = [];
+
+        let inCodeBlock = false;
+        let currentFence = null;
+
+        for (let line of lines) {
+          // Détection des blocs de code
+          const fenceMatch = line.match(/^(\s*)(```|~~~)/);
+          if (fenceMatch) {
+            if (!inCodeBlock) {
+              inCodeBlock = true;
+              currentFence = fenceMatch[2];
+            } else if (fenceMatch[2] === currentFence) {
+              inCodeBlock = false;
+              currentFence = null;
+            }
+            result.push(line);
+            continue;
+          }
+
+          if (inCodeBlock) {
+            result.push(line);
+            continue;
+          }
+
+          // Détection des titres Markdown
+          const headingMatch = line.match(/^(\s{0,3})(#{1,6})\s+(.*)$/);
+          if (!headingMatch) {
+            result.push(line);
+            continue;
+          }
+
+          const indent = headingMatch[1];
+          const hashes = headingMatch[2];
+          const titleText = headingMatch[3];
+
+          if (excludedTitles.includes(titleText)) {
+            result.push(line);
+            continue;
+          }
+
+          if (hashes.length < 6) {
+            result.push(
+              indent + "#".repeat(hashes.length + 1) + " " + titleText
+            );
+          } else {
+            result.push(line);
+          }
+        }
+
+        return result.join("\n");
+      }
+
+      // Lancement automatique au collage
+      textarea.addEventListener("paste", (event) => {
+        event.preventDefault();
+        const pastedText = event.clipboardData.getData("text");
+        textarea.value = processMarkdown(pastedText);
+      });
+
+      // Bouton copier
+      copyButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(textarea.value);
+          copyButton.textContent = "Copié ✔";
+          setTimeout(() => {
+            copyButton.textContent = "⧉ Copier le résultat";
+          }, 1500);
+        } catch {
+          alert("Impossible de copier le texte.");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
