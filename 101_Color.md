@@ -39,6 +39,7 @@
 - **Dmitriy Bunin** • [@buninux](https://twitter.com/buninux) • [www  ❐](https://buninux.com/)
 - **Daryl Koopersmith** • [@koop](https://twitter.com/koop)
 - **Erik D. Kennedy** • [@erikdkennedy](https://twitter.com/erikdkennedy) • [www  ❐](https://www.learnui.design/)
+- **Jakub Krehel** • [@jakubkrehel](https://twitter.com/jakubkrehel) • [www  ❐](https://jakub.kr/)
 - **Eugene Fedorenko** • [@efedorenko](https://twitter.com/efedorenko) • [www  ❐](https://efedorenko.com/)
 - **Gleb Stroganov** • [@strongeron](https://twitter.com/strongeron) • [www  ❐](https://glebstroganov.com/)
 - **Gregor Aisch** • [@gka](https://vis.social/@gka) • [www  ❐](https://www.vis4.net)
@@ -133,6 +134,8 @@
 - **Ryan Feigenbaum**
     - [Color Palette Pro](https://colorpalette.pro/)
     - [The Color Palette Pro is a Synthesizer for Color. Most color palette generators suck. Mine just sucks less.](https://ryanfeigenbaum.com/color-palette-pro/)
+- **Jakub Krehel**
+    - [OKLCH.fyi - Explore color as we see it](https://oklch.fyi/) Discover how the OKLCH color model works. Learn, experiment and create more consistent and perceptually uniform color palettes.
 
 ---
 
