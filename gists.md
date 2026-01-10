@@ -26,3 +26,10 @@ function isEmpty(obj) {
   return Object.entries(obj).length === 0;
 }
 ```
+
+- [Js | extracts, for a given key, all the corresponding values from an array of objects and returns a list of those values without duplicates](https://gist.github.com/bpoulain/7cccbe66462fe7095f88a07dc34d9dbc)
+```
+function getUniqueValues(array, key) {
+  return [...new Set(array.map(item => item[key]))];
+}
+``
