@@ -2,12 +2,19 @@
 
 - [Terminal | Launch a HTTP Server with Python](https://gist.github.com/bpoulain/ffe52ed360a1b166689235355e963004)
 ```
-Python3 -m http.server 8000
-```
+# start a server (on port 8000 by default)
+Python3 -m http.server
+# start a server (on specific port)
+Python3 -m http.server 8080
 
-- [Terminal | List macOS IP address](https://gist.github.com/bpoulain/923eb17dad7a304d6674026cb8516078)
-```
+# retrieve ip adress of system
 ifconfig | awk '/inet\ / { print $2 }'
+
+# list all processes that are using port 8000
+lsof -i :8000
+
+# kill PID (Process ID)
+kill 11902
 ```
 
 - [Js | Deep copy of an object ](https://gist.github.com/bpoulain/b0e6374280c99f0741752f92cc49328f)
