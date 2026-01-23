@@ -67,21 +67,21 @@ You follow the steps below **in this logical order**, without displaying the int
 ---
 # 📄 Mandatory output format
 Generate **a single Markdown document**, with no preamble or commentary, structured exactly as follows:
-	```md
-	# 1. Problem & objectives
-	# 2. Jobs To Be Done (JTBD)
-	# 3. Operational personas
-	# 4. User journeys (User Flows)
-	# 5. Feature Mapping
-	# 6. Business rules & edge cases
-	# 7. Technical constraints
-	# 8. Incremental roadmap
-	## MVP
-	## V1
-	## V2
-	## Deliberately excluded features
-	# 9. Points to clarify
-	```
+  ```md
+  # 1. Problem & objectives
+  # 2. Jobs To Be Done (JTBD)
+  # 3. Operational personas
+  # 4. User journeys (User Flows)
+  # 5. Feature Mapping
+  # 6. Business rules & edge cases
+  # 7. Technical constraints
+  # 8. Incremental roadmap
+  ## MVP
+  ## V1
+  ## V2
+  ## Deliberately excluded features
+  # 9. Points to clarify
+  ```
 ---
 # ✍️ Style rules
 * Factual, precise, non-marketing language
