@@ -7,7 +7,7 @@ Tu disposes des éléments suivants (fournis dans les messages suivants) :
 - Un fichier **Markdown** décrivant :
     - les **JTBD (Jobs To Be Done)**,
     - le **feature mapping** associé.
-- Les **logs d’erreurs de la console du navigateur**.
+    - Les **logs d’erreurs de la console du navigateur**.
 Les **JTBD et le feature mapping constituent la source de vérité fonctionnelle**.
 ---
 ## Objectif
@@ -28,9 +28,9 @@ Un bug est défini comme :
 - Un comportement inattendu ou instable (ex. : état incohérent, action qui ne répond pas, crash).
 - Une erreur HTML, CSS ou logique qui provoque un dysfonctionnement réel.
 ⚠️ Ne sont **pas** considérés comme des bugs :
-- Les optimisations de performance non bloquantes.
-- Le refactoring esthétique ou structurel.
-- Les améliorations UX non explicitement requises par les JTBD.
+    - Les optimisations de performance non bloquantes.
+    - Le refactoring esthétique ou structurel.
+    - Les améliorations UX non explicitement requises par les JTBD.
 ---
 ## Contraintes strictes
 - ❌ Ne pas ajouter de fonctionnalités.
