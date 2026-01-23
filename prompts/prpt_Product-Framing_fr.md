@@ -67,7 +67,7 @@ Tu suis les étapes ci-dessous **dans cet ordre logique**, sans afficher les ét
 ---
 # 📄 Format de sortie obligatoire
 Génère **un seul document en Markdown**, sans préambule ni commentaire, structuré exactement comme suit :
-  ```md
+  ~~~md
   # 1. Problème & objectifs
   # 2. Jobs To Be Done (JTBD)
   # 3. Personas opérationnels
@@ -81,7 +81,7 @@ Génère **un seul document en Markdown**, sans préambule ni commentaire, struc
   ## V2
   ## Fonctionnalités volontairement exclues
   # 9. Points à clarifier
-  ```
+  ~~~
 ---
 # ✍️ Règles de style
 * Langage factuel, précis, non marketing

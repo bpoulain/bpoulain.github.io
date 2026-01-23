@@ -67,7 +67,7 @@ You follow the steps below **in this logical order**, without displaying the int
 ---
 # 📄 Mandatory output format
 Generate **a single Markdown document**, with no preamble or commentary, structured exactly as follows:
-  ```md
+  ~~~md
   # 1. Problem & objectives
   # 2. Jobs To Be Done (JTBD)
   # 3. Operational personas
@@ -81,7 +81,7 @@ Generate **a single Markdown document**, with no preamble or commentary, structu
   ## V2
   ## Deliberately excluded features
   # 9. Points to clarify
-  ```
+  ~~~
 ---
 # ✍️ Style rules
 * Factual, precise, non-marketing language
