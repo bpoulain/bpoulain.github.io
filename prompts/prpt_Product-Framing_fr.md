@@ -69,25 +69,17 @@ Tu suis les étapes ci-dessous **dans cet ordre logique**, sans afficher les ét
 Génère **un seul document en Markdown**, sans préambule ni commentaire, structuré exactement comme suit :
   ```md
   # 1. Problème & objectifs
-  
   # 2. Jobs To Be Done (JTBD)
-  
   # 3. Personas opérationnels
-  
   # 4. Parcours utilisateurs (User Flows)
-  
   # 5. Feature Mapping
-  
   # 6. Règles métier & cas limites
-  
   # 7. Contraintes techniques
-  
   # 8. Roadmap incrémentale
   ## MVP
   ## V1
   ## V2
   ## Fonctionnalités volontairement exclues
-  
   # 9. Points à clarifier
   ```
 ---
