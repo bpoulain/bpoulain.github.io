@@ -39,4 +39,6 @@ function isEmpty(obj) {
 function getUniqueValues(array, key) {
   return [...new Set(array.map(item => item[key]))];
 }
-``
+```
+
+- [JSON | keywords list for tech watch bullet journal](https://gist.github.com/bpoulain/a252c127aaf457127455ab3a7932b790)
