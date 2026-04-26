@@ -2,12 +2,12 @@
 
 ---
 
-Tables des matières
+## Table des matières
 
-- [AI](#AI)
-- [Product](#Product)
-- [Python](#Python)
-- [Swift](#Swift)
+- [AI](#ai)
+- [Product](#product)
+- [Python](#python)
+- [Swift](#swift)
 
 ---
 
