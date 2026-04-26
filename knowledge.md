@@ -2,8 +2,27 @@
 
 ## AI
 
-> [!NOTE]
-> WIP / Content to come
+- [Parcours d'apprentissage adaptatif](knowledge/AI/parcours_adaptatif.md)
+- [1.1 - Qu'est-ce que l'IA ? — Carte mentale fondatrice](knowledge/AI/M1.1-qu-est-ce-que-l-ia.md)
+- [1.2 - Les LLM démystifiés — comment un modèle de langage pense"](knowledge/AI/M1.2-les-llm-demystifies.md)
+- [1.3 - Le prompt comme interface — du texte à l'action](knowledge/AI/M1.3-le-prompt-comme-interface.md)
+- [1.4 - RAG — quand l'IA connaît votre contexte](knowledge/AI/M1.4-rag-contexte-et-memoire.md)
+- [1.5 - Agents IA — des outils aux systèmes autonomes](knowledge/AI/M1.5-agents-ia.md)
+- [1.6 - Embeddings et mémoire vectorielle — l'IA qui se souvient](knowledge/AI/M1.6-embeddings-memoire-vectorielle.md)
+- [1.7 - Fine-tuning vs prompting — quand spécialiser un modèle](knowledge/AI/M1.7-fine-tuning-vs-prompting.md)
+- [2.1 - Concevoir avec l'incertitude — l'UX des systèmes probabilistes](knowledge/AI/M2.1-ux-systemes-probabilistes.md)
+- [2.2 - Identifier les bons cas d'usage IA dans un produit](knowledge/AI/M2.2-identifier-cas-usage-ia.md)
+- [2.3 - Du brief au prototype IA — le design sprint adapté](knowledge/AI/M2.3-brief-au-prototype-ia.md)
+- [2.4 - Évaluer la qualité d'une feature IA — métriques produit](knowledge/AI/M2.4-evaluer-feature-ia.md)
+- [2.5 - Patterns d'interface pour l'IA — UI/UX des outputs génératifs](knowledge/AI/M2.5-patterns-interface-ia.md)
+- [2.6 - Concevoir un système de feedback utilisateur pour l'IA](knowledge/AI/M2.6-feedback-utilisateur-ia.md)
+- [2.7 - De la feature IA au produit IA-native](knowledge/AI/M2.7-produit-ia-native.md)
+- [3.1 - Cartographier ses processus pour identifier l'IA à fort ROI](knowledge/AI/M3.1-cartographier-processus.md)
+- [3.2 - Automatisation vs augmentation — choisir le bon paradigme](knowledge/AI/M3.2-automatisation-vs-augmentation.md)
+- [3.3 - Construire un workflow IA sans coder — outils no-code/low-code](knowledge/AI/M3.3-workflow-ia-no-code.md)
+- [3.4 - Intégrer l'IA dans le cycle produit — discovery, delivery, rétro](knowledge/AI/M3.4-ia-dans-cycle-produit.md)
+- [3.5 - Gouvernance et éthique IA dans les équipes produit](knowledge/AI/M3.5-gouvernance-ethique-ia.md)
+- [3.6 - Orchestration d'agents pour des processus métier complexes](knowledge/AI/M3.6-orchestration-agents.md)
 
 ## Product
 
