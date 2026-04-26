@@ -4,14 +4,14 @@
 
 ## Table des matières
 
-- [AI](#ai)
+- [Intelligence Artificielle](#intelligence-artificielle)
 - [Product](#product)
 - [Python](#python)
 - [Swift](#swift)
 
 ---
 
-## AI
+## Intelligence Artificielle
 
 - [Parcours d'apprentissage adaptatif](knowledge/AI/parcours_adaptatif.md)
 - [1.1 - Qu'est-ce que l'IA ? — Carte mentale fondatrice](knowledge/AI/M1.1-qu-est-ce-que-l-ia.md)
