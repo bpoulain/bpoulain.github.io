@@ -2,7 +2,7 @@
 
 ## AI
 
-> [!NOTE]
+> [!info]
 > content to come
 
 ## Product
