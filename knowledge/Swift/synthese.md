@@ -1,6 +1,52 @@
 # Synthèse globale — Swift 6 / SwiftUI 6 (iOS 26)
 
-Référence condensée des 14 sections — pont pédagogique JS/Reef → SwiftUI
+Référence condensée — sections 00 à 16 — pont pédagogique JS/Reef → SwiftUI
+
+---
+
+## 0. Fondations Swift — Prérequis
+
+**Types, optionals, JSON, networking — les briques avant SwiftUI.**
+
+| Concept | Règle | Exemple |
+|---------|-------|---------|
+| `struct` | Type valeur — copié à chaque assignation | Views SwiftUI |
+| `class` | Type référence — partagé | Modèles `@Observable` |
+| `let` | Immutable — défaut recommandé | Constantes, IDs |
+| `var` | Mutable — seulement si nécessaire | État, compteurs |
+| `String?` | Optional — valeur potentiellement absente | Données API |
+| `if let` | Unwrap conditionnel sûr | Branches UI |
+| `guard let` | Unwrap + early exit | Préconditions |
+| `??` | Valeur par défaut si nil | `username ?? "Anonyme"` |
+| `!` | Force unwrap — **éviter sur données async** | — |
+
+**Codable :**
+
+```swift
+struct UserDTO: Codable {
+    let userId: Int       // ← snake_case JSON auto-mappé
+    let createdAt: Date
+}
+
+let decoder = JSONDecoder()
+decoder.keyDecodingStrategy = .convertFromSnakeCase
+decoder.dateDecodingStrategy = .iso8601
+```
+
+**Networking minimal :**
+
+```swift
+func fetchItems() async throws -> [Item] {
+    let url = URL(string: "https://api.example.com/items")!
+    let (data, _) = try await URLSession.shared.data(from: url)
+    return try JSONDecoder().decode([Item].self, from: data)
+}
+```
+
+**Concurrency :**
+- `async/await` = séquentiel non-bloquant
+- `Task {}` = créer un contexte async depuis UI synchrone
+- `@MainActor` = toutes les modifications UI sur le thread principal
 
 ---
 
@@ -324,6 +370,99 @@ let _ = print("body appelé")         // combien de fois ?
 let _ = Self._printChanges()          // quelle propriété ?
 #Preview("État X") { View(state: x) } // tester chaque état
 ```
+
+---
+
+## 15. Product POC Layer — Couche données
+
+**Un POC SwiftUI = UI states + data layer minimal + injection propre.**
+
+```
+View → @Observable Model → Service (protocol) → Mock ou Live
+```
+
+**FeatureState — les 5 états obligatoires :**
+
+```swift
+enum FeatureState<T> {
+    case idle, loading, empty
+    case success(T), failure(String)
+}
+```
+
+**Pattern service switchable :**
+
+```swift
+protocol ProductService {
+    func fetchProducts() async throws -> [Product]
+}
+
+struct MockProductService: ProductService { /* données statiques */ }
+struct LiveProductService: ProductService { /* URLSession */ }
+
+// AppRoot choisit — la View ne sait pas
+@State private var model = ProductModel(service: MockProductService())
+```
+
+**DTO vs Model UI :**
+
+| DTO (`Codable`) | Model UI (`Identifiable`) |
+|-----------------|--------------------------|
+| Mappe le JSON brut | Orienté affichage |
+| `price_in_cents: Int` | `formattedPrice: String` |
+| `product_id: String` | `id: UUID` |
+| Jamais affiché directement | Computed properties pour l'UI |
+
+**Règles POC :**
+- 1–2 flows maximum — résiste à la feature creep
+- Mock d'abord, live ensuite — valide l'UI avant le backend
+- Switch mock → live = **une seule ligne** dans AppRoot
+
+---
+
+## 16. Product Thinking Execution — Méthodologie POC
+
+**Un POC n'est pas un prototype. C'est une question formulée en interface.**
+
+**Hypothèse testable :**
+
+```
+❌ "Je veux voir si l'app est utilisable"
+✅ "Les utilisateurs complètent le flow en 3 étapes en < 90 secondes sans aide"
+```
+
+**Build vs Fake — règle centrale :**
+
+> *Fake everything that doesn't validate your UX hypothesis.*
+
+| Build | Fake |
+|-------|------|
+| Core UX flow (c'est l'hypothèse) | Données affichées (mock JSON suffit) |
+| Interactions clés | Authentification (hors scope si flow post-login) |
+| États d'erreur (partiels) | Backend réel, edge cases, logique métier complexe |
+
+**PlaceholderScreen — hors scope propre :**
+
+```swift
+.navigationDestination(for: AppRoute.self) { route in
+    switch route {
+    case .checkout(let items): CheckoutView(items: items)   // ← implémenté
+    case .orderHistory: PlaceholderScreen(title: "Historique")  // ← hors scope
+    }
+}
+```
+
+**Cycle en 7 étapes :**
+
+```
+1. Hypothèse → 2. Flow papier → 3. Mock data → 4. Skeleton SwiftUI
+→ 5. Injection data → 6. Test 30 min / 2-3 users → 7. Itération
+```
+
+**Post-POC :**
+- Validé → construire la vraie feature
+- Invalidé → pivoter (ce n'est pas un échec — c'est l'objectif)
+- Ambigu → POC plus ciblé
 
 ---
 

@@ -42,6 +42,7 @@
 
 ## Swift
 
+- 00-fondations-swift [theorie](knowledge/Swift/00-fondations-swift-theorie.md) / [exercices](knowledge/Swift/00b-fondations-swift-exercices.md)
 - 01-paradigme-fondamental: [theorie](knowledge/Swift/01-paradigme-fondamental-theorie.md) / [exercices](knowledge/Swift/01b-paradigme-fondamental-exercices.md)
 - 02-systeme-etat: [theorie](knowledge/Swift/02-systeme-etat-theorie.md) / [exercices](knowledge/Swift/02b-systeme-etat-exercices.md)
 - 03-composition-views: [theorie](knowledge/Swift/03-composition-views-theorie.md) / [exercices](knowledge/Swift/03b-composition-views-exercices.md)
@@ -56,4 +57,6 @@
 - 12-animations-interactions: [theorie](knowledge/Swift/12-animations-interactions-theorie.md) / [exercices](knowledge/Swift/12b-animations-interactions-exercices.md)
 - 13-architecture-patterns: [theorie](knowledge/Swift/13-architecture-patterns-theorie.md) / [exercices](knowledge/Swift/13b-architecture-patterns-exercices.md)
 - 14-debug-mental-tooling: [theorie](knowledge/Swift/14-debug-mental-tooling-theorie.md) / [exercices](knowledge/Swift/14b-debug-mental-tooling-exercices.md)
+- 15-product-poc-layer [theorie](knowledge/Swift/15-product-poc-layer-theorie.md) / [exercices](knowledge/Swift/15b-product-poc-layer-exercices.md)
+- 16-product-thinking [theorie](knowledge/Swift/16-product-thinking-theorie.md) / [exercices](knowledge/Swift/16b-product-thinking-exercices.md)
 - [synthese](knowledge/Swift/synthese.md)
