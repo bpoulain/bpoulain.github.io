@@ -2,8 +2,8 @@
 
 ## AI
 
-> [!info]
-> content to come
+> [!NOTE]
+> WIP / Content to come
 
 ## Product
 
