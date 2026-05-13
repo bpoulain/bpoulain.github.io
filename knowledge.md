@@ -90,3 +90,17 @@
 - 15 - Product POC Layer : [théorie](knowledge/Swift/15-product-poc-layer-theorie.md) / [exercices](knowledge/Swift/15b-product-poc-layer-exercices.md)
 - 16 - Product Thinking Execution Layer : [théorie](knowledge/Swift/16-product-thinking-theorie.md) / [exercices](knowledge/Swift/16b-product-thinking-exercices.md)
 - [Synthèse globale](knowledge/Swift/synthese.md)
+
+### Swift examples
+
+- 01 [HabitTracker](knowledge/Swift_examples/01_HabitTracker/code.md)
+- 02 [NotesApp](knowledge/Swift_examples/02_NotesApp/code.md)
+- 03 [WeatherApp](knowledge/Swift_examples/03_WeatherApp/code.md)
+- 04 [ExpenseTracker](knowledge/Swift_examples/04_ExpenseTracker/code.md)
+- 05 [WorkoutCompanion](knowledge/Swift_examples/05_WorkoutCompanion/code.md)
+- 06 [SocialFeed](knowledge/Swift_examples/06_SocialFeed/code.md)
+- 07 [WidgetKitApp](knowledge/Swift_examples/07_WidgetKitApp/code.md)
+- 08 [DashboardAnalytics](knowledge/Swift_examples/08_DashboardAnalytics/code.md)
+- 09 [DesignSystem](knowledge/Swift_examples/09_DesignSystem/code.md)
+- 10 [MultiplatformApp](knowledge/Swift_examples/10_MultiplatformApp/code.md)
+
