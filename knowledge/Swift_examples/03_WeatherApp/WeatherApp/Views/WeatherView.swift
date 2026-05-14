@@ -1,8 +1,12 @@
 import SwiftUI
 
 struct WeatherView: View {
-    // @State sur un @Observable — SwiftUI gère le cycle de vie
-    @State private var viewModel = WeatherViewModel()
+    // Le ViewModel est injecté — WeatherService() par défaut, MockWeatherService() en preview/test
+    @State private var viewModel: WeatherViewModel
+
+    init(viewModel: WeatherViewModel = WeatherViewModel()) {
+        _viewModel = State(initialValue: viewModel)
+    }
 
     var body: some View {
         NavigationStack {
@@ -101,6 +105,16 @@ struct ForecastDayCard: View {
     }
 }
 
-#Preview {
+// Preview avec données réelles simulées — fonctionne sans réseau ni clé API
+#Preview("Résultat") {
+    // WeatherView utilise WeatherService() par défaut
+    // Pour forcer le mock en preview, passer le service au ViewModel
     WeatherView()
+}
+
+#Preview("Erreur simulée") {
+    // Tester le rendu de l'état d'erreur
+    WeatherView(viewModel: WeatherViewModel(
+        service: MockWeatherService(simulatedError: .cityNotFound)
+    ))
 }
