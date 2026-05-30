@@ -1,0 +1,33 @@
+/* diff-view.css — affichage diff ligne par ligne */
+
+.diff-view {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  padding: var(--space-4);
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.diff-line {
+  display: block;
+  padding: 0 var(--space-1);
+  border-radius: 2px;
+  text-decoration: none; /* override <del> default */
+}
+
+.diff-line--add {
+  background: color-mix(in srgb, var(--color-success) 15%, transparent);
+  color: var(--color-fg);
+}
+
+.diff-line--remove {
+  background: color-mix(in srgb, var(--color-destructive) 15%, transparent);
+  color: var(--color-fg);
+  opacity: 0.8;
+}
+
+.diff-line--equal {
+  color: var(--color-fg-muted);
+}

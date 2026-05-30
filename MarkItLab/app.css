@@ -1,0 +1,269 @@
+/* app.css — layout MarkItLab
+   Les styles des composants Prose et DiffView sont dans components/prose.css et diff-view.css.
+   Tous les tokens CSS viennent de nodus.css (var(--...)).
+*/
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+/* #app est transparent pour le flex de body */
+#app {
+  display: contents;
+}
+
+/* ── Workspace ──────────────────────────────────────────────── */
+
+.workspace {
+  flex: 1;
+  display: grid;
+  min-height: 0;
+  /* grid-template-rows: 1fr force la ligne unique à occuper toute la hauteur flex */
+  grid-template-rows: 1fr;
+  overflow: hidden;
+}
+
+/* Desktop (≥ 640px) — sans outline */
+@media (min-width: 640px) {
+  .workspace[data-mode="none"]  { grid-template-columns: 1fr; }
+  .workspace[data-mode="split"] { grid-template-columns: 1fr 1fr; }
+  .workspace[data-mode="diff"]  { grid-template-columns: 1fr 1fr; }
+}
+
+/* Desktop (≥ 640px) — avec outline */
+@media (min-width: 640px) {
+  .workspace[data-outline="open"][data-mode="none"]  { grid-template-columns: 220px 1fr; }
+  .workspace[data-outline="open"][data-mode="split"] { grid-template-columns: 220px 1fr 1fr; }
+  .workspace[data-outline="open"][data-mode="diff"]  { grid-template-columns: 220px 1fr 1fr; }
+}
+
+/* Mobile — toujours une colonne, outline masqué */
+@media (max-width: 639px) {
+  .workspace { grid-template-columns: 1fr; }
+  .outline-pane { display: none; }
+}
+
+/* ── Éditeur ────────────────────────────────────────────────── */
+
+.editor-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+/* En mode none, pas de bordure droite */
+.workspace[data-mode="none"] .editor-pane {
+  border-right: none;
+}
+
+.editor-pane .textarea {
+  flex: 1;
+  height: 100% !important;
+  resize: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  padding: var(--space-4);
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+.editor-pane .textarea:focus {
+  box-shadow: none;
+}
+
+/* ── Preview pane ───────────────────────────────────────────── */
+
+.preview-pane {
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--color-bg);
+}
+
+/* Sur mobile en mode split/diff : cacher l'éditeur, preview plein écran */
+@media (max-width: 639px) {
+  .workspace[data-mode="split"] .editor-pane,
+  .workspace[data-mode="diff"]  .editor-pane {
+    display: none;
+  }
+
+  .workspace[data-mode="split"] .preview-pane,
+  .workspace[data-mode="diff"]  .preview-pane {
+    grid-column: 1;
+  }
+}
+
+/* ── App header ─────────────────────────────────────────────── */
+
+.app-brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  letter-spacing: -0.02em;
+  color: var(--color-fg);
+}
+
+/* ── Toolbar (bottom) ───────────────────────────────────────── */
+
+.app-toolbar {
+  flex-shrink: 0;
+  position: relative;           /* contexte pour le pseudo-élément fondu */
+  padding: var(--space-2) var(--space-3);
+  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Masque la scrollbar mais garde le scroll fonctionnel */
+}
+.toolbar-row::-webkit-scrollbar { display: none; }
+
+/* Empêche les boutons de se comprimer — le scroll se déclenche avant qu'ils rétrécissent */
+.toolbar-row > * { flex-shrink: 0; }
+
+/* Les spacers, eux, peuvent se réduire jusqu'à 0 avant que le scroll s'active */
+.toolbar-spacer {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Fondu droit quand le contenu déborde — indique qu'on peut scroller */
+.app-toolbar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2rem;
+  background: linear-gradient(to right, transparent, var(--color-bg));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+.app-toolbar[data-overflow]::after {
+  opacity: 1;
+}
+
+/* Séparateur vertical dans la toolbar */
+.toolbar-row .separator {
+  height: 1.5rem;
+}
+
+/* ── Bouton back (mobile uniquement, en mode split/diff) ────── */
+
+.toolbar-back {
+  display: none;
+}
+
+@media (max-width: 639px) {
+  .workspace[data-mode="split"] ~ .app-toolbar .toolbar-back,
+  .workspace[data-mode="diff"]  ~ .app-toolbar .toolbar-back {
+    display: contents; /* rend le span transparent — le bouton redevient visible */
+  }
+}
+
+/* ── Settings Sheet content ─────────────────────────────────── */
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.settings-group-title {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-fg-muted);
+}
+
+.settings-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.settings-field--switch {
+  justify-content: flex-start;
+}
+
+/* ── Skip Headings checkboxes ───────────────────────────────── */
+
+.settings-field--skip {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.settings-skip-group {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.settings-skip-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-fg);
+  cursor: pointer;
+}
+
+.settings-label {
+  font-size: var(--text-sm);
+  color: var(--color-fg);
+  min-width: 8rem;
+  flex-shrink: 0;
+}
+
+.settings-mode-desc {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ── Import file (input caché, déclenché via toolbar:import) ── */
+
+.import-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Dark mode — utilise les tokens Nodus, rien à ajouter ───── */
+/* [data-theme="dark"] est géré par nodus.css via ses custom properties */

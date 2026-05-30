@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- viewport-fit=cover : safe-area-inset sur iPhone avec notch -->
+  <title>MarkItLab — Markdown Processing Workbench</title>
+
+  <!--
+    Import map — résolution ESM sans bundler.
+    Nodus : dist/ copié dans libs/nodus/
+    Version Nodus utilisée : voir PLAN.md
+  -->
+  <script type="importmap">
+  {
+    "imports": {
+      "reefjs": "https://cdn.jsdelivr.net/npm/reefjs@13/dist/reef.es.min.js",
+      "marked": "https://cdn.jsdelivr.net/npm/marked@12/+esm"
+    }
+  }
+  </script>
+
+  <!-- CSS — ordre important : nodus (tokens + composants) → app-spécifique -->
+  <link rel="stylesheet" href="nodus/nodus.css">
+  <link rel="stylesheet" href="components/diff-view.css">
+  <link rel="stylesheet" href="components/prose.css">
+  <link rel="stylesheet" href="outline/outline.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+  <!-- Mount point Reef -->
+  <div id="app"></div>
+
+  <script type="module" src="bundle.BYCtoIjC.js"></script>
+</body>
+</html>
