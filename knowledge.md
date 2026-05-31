@@ -35,6 +35,115 @@
 - [3.5 - Gouvernance et éthique IA dans les équipes produit](knowledge/AI/M3.5-gouvernance-ethique-ia.md)
 - [3.6 - Orchestration d'agents pour des processus métier complexes](knowledge/AI/M3.6-orchestration-agents.md)
 
+## Claude
+
+- [README](knowledge/Claude/README.md)
+- [Bootcamp complet](knowledge/Claude/draft_AI_Discovery.md)
+
+### roles / Parcours autonomes par rôle
+- [Design Engineer](knowledge/Claude/roles/bootcamp-design-engineer.md)
+- [Product Designer](knowledge/Claude/roles/bootcamp-designer.md)
+- [Product Builder](knowledge/Claude/roles/bootcamp-builder.md)
+- [Product Manager](knowledge/Claude/roles/bootcamp-pm.md)
+
+### starter-kit / Kit clé-en-main à copier dans votre projet
+- [ReadMe.md : Guide d'utilisation du kit](knowledge/Claude/starter-kit/README.md)
+- [Claude.md : Template commenté (à personnaliser)](knowledge/Claude/starter-kit/CLAUDE.md)
+#### .claude
+- [Permissions + placeholders MCP](knowledge/Claude/starter-kit/.claude/settings.json)
+##### skills / 5 skills opérationnels
+- [Notes → PRD structuré](knowlegde/Claude/starter-kit/.claude/skills/prd-writer.md)
+- [Rapport concurrentiel](knowlegde/Claude/starter-kit/skills/competitor-analyzer.md)
+- [PRD → User stories](knowlegde/Claude/starter-kit/.claude/ski.claude/lls/sprint-planner.md)
+- [Revue UX (heuristiques Nielsen)](knowlegde/Claude/.claude/starter-kit/skills/ux-reviewer.md)
+- [Composant React complet](knowlegde/Claude/starter-kit/.claude/skills/component-generator.md)
+##### commands / 3 custom slash commands
+- [slash command /prd-review](knowlegde/Claude/starter-kit/.claude/commands/prd-review.md)
+- [slash command /weekly-intel](knowlegde/Claude/starter-kit/.claude/commands/weekly-intel.md)
+- [slash command /build-feature](knowlegde/Claude/starter-kit/.claude/commands/build-feature.md)
+#### templates / 4 templates de livrables
+- [competitor-template](knowlegde/Claude/starter-kit/templates/competitor-template.md)
+- [prd-template](knowlegde/Claude/starter-kit/templates/prd-template.md)
+- [research-template](knowlegde/Claude/starter-kit/templates/research-template.md)
+- [spec-template](knowlegde/Claude/starter-kit/templates/spec-template.md)
+#### memory / 5 fichiers de mémoire projet
+- [competitors](knowlegde/Claude/starter-kit/memory/competitors.md)
+- [decisions](knowlegde/Claude/starter-kit/memory/decisions.md)
+- [product-principles](knowlegde/Claude/starter-kit/memory/product-principles.md)
+- [roadmap](knowlegde/Claude/starter-kit/memory/roadmap.md)
+- [target-users](knowlegde/Claude/starter-kit/memory/target-users.md)
+
+### examples / Livrables de référence (à quoi ça ressemble)
+- [PRD complet — feature onboarding SaaS](knowledge/Claude/examples/prd-saas-onboarding.md)
+- [Analyse concurrentielle](knowledge/Claude/examples/competitor-analysis-notion-vs-linear.md)
+- [Specs UX complètes — composant DataTable](knowledge/Claude/examples/ux-specs-data-table.md)
+- [Composant React (tsx + stories + tests)](knowledge/Claude/examples/react-component-badge/)
+
+### missions / Scénarios pratiques — startup fictive Pixio
+- [Présentation de Pixio + guide des missions](knowledge/Claude/missions/README.md)
+- [👔 Discovery → PRD (débutant, 2-3h)](knowledge/Claude/missions/mission-01-pm-discovery.md)
+- [🔨 Micro-app de rétention (intermédiaire, 3-4h)](knowledge/Claude/missions/mission-02-builder-app.md)
+- [🎨 Specs depuis un brief (débutant, 2-3h)](knowledge/Claude/missions/mission-03-designer-specs.md)
+- [🌐 Cycle complet cross-rôles (avancé, 6-8h)](knowledge/Claude/missions/mission-04-full-cycle.md)
+
+### prompts-library / 33 prompts prêts à l'emploi
+- [Index et guide d'utilisation](knowledge/Claude/prompts-library/README.md)
+#### discovery / Research, interviews, insights
+- [competitor-deep-dive](knowledge/Claude/prompts-library/discovery/competitor-deep-dive.md
+- [hypothesis-tree](knowledge/Claude/prompts-library/discovery/hypothesis-tree.md
+- [interview-synthesis](knowledge/Claude/prompts-library/discovery/interview-synthesis.md
+- [market-sizing](knowledge/Claude/prompts-library/discovery/market-sizing.md
+- [problem-framing](knowledge/Claude/prompts-library/discovery/problem-framing.md
+- [user-story-mapping](knowledge/Claude/prompts-library/discovery/user-story-mapping.md
+#### writing / PRDs, specs, docs, release notes
+- [executive-summary](knowledge/Claude/prompts-library/writing/executive-summary.md)
+- [feature-announcement](knowledge/Claude/prompts-library/writing/feature-announcement.md)
+- [internal-brief](knowledge/Claude/prompts-library/writing/internal-brief.md)
+- [job-stories](knowledge/Claude/prompts-library/writing/job-stories.md)
+- [onboarding-email](knowledge/Claude/prompts-library/writing/onboarding-email.md)
+- [prd-from-notes](knowledge/Claude/prompts-library/writing/prd-from-notes.md)
+- [release-notes](knowledge/Claude/prompts-library/writing/release-notes.md)
+#### review / Code review, UX review, PRD review
+- [accessibility-audit](knowledge/Claude/prompts-library/review/accessibility-audit.md)
+- [copy-review](knowledge/Claude/prompts-library/review/copy-review.md)
+- [prd-engineering-review](knowledge/Claude/prompts-library/review/prd-engineering-review.md)
+- [react-component-review](knowledge/Claude/prompts-library/review/react-component-review.md)
+- [ux-flow-review](knowledge/Claude/prompts-library/review/ux-flow-review.md)
+#### planning / Sprint, roadmap, priorisation
+- [backlog-prioritization](knowledge/Claude/prompts-library/planning/backlog-prioritization.md)
+- [capacity-planning](knowledge/Claude/prompts-library/planning/capacity-planning.md)
+- [okr-definition](knowledge/Claude/prompts-library/planning/okr-definition.md)
+- [prd-to-stories](knowledge/Claude/prompts-library/planning/prd-to-stories.md)
+- [sprint-retrospective](knowledge/Claude/prompts-library/planning/sprint-retrospective.md)
+#### code / Génération, debug, refacto
+- [api-integration](knowledge/Claude/prompts-library/code/api-integration.md)
+- [code-review](knowledge/Claude/prompts-library/code/code-review.md)
+- [debug-root-cause](knowledge/Claude/prompts-library/code/debug-root-cause.md)
+- [refactoring](knowledge/Claude/prompts-library/code/refactoring.md)
+- [test-generation](knowledge/Claude/prompts-library/code/test-generation.md)
+#### design / Specs, tokens, handoff, design system
+- [component-specs](knowledge/Claude/prompts-library/design/component-specs.md)
+- [design-system-audit](knowledge/Claude/prompts-library/design/design-system-audit.md)
+- [engineering-handoff](knowledge/Claude/prompts-library/design/engineering-handoff.md)
+- [token-extraction](knowledge/Claude/prompts-library/design/token-extraction.md)
+- [ux-audit](knowledge/Claude/prompts-library/design/ux-audit.md)
+
+### claude-md-templates / CLAUDE.md prêts par secteur
+- [README](knowledge/Claude/claude-md-templates/README.md)
+- [E-commerce / retail digital](knowledge/Claude/claude-md-templates/ecommerce.md)
+- [Plateforme C2C ou B2C](knowledge/Claude/claude-md-templates/marketplace.md)
+- [Application mobile native/hybrid](knowledge/Claude/claude-md-templates/mobile-app.md)
+- [Produit financier / paiements](knowledge/Claude/claude-md-templates/fintech.md)
+- [SaaS outils de productivité B2B](knowledge/Claude/claude-md-templates/saas-b2b.md)
+
+### study-plan / Plan d'étude 30 jours
+- [Comment utiliser le plan](knowledge/Claude/study-plan/README.md)
+- [J1-7 : Installation + Claude Code Core](knowledge/Claude/study-plan/week-1-setup.md)
+- [J8-14 : Workflows par rôle](knowledge/Claude/study-plan/week-2-workflows.md)
+- [J15-21 : MCP + Skills](knowledge/Claude/study-plan/week-3-mcp-skills.md)
+- [J22-30 : Subagents + Projet final](knowledge/Claude/study-plan/week-4-advanced.md)
+- [Grille d'auto-évaluation](knowledge/Claude/study-plan/self-evaluation.md)
+
 ## Product
 
 - 01 - Stratégie produit & Product Thinking : [théorie](knowledge/Product/01-strategie-produit-theorie.md) / [exercices](knowledge/Product/01b-strategie-produit-exercices.md)

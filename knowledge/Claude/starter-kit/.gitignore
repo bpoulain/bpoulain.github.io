@@ -1,0 +1,33 @@
+# ═══════════════════════════════════════════════
+# SÉCURITÉ — Ne jamais committer ces fichiers
+# ═══════════════════════════════════════════════
+
+# settings.json contient les API keys MCP
+.claude/settings.json
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# ═══════════════════════════════════════════════
+# OS
+# ═══════════════════════════════════════════════
+.DS_Store
+Thumbs.db
+
+# ═══════════════════════════════════════════════
+# Éditeurs
+# ═══════════════════════════════════════════════
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ═══════════════════════════════════════════════
+# Node (si projet Builder)
+# ═══════════════════════════════════════════════
+node_modules/
+dist/
+build/
+.next/
