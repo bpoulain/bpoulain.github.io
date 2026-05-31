@@ -50,29 +50,6 @@
 ### starter-kit / Kit clé-en-main à copier dans votre projet
 - [ReadMe.md : Guide d'utilisation du kit](knowledge/Claude/starter-kit/README.md)
 - [Claude.md : Template commenté (à personnaliser)](knowledge/Claude/starter-kit/CLAUDE.md)
-#### .claude
-- [Permissions + placeholders MCP](knowledge/Claude/starter-kit/.claude/settings.json)
-##### skills / 5 skills opérationnels
-- [Notes → PRD structuré](knowlegde/Claude/starter-kit/.claude/skills/prd-writer.md)
-- [Rapport concurrentiel](knowlegde/Claude/starter-kit/skills/competitor-analyzer.md)
-- [PRD → User stories](knowlegde/Claude/starter-kit/.claude/ski.claude/lls/sprint-planner.md)
-- [Revue UX (heuristiques Nielsen)](knowlegde/Claude/.claude/starter-kit/skills/ux-reviewer.md)
-- [Composant React complet](knowlegde/Claude/starter-kit/.claude/skills/component-generator.md)
-##### commands / 3 custom slash commands
-- [slash command /prd-review](knowlegde/Claude/starter-kit/.claude/commands/prd-review.md)
-- [slash command /weekly-intel](knowlegde/Claude/starter-kit/.claude/commands/weekly-intel.md)
-- [slash command /build-feature](knowlegde/Claude/starter-kit/.claude/commands/build-feature.md)
-#### templates / 4 templates de livrables
-- [competitor-template](knowlegde/Claude/starter-kit/templates/competitor-template.md)
-- [prd-template](knowlegde/Claude/starter-kit/templates/prd-template.md)
-- [research-template](knowlegde/Claude/starter-kit/templates/research-template.md)
-- [spec-template](knowlegde/Claude/starter-kit/templates/spec-template.md)
-#### memory / 5 fichiers de mémoire projet
-- [competitors](knowlegde/Claude/starter-kit/memory/competitors.md)
-- [decisions](knowlegde/Claude/starter-kit/memory/decisions.md)
-- [product-principles](knowlegde/Claude/starter-kit/memory/product-principles.md)
-- [roadmap](knowlegde/Claude/starter-kit/memory/roadmap.md)
-- [target-users](knowlegde/Claude/starter-kit/memory/target-users.md)
 
 ### examples / Livrables de référence (à quoi ça ressemble)
 - [PRD complet — feature onboarding SaaS](knowledge/Claude/examples/prd-saas-onboarding.md)
@@ -90,12 +67,12 @@
 ### prompts-library / 33 prompts prêts à l'emploi
 - [Index et guide d'utilisation](knowledge/Claude/prompts-library/README.md)
 #### discovery / Research, interviews, insights
-- [competitor-deep-dive](knowledge/Claude/prompts-library/discovery/competitor-deep-dive.md
-- [hypothesis-tree](knowledge/Claude/prompts-library/discovery/hypothesis-tree.md
-- [interview-synthesis](knowledge/Claude/prompts-library/discovery/interview-synthesis.md
-- [market-sizing](knowledge/Claude/prompts-library/discovery/market-sizing.md
-- [problem-framing](knowledge/Claude/prompts-library/discovery/problem-framing.md
-- [user-story-mapping](knowledge/Claude/prompts-library/discovery/user-story-mapping.md
+- [competitor-deep-dive](knowledge/Claude/prompts-library/discovery/competitor-deep-dive.md)
+- [hypothesis-tree](knowledge/Claude/prompts-library/discovery/hypothesis-tree.md)
+- [interview-synthesis](knowledge/Claude/prompts-library/discovery/interview-synthesis.md)
+- [market-sizing](knowledge/Claude/prompts-library/discovery/market-sizing.md)
+- [problem-framing](knowledge/Claude/prompts-library/discovery/problem-framing.md)
+- [user-story-mapping](knowledge/Claude/prompts-library/discovery/user-story-mapping.md)
 #### writing / PRDs, specs, docs, release notes
 - [executive-summary](knowledge/Claude/prompts-library/writing/executive-summary.md)
 - [feature-announcement](knowledge/Claude/prompts-library/writing/feature-announcement.md)
