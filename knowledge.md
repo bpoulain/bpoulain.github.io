@@ -5,6 +5,7 @@
 ## Table des matières
 
 - [Intelligence Artificielle](#intelligence-artificielle)
+- [Claude](#claude)
 - [Product](#product)
 - [Python](#python)
 - [Swift](#swift)
