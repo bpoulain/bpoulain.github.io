@@ -4,6 +4,7 @@
 
 ## Table des matières
 
+- [Git](#git)
 - [Intelligence Artificielle](#intelligence-artificielle)
 - [Claude](#claude)
 - [Product](#product)
@@ -11,6 +12,9 @@
 - [Swift](#swift)
 
 ---
+
+## Git
+- [Cheatsheet](knowledge/Git 101.md)
 
 ## Intelligence Artificielle
 
