@@ -15,7 +15,10 @@
 ---
 
 ## Git
+
 - [Cheatsheet](knowledge/Git 101.md)
+
+---
 
 ## Intelligence Artificielle
 
@@ -40,6 +43,8 @@
 - [3.4 - Intégrer l'IA dans le cycle produit — discovery, delivery, rétro](knowledge/AI/M3.4-ia-dans-cycle-produit.md)
 - [3.5 - Gouvernance et éthique IA dans les équipes produit](knowledge/AI/M3.5-gouvernance-ethique-ia.md)
 - [3.6 - Orchestration d'agents pour des processus métier complexes](knowledge/AI/M3.6-orchestration-agents.md)
+
+---
 
 ## Claude
 
@@ -127,6 +132,8 @@
 - [J22-30 : Subagents + Projet final](knowledge/Claude/study-plan/week-4-advanced.md)
 - [Grille d'auto-évaluation](knowledge/Claude/study-plan/self-evaluation.md)
 
+---
+
 ## Product
 
 - 01 - Stratégie produit & Product Thinking : [théorie](knowledge/Product/01-strategie-produit-theorie.md) / [exercices](knowledge/Product/01b-strategie-produit-exercices.md)
@@ -143,6 +150,8 @@
 - 12 - Growth, Gamification & Engagement : [théorie](knowledge/Product/12-growth-gamification-theorie.md) / [exercices](knowledge/Product/12b-growth-gamification-exercices.md)
 - 13 - UX Writing avancé & Delivery : [théorie](knowledge/Product/13-uxwriting-delivery-theorie.md) / [exercices](knowledge/Product/13b-uxwriting-delivery-exercices.md)
 - [Synthèse globale](knowledge/Product/synthese.md)
+
+---
 
 ## Python
 
@@ -161,6 +170,8 @@
 - 13 - Programmation Orientée Objet (POO) : [théorie](knowledge/Python/13-poo-theorie.md) / [exercices](knowledge/Python/13b-poo-exercices.md)
 - 14 - Spécialisation : [théorie](knowledge/Python/14-specialisation-theorie.md)
 - [Synthèse globale](knowledge/Python/synthese.md)
+
+---
 
 ## SaaS
 
@@ -195,6 +206,8 @@
 - 29 - [Organisation Produit Economie](29-organisation-produit-economie.md)
 - 30 - [Annexe Fondations Infrastructure](30-annexe-fondations-infrastructure.md)
 - 99 - [Synthese Globale](99-synthese-globale.md)
+
+---
 
 ## Swift
 
