@@ -388,6 +388,8 @@ Un texte est une clé stable, une phrase entière avec ses variables, dont la fo
 
 La documentation d'ICU MessageFormat décrit le format le plus répandu : les éléments variables sont des arguments entre accolades ; l'argument « pluriel » sélectionne des sous-messages d'après une valeur numérique et les règles de pluriel de la langue ; une variante « autre » est toujours nécessaire ; des valeurs explicites comme `=0` et `=1` sont possibles ; l'argument « sélection » choisit parmi un jeu de mots-clés fixes (par exemple le genre) ; la documentation conseille de placer les sélections à l'extérieur et d'imbriquer les pluriels à l'intérieur, sur un seul niveau si possible ; et une paire d'apostrophes ASCII représente une apostrophe, ce qui demande attention en français. Le format de nouvelle génération, MessageFormat 2, déjà intégré aux bibliothèques ICU, exprime la même chose avec une syntaxe plus lisible :
 
+``````markdown
+{% raw %}
 ```text
 .input {$count :number}
 .match $count
@@ -395,6 +397,8 @@ La documentation d'ICU MessageFormat décrit le format le plus répandu : les é
 one {{1 constat.}}
 * {{{$count} constats.}}
 ```
+{% endraw %}
+``````
 
 Dans ce message, le motif `*` désigne la variante par défaut. Le choix de l'une ou l'autre syntaxe dépend des bibliothèques disponibles côté client et serveur.
 
