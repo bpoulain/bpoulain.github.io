@@ -11,6 +11,7 @@
 - [Python](#python)
 - [SaaS](#saas)
 - [Swift](#swift)
+- [Audit Design System](#audit-design-system)
 
 ---
 
@@ -242,4 +243,74 @@
 - 08 [DashboardAnalytics](knowledge/Swift_examples/08_DashboardAnalytics/code.md)
 - 09 [DesignSystem](knowledge/Swift_examples/09_DesignSystem/code.md)
 - 10 [MultiplatformApp](knowledge/Swift_examples/10_MultiplatformApp/code.md)
+
+---
+
+## Audit Design System
+
+- [design-system-audit](knowledge/Audit_Design_System/design-system-audit.md)
+
+### 00-design-philosophy
+
+- [design-direction](knowledge/Audit_Design_System/00-design-philosophy/design-direction.md)
+- [design-principles](knowledge/Audit_Design_System/00-design-philosophy/design-principles.md)
+- [visual-language](knowledge/Audit_Design_System/00-design-philosophy/visual-language.md)
+
+### 01-design-principles
+
+- [minimalism](knowledge/Audit_Design_System/01-design-principles/minimalism.md)
+- [color-philosophy](knowledge/Audit_Design_System/01-design-principles/color-philosophy.md)
+- [typography](knowledge/Audit_Design_System/01-design-principles/typography.md)
+- [visual-hierarchy](knowledge/Audit_Design_System/01-design-principles/visual-hierarchy.md)
+- [functional-density](knowledge/Audit_Design_System/01-design-principles/functional-density.md)
+- [geometric-consistency](knowledge/Audit_Design_System/01-design-principles/geometric-consistency.md)
+- [progressive-disclosure](knowledge/Audit_Design_System/01-design-principles/progressive-disclosure.md)
+- [interaction-feedback](knowledge/Audit_Design_System/01-design-principles/interaction-feedback.md)
+- [motion](knowledge/Audit_Design_System/01-design-principles/motion.md)
+- [composability](knowledge/Audit_Design_System/01-design-principles/composability.md)
+
+### 02-visual-quality
+
+- [visual-refinement](knowledge/Audit_Design_System/02-visual-quality/visual-refinement.md)
+- [spacing-and-alignment](knowledge/Audit_Design_System/02-visual-quality/spacing-and-alignment.md)
+- [surface-treatment](knowledge/Audit_Design_System/02-visual-quality/surface-treatment.md)
+- [contrast-balance](knowledge/Audit_Design_System/02-visual-quality/contrast-balance.md)
+- [dark-light-consistency](knowledge/Audit_Design_System/02-visual-quality/dark-light-consistency.md)
+- [theme-invariants](knowledge/Audit_Design_System/02-visual-quality/theme-invariants.md)
+
+### 03-component-quality
+
+- [component-inventory](knowledge/Audit_Design_System/03-component-qualitt/component-inventory.md)
+- [api-consistency](knowledge/Audit_Design_System/03-component-qualitt/api-consistency.md)
+- [component-completeness](knowledge/Audit_Design_System/03-component-qualitt/component-completeness.md)
+- [component-audit-template](knowledge/Audit_Design_System/03-component-qualitt/component-audit-template.md)
+
+### 04-interaction-quality
+
+- [interaction-patterns](knowledge/Audit_Design_System/04-interaction-quality/interaction-patterns.md)
+- [state-transitions](knowledge/Audit_Design_System/04-interaction-quality/state-transitions.md)
+- [keyboard-interactions](knowledge/Audit_Design_System/04-interaction-quality/keyboard-interactions.md)
+- [motion-guidelines](knowledge/Audit_Design_System/04-interaction-quality/motion-guidelines.md)
+
+### 05-technical-quality
+
+- [reef-reactivity](knowledge/Audit_Design_System/05-technical-quality/reef-reactivity.md)
+- [lifecycle](knowledge/Audit_Design_System/05-technical-quality/lifecycle.md)
+- [accessibility](knowledge/Audit_Design_System/05-technical-quality/accessibility.md)
+- [performance](knowledge/Audit_Design_System/05-technical-quality/performance.md)
+- [testing](knowledge/Audit_Design_System/05-technical-quality/testing.md)
+
+### 06-audit-results
+
+- [global-audit](knowledge/Audit_Design_System/06-audit-results/global-audit.md)
+- [component-scorecards](knowledge/Audit_Design_System/06-audit-results/component-scorecards.md)
+- [issues](knowledge/Audit_Design_System/06-audit-results/issues.md)
+- [remediation-roadmap](knowledge/Audit_Design_System/06-audit-results/remediation-roadmap.md)
+- [ecarts-a-arbitrer](knowledge/Audit_Design_System/06-audit-results/ecarts-a-arbitrer.md)
+
+### 07-nodus-adapter
+
+- [adapter](knowledge/Audit_Design_System/07-nodus-adapter/adapter.md)
+- [token-roles](knowledge/Audit_Design_System/07-nodus-adapter/token-roles.md)
+- [measure_tokens](knowledge/Audit_Design_System/07-nodus-adapter/tools/measure_tokens.py)
 
