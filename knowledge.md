@@ -318,101 +318,101 @@
 
 ### 09-a11y-voice-over
 
-- [README](knowledge/Audit_Design_System/README.md)
-- [CHANGELOG](knowledge/Audit_Design_System/CHANGELOG.md)
+- [README](knowledge/Audit_Design_System/09-a11y-voice-over/README.md)
+- [CHANGELOG](knowledge/Audit_Design_System/09-a11y-voice-over/CHANGELOG.md)
 
 #### 01-strategy
-- [README](knowledge/Audit_Design_System/01-strategy/README.md)
-- [scope](knowledge/Audit_Design_System/01-strategy/scope.md)
-- [environments](knowledge/Audit_Design_System/01-strategy/environments.md)
-- [methodology](knowledge/Audit_Design_System/01-strategy/methodology.md)
-- [validation-criteria](knowledge/Audit_Design_System/01-strategy/validation-criteria.md)
-- [issue-management](knowledge/Audit_Design_System/01-strategy/issue-management.md)
+- [README](knowledge/Audit_Design_System/09-a11y-voice-over/01-strategy/README.md)
+- [scope](knowledge/Audit_Design_System/09-a11y-voice-over/01-strategy/scope.md)
+- [environments](knowledge/Audit_Design_System/09-a11y-voice-over/01-strategy/environments.md)
+- [methodology](knowledge/Audit_Design_System/09-a11y-voice-over/01-strategy/methodology.md)
+- [validation-criteria](knowledge/Audit_Design_System/09-a11y-voice-over/01-strategy/validation-criteria.md)
+- [issue-management](knowledge/Audit_Design_System/09-a11y-voice-over/01-strategy/issue-management.md)
 
 #### 02-voiceover
-- [README](knowledge/Audit_Design_System/02-voiceover/README.md)
-- [macos-ios-differences](knowledge/Audit_Design_System/02-voiceover/macos-ios-differences.md)
+- [README](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/README.md)
+- [macos-ios-differences](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/macos-ios-differences.md)
 ##### macos
-- [configuration](knowledge/Audit_Design_System/02-voiceover/macos/configuration.md)
-- [keyboard-navigation](knowledge/Audit_Design_System/02-voiceover/macos/keyboard-navigation.md)
-- [voiceover-commands](knowledge/Audit_Design_System/02-voiceover/macos/voiceover-commands.md)
-- [focus-management](knowledge/Audit_Design_System/02-voiceover/macos/focus-management.md)
+- [configuration](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/macos/configuration.md)
+- [keyboard-navigation](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/macos/keyboard-navigation.md)
+- [voiceover-commands](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/macos/voiceover-commands.md)
+- [focus-management](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/macos/focus-management.md)
 ##### ios
-- [configuration](knowledge/Audit_Design_System/02-voiceover/ios/configuration.md)
-- [voiceover-gestures](knowledge/Audit_Design_System/02-voiceover/ios/voiceover-gestures.md)
-- [rotor](knowledge/Audit_Design_System/02-voiceover/ios/rotor.md)
-- [focus-management](knowledge/Audit_Design_System/02-voiceover/ios/focus-management.md)
+- [configuration](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/ios/configuration.md)
+- [voiceover-gestures](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/ios/voiceover-gestures.md)
+- [rotor](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/ios/rotor.md)
+- [focus-management](knowledge/Audit_Design_System/09-a11y-voice-over/02-voiceover/ios/focus-management.md)
 
 #### 03-references
-- [wcag-2.2](knowledge/Audit_Design_System/03-references/wcag-2.2.md)
-- [wai-aria](knowledge/Audit_Design_System/03-references/wai-aria.md)
-- [apple-guidelines](knowledge/Audit_Design_System/03-references/apple-guidelines.md)
-- [accessibility-rules](knowledge/Audit_Design_System/03-references/accessibility-rules.md)
+- [wcag-2.2](knowledge/Audit_Design_System/09-a11y-voice-over/03-references/wcag-2.2.md)
+- [wai-aria](knowledge/Audit_Design_System/09-a11y-voice-over/03-references/wai-aria.md)
+- [apple-guidelines](knowledge/Audit_Design_System/09-a11y-voice-over/03-references/apple-guidelines.md)
+- [accessibility-rules](knowledge/Audit_Design_System/09-a11y-voice-over/03-references/accessibility-rules.md)
 
 #### 04-components
-- [README](knowledge/Audit_Design_System/04-components/README.md)
+- [README](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/README.md)
 
 ##### actions
-- [button](knowledge/Audit_Design_System/04-components/actions/button.md)
-- [link](knowledge/Audit_Design_System/04-components/actions/link.md)
-- [icon-button](knowledge/Audit_Design_System/04-components/actions/icon-button.md)
-- [action-menu](knowledge/Audit_Design_System/04-components/actions/action-menu.md)
+- [button](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/actions/button.md)
+- [link](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/actions/link.md)
+- [icon-button](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/actions/icon-button.md)
+- [action-menu](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/actions/action-menu.md)
 
 ##### forms
-- [text-field](knowledge/Audit_Design_System/04-components/forms/text-field.md)
-- [checkbox](knowledge/Audit_Design_System/04-components/forms/checkbox.md)
-- [radio-button](knowledge/Audit_Design_System/04-components/forms/radio-button.md)
-- [select](knowledge/Audit_Design_System/04-components/forms/select.md)
-- [switch](knowledge/Audit_Design_System/04-components/forms/switch.md)
-- [search](knowledge/Audit_Design_System/04-components/forms/search.md)
-- [date-picker](knowledge/Audit_Design_System/04-components/forms/date-picker.md)
+- [text-field](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/forms/text-field.md)
+- [checkbox](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/forms/checkbox.md)
+- [radio-button](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/forms/radio-button.md)
+- [select](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/forms/select.md)
+- [switch](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/forms/switch.md)
+- [search](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/forms/search.md)
+- [date-picker](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/forms/date-picker.md)
 
 ##### navigation
-- [tabs](knowledge/Audit_Design_System/04-components/navigation/tabs.md)
-- [menu](knowledge/Audit_Design_System/04-components/navigation/menu.md)
-- [breadcrumb](knowledge/Audit_Design_System/04-components/navigation/breadcrumb.md)
-- [pagination](knowledge/Audit_Design_System/04-components/navigation/pagination.md)
-- [accordion](knowledge/Audit_Design_System/04-components/navigation/accordion.md)
+- [tabs](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/navigation/tabs.md)
+- [menu](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/navigation/menu.md)
+- [breadcrumb](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/navigation/breadcrumb.md)
+- [pagination](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/navigation/pagination.md)
+- [accordion](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/navigation/accordion.md)
 
 ##### feedback
-- [alert](knowledge/Audit_Design_System/04-components/feedback/alert.md)
-- [notification](knowledge/Audit_Design_System/04-components/feedback/notification.md)
-- [error-message](knowledge/Audit_Design_System/04-components/feedback/error-message.md)
-- [progress](knowledge/Audit_Design_System/04-components/feedback/progress.md)
-- [loading](knowledge/Audit_Design_System/04-components/feedback/loading.md)
+- [alert](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/feedback/alert.md)
+- [notification](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/feedback/notification.md)
+- [error-message](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/feedback/error-message.md)
+- [progress](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/feedback/progress.md)
+- [loading](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/feedback/loading.md)
 
 ##### overlays
-- [modal](knowledge/Audit_Design_System/04-components/overlays/modal.md)
-- [dialog](knowledge/Audit_Design_System/04-components/overlays/dialog.md)
-- [popover](knowledge/Audit_Design_System/04-components/overlays/popover.md)
-- [tooltip](knowledge/Audit_Design_System/04-components/overlays/tooltip.md)
+- [modal](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/overlays/modal.md)
+- [dialog](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/overlays/dialog.md)
+- [popover](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/overlays/popover.md)
+- [tooltip](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/overlays/tooltip.md)
 
 ##### content
-- [table](knowledge/Audit_Design_System/04-components/content/table.md)
-- [list](knowledge/Audit_Design_System/04-components/content/list.md)
-- [card](knowledge/Audit_Design_System/04-components/content/card.md)
-- [image](knowledge/Audit_Design_System/04-components/content/image.md)
-- [icon](knowledge/Audit_Design_System/04-components/content/icon.md)
+- [table](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/content/table.md)
+- [list](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/content/list.md)
+- [card](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/content/card.md)
+- [image](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/content/image.md)
+- [icon](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/content/icon.md)
 
 ##### complex-components
-- [autocomplete](knowledge/Audit_Design_System/04-components/complex-components/autocomplete.md)
-- [combobox](knowledge/Audit_Design_System/04-components/complex-components/combobox.md)
-- [carousel](knowledge/Audit_Design_System/04-components/complex-components/carousel.md)
-- [treeview](knowledge/Audit_Design_System/04-components/complex-components/treeview.md)
-- [interactive-table](knowledge/Audit_Design_System/04-components/complex-components/interactive-table.md)
+- [autocomplete](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/complex-components/autocomplete.md)
+- [combobox](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/complex-components/combobox.md)
+- [carousel](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/complex-components/carousel.md)
+- [treeview](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/complex-components/treeview.md)
+- [interactive-table](knowledge/Audit_Design_System/09-a11y-voice-over/04-components/complex-components/interactive-table.md)
 
 #### 05-matrices
-- [coverage-matrix](knowledge/Audit_Design_System/05-matrices/coverage-matrix.md)
-- [wcag-matrix](knowledge/Audit_Design_System/05-matrices/wcag-matrix.md)
-- [prioritization](knowledge/Audit_Design_System/05-matrices/prioritization.md)
+- [coverage-matrix](knowledge/Audit_Design_System/09-a11y-voice-over/05-matrices/coverage-matrix.md)
+- [wcag-matrix](knowledge/Audit_Design_System/09-a11y-voice-over/05-matrices/wcag-matrix.md)
+- [prioritization](knowledge/Audit_Design_System/09-a11y-voice-over/05-matrices/prioritization.md)
 
 #### 06-templates
-- [component-template](knowledge/Audit_Design_System/06-templates/component-template.md)
-- [test-case-template](knowledge/Audit_Design_System/06-templates/test-case-template.md)
-- [issue-template](knowledge/Audit_Design_System/06-templates/issue-template.md)
-- [report-template](knowledge/Audit_Design_System/06-templates/report-template.md)
+- [component-template](knowledge/Audit_Design_System/09-a11y-voice-over/06-templates/component-template.md)
+- [test-case-template](knowledge/Audit_Design_System/09-a11y-voice-over/06-templates/test-case-template.md)
+- [issue-template](knowledge/Audit_Design_System/09-a11y-voice-over/06-templates/issue-template.md)
+- [report-template](knowledge/Audit_Design_System/09-a11y-voice-over/06-templates/report-template.md)
 
 #### 07-reports
-- [README](knowledge/Audit_Design_System/07-reports/README.md)
-- [accessibility-summary](knowledge/Audit_Design_System/07-reports/accessibility-summary.md)
-- [regression-tracking](knowledge/Audit_Design_System/07-reports/regression-tracking.md)
+- [README](knowledge/Audit_Design_System/09-a11y-voice-over/07-reports/README.md)
+- [accessibility-summary](knowledge/Audit_Design_System/09-a11y-voice-over/07-reports/accessibility-summary.md)
+- [regression-tracking](knowledge/Audit_Design_System/09-a11y-voice-over/07-reports/regression-tracking.md)
