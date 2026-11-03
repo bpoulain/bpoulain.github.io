@@ -8,72 +8,156 @@ status: specification
 
 # Tree View
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Navigate hierarchical items. Test these variants/states: Expanded, collapsed, selected.
+## 1. Component overview
+
+**Purpose:** a hierarchical list (folders, nested navigation) with expandable nodes. A simple nested navigation of links may be better served by a disclosure [Navigation Menu](../navigation/menu.md); this specification applies to `role="tree"`.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Collapsed / expanded node|State; children visible|003, 101|
+|Levels and positions|Level, position in set|002|
+|Selected node|Selected state, distinct from focus|004|
+|Multi-select or checkable|Checked state|005|
+
+### Main accessibility risks
+
+- No tree roles: hierarchy lost.
+- Every node a Tab stop.
+- Level and position not exposed.
+- Hidden children still reachable.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-TRV-001|macOS|Keyboard contract without VoiceOver|Critical|WCAG 2.1.1|
+|TEST-TRV-002|macOS|Role, level, position|Critical|WCAG 1.3.1, 4.1.2|
+|TEST-TRV-003|macOS|Expanding and collapsing|Critical|WCAG 4.1.2|
+|TEST-TRV-004|macOS|Selection|High|WCAG 4.1.2|
+|TEST-TRV-005|macOS|Checkable nodes|Medium|WCAG 4.1.2|
+|TEST-TRV-101|iOS|Swiping and expanding|Critical|WCAG 1.3.1, 4.1.2|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-TRV-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-TRV-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+A tree "Files" with 3 levels: "Documents" (with "Reports" containing 2 files), "Images", "Music"; one node selected.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Levels, states, and tree navigation are clear. Accessible information must agree with the visible purpose; exact speech may vary.
+All collapsed except "Documents".
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-TRV-002 — Operation and state changes
+Contract: [Keyboard Interactions §14](../../../04-interaction-quality/keyboard-interactions.md).
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+### TEST-TRV-001 — Keyboard contract without VoiceOver
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab into the tree|One Tab stop: the selected or first node|Fail if every node is a Tab stop|
+|2|Down/Up Arrow|Next/previous visible node|Fail if hidden nodes are reached|
+|3|Right Arrow on a collapsed node; again|Expands; then moves to the first child|Fail if not|
+|4|Left Arrow on a child; on an expanded parent|Moves to the parent; collapses|Fail if not|
+|5|Home/End, typeahead|First/last visible node; first node starting with the typed letter|Observation if typeahead missing|
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+### TEST-TRV-002 — Role, level, position
 
-### TEST-TRV-003 — Edge states and focus
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. Reach the tree|Tree role; VoiceOver may call it an outline|Fail if spoken as a plain list without hierarchy|
+|2|Move to "Reports"|Name, level, position and state, e.g. "Reports, level 2, 1 of 1, collapsed"|Fail if level is not exposed|
 
-**macOS steps:** Visit each supported state (Expanded, collapsed, selected); inspect announcements and browser keyboard focus before/after any transition.
+### TEST-TRV-003 — Expanding and collapsing
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Right Arrow on "Reports"|"expanded" spoken|Fail if silent|
+|2|Collapse it; Down Arrow|Children not reached|Fail if hidden children are reached|
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+### TEST-TRV-004 — Selection
 
-## 4. Component-specific assertions
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Move focus away from the selected node|The focused node is not spoken as selected|Fail if focus and selection are confused|
+|2|Press Return or Space on a node|Selection changes as documented; spoken|Fail if the selected state is visual only|
 
-- Purpose: Navigate hierarchical items.
-- States to verify: Expanded, collapsed, selected.
-- Primary success condition: Levels, states, and tree navigation are clear.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+### TEST-TRV-005 — Checkable nodes
 
-## 5. Applicable references
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Toggle a checkable node|Checked, unchecked or mixed state spoken|Fail if no state|
 
-WCAG 1.3.1, WCAG 2.1.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+## 4. VoiceOver tests on iOS
 
-## 6. Common failures and remediation
+### TEST-TRV-101 — Swiping and expanding
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe through visible nodes|Names with level and state|Fail if hierarchy is lost|
+|2|Double tap a collapsed node|Expanded; children follow on the next swipe|Fail if children cannot be reached or state is silent|
 
-## 7. Checklist
+Arrow-key behavior has no equivalent on iOS; expanding by double tap must work.
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+### Differences from macOS
 
-## 8. Related guidance
+|Point|macOS|iOS|
+|---|---|---|
+|Moving and expanding|Arrows|Swipe and double tap|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Tree|"Files"|Tree (outline)|—|—|One Tab stop|—|—|
+|Node|Label|Tree item|Level, position, expanded, selected|Visible nodes in order|Arrows, Home/End, typeahead, Return/Space|Roving|New state|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Node|"Reports, level 2, collapsed"|
+|iOS|Node|"Reports, collapsed, level 2"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Hierarchy exposed|WCAG 1.3.1 (A)|Normative|002, 101|
+|Name, role, states|WCAG 4.1.2 (A)|Normative|002–005, 101|
+|Keyboard operation|WCAG 2.1.1 (A)|Normative|001|
+|Tree keys, focus separate from selection|Keyboard Interactions §14; [APG Tree View](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/)|Best practice|001, 004|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|No level spoken|Hierarchy lost|No `aria-level` or nesting|Nested `group`s or `aria-level`|
+|Hidden children reached|Confusion|Collapsed items not hidden|Hide collapsed groups|
+|Every node a Tab stop|Slow|No roving tabindex|One Tab stop|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard contract|001|Not tested|Not applicable||
+|Role, level, position|002, 101|Not tested|Not tested||
+|Expand and collapse|003, 101|Not tested|Not tested||
+|Focus vs selection|004|Not tested|Not applicable||
+|Checkable nodes|005|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Keyboard Interactions §14](../../../04-interaction-quality/keyboard-interactions.md) · [Navigation Menu](../navigation/menu.md) · [Accordion](../navigation/accordion.md)

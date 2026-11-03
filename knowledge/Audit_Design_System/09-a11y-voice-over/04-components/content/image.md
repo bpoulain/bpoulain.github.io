@@ -8,72 +8,158 @@ status: specification
 
 # Image
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string. An image is read, not operated, unless it is inside a link or a button.
 
-Communicate visual information. Test these variants/states: Informative, decorative, functional.
+## 1. Component overview
+
+**Purpose:** show informative, decorative or functional pictures; avatars and figures with captions are included.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Informative|Alternative conveys the information|001, 101|
+|Decorative|Skipped|002, 101|
+|Functional (inside a link or button)|Alternative describes the destination or action|003|
+|Complex (chart, diagram)|Short alternative plus a long description|004|
+|Figure with caption|Caption tied to the image|005|
+|Avatar with fallback initials|Person named once|006|
+
+### Main accessibility risks
+
+- No `alt`: VoiceOver may read the file name.
+- Decorative images announced.
+- Functional image described visually ("arrow") instead of by purpose.
+- Image of text.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-IMG-001|macOS|Informative image|Critical|WCAG 1.1.1|
+|TEST-IMG-002|macOS|Decorative image|High|WCAG 1.1.1|
+|TEST-IMG-003|macOS|Functional image|Critical|WCAG 1.1.1, 2.4.4|
+|TEST-IMG-004|macOS|Complex image|High|WCAG 1.1.1|
+|TEST-IMG-005|macOS|Figure and caption|Medium|WCAG 1.3.1|
+|TEST-IMG-006|macOS|Avatar|Medium|WCAG 1.1.1|
+|TEST-IMG-101|iOS|Images by swiping and touch|Critical|WCAG 1.1.1|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md).
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md). Note whether VoiceOver image descriptions (automatic recognition) are on; they must not be mistaken for the page's alternative.
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-IMG-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+An informative photo; a decorative divider image; a logo link to the home page; a chart with a long description; a figure with a caption; an avatar with an image and one with initials.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Appropriate alternative text or omission. Accessible information must agree with the visible purpose; exact speech may vary.
+Static.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-IMG-002 — Operation and state changes
+### TEST-IMG-001 — Informative image
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the photo|Image role and an alternative conveying its information|Fail if file name, "image" only, or a useless text ("photo")|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-IMG-002 — Decorative image
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` past the divider|Not spoken|Fail if announced (file name or "image")|
 
-### TEST-IMG-003 — Edge states and focus
+### TEST-IMG-003 — Functional image
 
-**macOS steps:** Visit each supported state (Informative, decorative, functional); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the logo link|Link named by destination, e.g. "Home" or "Company name, home"|Fail if "logo.svg", "link" only or "logo"|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+### TEST-IMG-004 — Complex image
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the chart|Short alternative naming the chart|Fail if missing|
+|2|Find the long description|Adjacent text, a data table or a description reachable next|Fail if the data is only in the picture|
 
-## 4. Component-specific assertions
+### TEST-IMG-005 — Figure and caption
 
-- Purpose: Communicate visual information.
-- States to verify: Informative, decorative, functional.
-- Primary success condition: Appropriate alternative text or omission.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` through the figure|Image and caption, related|Minor if the caption is read separately without relation|
 
-## 5. Applicable references
+### TEST-IMG-006 — Avatar
 
-WCAG 1.1.1. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to each avatar next to a name|The person's name spoken once; the image hidden if the name is already visible|Minor if repeated; Fail if initials are read letter by letter with no name|
 
-## 6. Common failures and remediation
+## 4. VoiceOver tests on iOS
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+### TEST-IMG-101 — Images by swiping and touch
 
-## 7. Checklist
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe through the page|Same results as 001–006|Same criteria|
+|2|Touch the decorative image|Silent, or only an automatic description from iOS|Fail if the page exposes a name for it|
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+### Differences from macOS
 
-## 8. Related guidance
+|Point|macOS|iOS|
+|---|---|---|
+|Automatic image descriptions|Possible, depending on settings|Possible; record them separately from the page's alternative|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Informative|Equivalent text|Image|—|Visual order|None|—|—|
+|Decorative|None|Hidden|—|Skipped|None|—|—|
+|Functional|Purpose|Link or button|—|Visual order|Return, double tap|—|—|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Informative|"Team at the 2026 summit, image"|
+|iOS|Functional|"Home, link"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Text alternatives|WCAG 1.1.1 (A)|Normative|001–004, 006, 101|
+|Link purpose|WCAG 2.4.4 (A)|Normative|003|
+|Caption relationship|WCAG 1.3.1 (A)|Normative|005|
+|No images of text|WCAG 1.4.5 (AA)|Normative, checked visually|—|
+|Automatic descriptions|VoiceOver behavior|AT behavior|101|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|File name spoken|Meaningless|Missing `alt`|Provide `alt`|
+|Decorative image announced|Noise|`alt` with text|`alt=""`|
+|"Logo, link"|Destination unknown|Image described, not purpose|Describe the destination|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Informative alternative|001, 101|Not tested|Not tested||
+|Decorative hidden|002, 101|Not tested|Not tested||
+|Functional purpose|003, 101|Not tested|Not tested||
+|Complex image description|004|Not tested|Not applicable||
+|Caption|005|Not tested|Not applicable||
+|Avatar|006|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Icon](icon.md) · [Card](card.md) · [Link](../actions/link.md)

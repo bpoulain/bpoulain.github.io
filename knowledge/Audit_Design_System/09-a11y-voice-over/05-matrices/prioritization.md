@@ -2,7 +2,7 @@
 
 ## Priority 1 — High impact and high reuse
 
-Button, Link, Text Input, Checkbox, Radio Group, Select, Modal Dialog, Error Message, Tabs, Combobox.
+Button, Link, Text Input, Checkbox, Radio Group, Select, Dialog (modal), Error Message, Tabs, Combobox.
 
 ## Priority 2 — Navigation and dynamic feedback
 

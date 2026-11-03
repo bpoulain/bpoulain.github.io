@@ -2,6 +2,8 @@
 
 Each component has one test specification with platform-specific procedures. Record results in campaign reports rather than editing specifications.
 
+Reference specifications: [Button](actions/button.md) and [Dialog](overlays/dialog.md). All specifications follow their structure: overview, prerequisites, macOS tests (`001`…), iOS tests (`101`…), expected results, conformance criteria, common failures, validation checklist. None has been executed yet.
+
 ## Actions
 - [Button](actions/button.md) — `CMP-ACT-001`
 - [Link](actions/link.md) — `CMP-ACT-002`
@@ -32,8 +34,8 @@ Each component has one test specification with platform-specific procedures. Rec
 - [Loading State](feedback/loading.md) — `CMP-FDB-005`
 
 ## Overlays
-- [Modal Dialog](overlays/modal.md) — `CMP-OVR-001`
-- [Dialog](overlays/dialog.md) — `CMP-OVR-002`
+- [Dialog](overlays/dialog.md) — `CMP-OVR-002`, modal, alert and non-modal dialogs
+- [Modal Dialog](overlays/modal.md) — `CMP-OVR-001`, retired, merged into Dialog
 - [Popover](overlays/popover.md) — `CMP-OVR-003`
 - [Tooltip](overlays/tooltip.md) — `CMP-OVR-004`
 

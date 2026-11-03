@@ -6,7 +6,7 @@ Maintain one row per component × platform × variant × campaign. This is a sta
 |---|---|---|---|---|---|
 | Button | Not tested | Not tested | None | — | — |
 | Text Input | Not tested | Not tested | None | — | — |
-| Modal Dialog | Not tested | Not tested | None | — | — |
+| Dialog | Not tested | Not tested | None | — | — |
 | Combobox | Not tested | Not tested | None | — | — |
 
 Expand from [Component Index](../04-components/README.md). Status values: Not tested, Pass, Fail, Not applicable, Blocked.

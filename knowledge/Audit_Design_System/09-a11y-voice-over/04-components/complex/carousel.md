@@ -8,72 +8,161 @@ status: specification
 
 # Carousel
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Navigate slide content. Test these variants/states: First, last, autoplay, paused.
+## 1. Component overview
+
+**Purpose:** show a set of slides one (or a few) at a time, with previous/next controls, optional slide pickers and optional automatic rotation.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Manual|Controls named; current slide position|002, 003, 101|
+|Automatic rotation|Pause control; stops on focus|004, 102|
+|Slide picker (dots or tabs)|Names and selected state|005|
+|First / last slide|Edge behavior|003|
+
+### Main accessibility risks
+
+- Rotation that cannot be paused, or moves the reading point.
+- Previous/next as unnamed arrows.
+- Hidden slides read or focusable.
+- Slide changes silent.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-CAR-001|macOS|Keyboard operation without VoiceOver|Critical|WCAG 2.1.1, 2.2.2|
+|TEST-CAR-002|macOS|Structure and position|High|WCAG 1.3.1|
+|TEST-CAR-003|macOS|Previous and next|Critical|WCAG 4.1.2|
+|TEST-CAR-004|macOS|Automatic rotation|Critical|WCAG 2.2.2|
+|TEST-CAR-005|macOS|Slide picker|Medium|WCAG 4.1.2|
+|TEST-CAR-101|iOS|Reaching slides and controls|Critical|WCAG 1.3.2|
+|TEST-CAR-102|iOS|Rotation while reading|Critical|WCAG 2.2.2|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-CAR-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level, and whether Reduce Motion is on.
 
-### TEST-CAR-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+A carousel "Featured products" with 5 slides (image, title, link), previous/next buttons, a picker, and automatic rotation every 5 seconds, if supported.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Slide controls and changes are operable and non-disruptive. Accessible information must agree with the visible purpose; exact speech may vary.
+Slide 1; rotation running, if supported.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-CAR-002 — Operation and state changes
+### TEST-CAR-001 — Keyboard operation without VoiceOver
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab into the carousel|Rotation stops while focus is inside; a pause control is reachable first|Fail if rotation continues with focus inside and no pause control exists|
+|2|Tab through|Only the visible slide's link is focusable|Fail if hidden slides take focus|
+|3|Press Return on "Next"|Next slide shown; focus stays on "Next"|Fail if focus lost|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-CAR-002 — Structure and position
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Right Arrow` into it|Name, e.g. "Featured products, carousel"; slide position, e.g. "1 of 5"|Minor if position is missing|
 
-### TEST-CAR-003 — Edge states and focus
+### TEST-CAR-003 — Previous and next
 
-**macOS steps:** Visit each supported state (First, last, autoplay, paused); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Reach the controls|Named "Previous slide", "Next slide"|Fail if unnamed or arrows only|
+|2|`VO + Space` on "Next"|New slide perceivable (announced or read next)|Fail if the change is silent and the cursor reads the old slide|
+|3|On slide 5, "Next"|Wraps or is disabled, as documented, and says so|Fail if active but does nothing|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+### TEST-CAR-004 — Automatic rotation
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Reach the pause control|Named, with state, e.g. "Pause rotation, button"|Fail if absent while rotation lasts more than 5 seconds (WCAG 2.2.2)|
+|2|Read a slide with `VO + Right Arrow` while rotation runs|The slide does not change under the cursor; rotation is not announced|Fail if slides change and are announced while reading|
 
-## 4. Component-specific assertions
+### TEST-CAR-005 — Slide picker
 
-- Purpose: Navigate slide content.
-- States to verify: First, last, autoplay, paused.
-- Primary success condition: Slide controls and changes are operable and non-disruptive.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Reach the dots|Each named, e.g. "Slide 3", current one with selected state|Fail if unnamed|
 
-## 5. Applicable references
+## 4. VoiceOver tests on iOS
 
-WCAG 2.2.2, WCAG 2.1.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-CAR-101 — Reaching slides and controls
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe through the carousel|Controls named; only the visible slide read|Fail if hidden slides read|
+|2|Double tap "Next"|Slide change perceivable|Fail if silent|
+|3|Three-finger swipe left on the slides, if the carousel supports it|Slide changes|Observation|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+### TEST-CAR-102 — Rotation while reading
 
-## 7. Checklist
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Place VoiceOver focus on a slide and wait 10 seconds|The slide does not change under VoiceOver focus, or rotation is paused|Fail if focus is moved or the content changes under it|
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+### Differences from macOS
 
-## 8. Related guidance
+|Point|macOS|iOS|
+|---|---|---|
+|Stopping rotation|Focus inside, or pause button|VoiceOver focus may not trigger focus events; the pause button is the reliable path|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Carousel|"Featured products"|Region (carousel)|Rotating / paused|Pause, controls, slide|—|—|—|
+|Slide|"n of 5"|Group (slide)|Visible|Current only|Inner link|—|On manual change|
+|Control|Action|Button|Disabled at ends if no wrap|—|Return, double tap|Stays|—|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Slide|"2 of 5, slide"|
+|iOS|Pause|"Pause rotation, button"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Pause, stop, hide|WCAG 2.2.2 (A)|Normative|001, 004, 102|
+|Keyboard operation|WCAG 2.1.1 (A)|Normative|001|
+|Names and states of controls|WCAG 4.1.2 (A)|Normative|003–005|
+|Structure and order|WCAG 1.3.1 (A), 1.3.2 (A)|Normative|002, 101|
+|Hidden slides hidden|A11Y-33|Best practice|001, 101|
+|Carousel pattern|[APG Carousel](https://www.w3.org/WAI/ARIA/apg/patterns/carousel/)|Best practice|002, 004|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|No pause|Reading interrupted|Autoplay without control|Pause button first in the carousel; stop on focus|
+|Hidden slides focusable|Lost focus|Off-screen slides not hidden|`inert` or `hidden` on hidden slides|
+|Arrows unnamed|Unknown controls|Icon only|Accessible names|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard; rotation stops; hidden slides not focusable|001|Not tested|Not applicable||
+|Name and position|002|Not tested|Not applicable||
+|Controls named, change perceivable|003, 101|Not tested|Not tested||
+|Pause control; no change under the reader|004, 102|Not tested|Not tested||
+|Picker|005|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Button](../actions/button.md) · [Tabs](../navigation/tabs.md)

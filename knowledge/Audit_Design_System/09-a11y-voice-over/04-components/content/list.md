@@ -8,72 +8,137 @@ status: specification
 
 # List
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string. A list is read, not operated: no activation test applies to the list itself.
 
-Present a sequence of items. Test these variants/states: Ordered, unordered, nested.
+## 1. Component overview
+
+**Purpose:** group related items (ordered, unordered, nested, list of items with actions).
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Unordered|List role and count|001, 101|
+|Ordered|Order conveyed|002|
+|Nested|Levels|003|
+|Items with actions (rows with buttons)|Each action named with its item|004|
+|Styled without bullets|Semantics kept|001|
+
+### Main accessibility risks
+
+- Visual lists built with `div`s: no count, no structure.
+- CSS `list-style: none` removing list semantics in Safari.
+- Item actions with identical names.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-LST-001|macOS|List role and count|High|WCAG 1.3.1|
+|TEST-LST-002|macOS|Ordered list|Medium|WCAG 1.3.1|
+|TEST-LST-003|macOS|Nested list|Medium|WCAG 1.3.1|
+|TEST-LST-004|macOS|Items with actions|High|WCAG 2.4.6, 4.1.2|
+|TEST-LST-101|iOS|List boundaries|High|WCAG 1.3.1|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md).
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-LST-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+An unordered list of 4 items styled without bullets; an ordered list of 3 steps; a nested list; a list of 3 files each with a "Delete" button.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** List structure and item order are exposed. Accessible information must agree with the visible purpose; exact speech may vary.
+Static.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-LST-002 — Operation and state changes
+### TEST-LST-001 — List role and count
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` into the unordered list|List role and item count, e.g. "list, 4 items"|Fail if no list semantics when the content is visually a list|
+|2|`VO + Command + X`|Moves to the next list|Observation|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+Safari may drop list semantics when bullets are removed with CSS. If so, record it: the design system must restore them (for example `role="list"`).
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+### TEST-LST-002 — Ordered list
 
-### TEST-LST-003 — Edge states and focus
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` through the steps|Numbers or positions spoken|Fail if the order matters and is not conveyed|
 
-**macOS steps:** Visit each supported state (Ordered, unordered, nested); inspect announcements and browser keyboard focus before/after any transition.
+### TEST-LST-003 — Nested list
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Enter the sub-list|A new list with its count is spoken|Fail if levels are flattened with no cue|
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+### TEST-LST-004 — Items with actions
 
-## 4. Component-specific assertions
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` through the file list|Each "Delete" button is understandable with its item|Fail if the target cannot be determined (see [Icon Button](../actions/icon-button.md) TEST-ICB-006)|
 
-- Purpose: Present a sequence of items.
-- States to verify: Ordered, unordered, nested.
-- Primary success condition: List structure and item order are exposed.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+## 4. VoiceOver tests on iOS
 
-## 5. Applicable references
+### TEST-LST-101 — List boundaries
 
-WCAG 1.3.1. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe into and out of each list|Start and end of the list are perceivable, with a count|Fail if no list semantics|
 
-## 6. Common failures and remediation
+### Differences from macOS
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+|Point|macOS|iOS|
+|---|---|---|
+|Jump between lists|`VO + Command + X`|Rotor, if a list category is available|
 
-## 7. Checklist
+## 5. Expected results
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|List|—|List|Item count|DOM order|None|—|Count on entry|
+|Item|Content|List item|Position|List order|Inner controls|—|—|
 
-## 8. Related guidance
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Entering|"list, 4 items"|
+|iOS|Entering|"list start"|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|List structure and order|WCAG 1.3.1 (A)|Normative|001–003, 101|
+|Action labels distinguishable|WCAG 2.4.6 (AA), 4.1.2 (A)|Normative|004|
+|Semantics kept when styled|Best practice|Best practice|001|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|No list spoken|Size and grouping unknown|`div` items, or CSS reset in Safari|`ul`/`ol`, or `role="list"`|
+|"Delete" ×3|Wrong item affected|Same name|Name includes the item|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|List role and count|001, 101|Not tested|Not tested||
+|Order conveyed|002|Not tested|Not applicable||
+|Nesting conveyed|003|Not tested|Not applicable||
+|Item actions distinguishable|004|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Card](card.md) · [Icon Button](../actions/icon-button.md)

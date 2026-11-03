@@ -8,72 +8,155 @@ status: specification
 
 # Card
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Group related content/actions. Test these variants/states: Static, clickable, mixed controls.
+## 1. Component overview
+
+**Purpose:** group content about one item (title, image, text, actions).
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Static card|Heading; reading order|002, 101|
+|Whole card clickable|One link named by the title; no duplicates|003, 102|
+|Card with several controls|Each control reachable and named with context|004|
+|Card in a list or grid|List semantics; count|005|
+
+### Main accessibility risks
+
+- Whole card wrapped in a link: everything read as one long link name.
+- Same link repeated (image, title, "Read more").
+- Nested interactive elements inside a clickable card.
+- Visual order (image first) different from logical order.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-CRD-001|macOS|Keyboard operation without VoiceOver|High|WCAG 2.1.1, 2.4.3|
+|TEST-CRD-002|macOS|Heading and reading order|High|WCAG 1.3.1, 1.3.2|
+|TEST-CRD-003|macOS|Clickable card|High|WCAG 2.4.4, 4.1.2|
+|TEST-CRD-004|macOS|Card with several controls|High|WCAG 2.4.6|
+|TEST-CRD-005|macOS|Cards in a list|Medium|WCAG 1.3.1|
+|TEST-CRD-101|iOS|Reading order|High|WCAG 1.3.2|
+|TEST-CRD-102|iOS|Clickable card|High|WCAG 2.4.4|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-CRD-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-CRD-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+A grid of 3 article cards (image, title, date, summary), whole card clickable; a product card with "Add to cart" and "Favorite" buttons.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Grouping and independent controls are clear. Accessible information must agree with the visible purpose; exact speech may vary.
+Static.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-CRD-002 — Operation and state changes
+### TEST-CRD-001 — Keyboard operation without VoiceOver
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab through the article cards|One Tab stop per card, visible focus around the card or the title|Fail if several stops lead to the same destination without reason|
+|2|Tab through the product card|Each button reachable|Fail if a button is skipped|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-CRD-002 — Heading and reading order
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Command + H`|Each card title is a heading|Observation if not; Fail if the design presents them as headings|
+|2|`VO + Right Arrow` through a card|Logical order: title, then metadata and summary; a decorative image skipped|Fail if order is confusing (WCAG 1.3.2)|
 
-### TEST-CRD-003 — Edge states and focus
+### TEST-CRD-003 — Clickable card
 
-**macOS steps:** Visit each supported state (Static, clickable, mixed controls); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + U`, **Links**|One link per card, named by its title|Fail if the link name is the whole card text or if duplicates appear|
+|2|`VO + Space` on the link|Navigates|Fail if not|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+### TEST-CRD-004 — Card with several controls
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the buttons|Names include or follow the product name clearly, e.g. "Add Chair to cart"|Minor if generic but in a clear context; Fail if indistinguishable in the controls list|
+|2|"Favorite" toggle|State spoken|Fail if no state|
 
-## 4. Component-specific assertions
+### TEST-CRD-005 — Cards in a list
 
-- Purpose: Group related content/actions.
-- States to verify: Static, clickable, mixed controls.
-- Primary success condition: Grouping and independent controls are clear.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Enter the grid|List semantics with a count|Observation if missing|
 
-## 5. Applicable references
+## 4. VoiceOver tests on iOS
 
-WCAG 1.3.1, WCAG 2.4.4, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-CRD-101 — Reading order
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe through a card|Same logical order as macOS|Fail if confusing|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+### TEST-CRD-102 — Clickable card
 
-## 7. Checklist
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe to the card link; double tap|Short name; navigates|Fail if the name is the whole card text|
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+### Differences from macOS
 
-## 8. Related guidance
+iOS may group a whole clickable card into one item. Record it; the name must stay short and meaningful.
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Article card|Title|Link + heading|—|Title first|Return, double tap|New page|—|
+|Product card|—|Group with buttons|Favorite state|Title, info, actions|Buttons|Stays|New state|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Card link|"link, How we test, heading level 3"|
+|iOS|Favorite|"Favorite Chair, toggle button, not selected"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Headings and structure|WCAG 1.3.1 (A)|Normative|002, 005|
+|Meaningful sequence|WCAG 1.3.2 (A)|Normative|002, 101|
+|Link purpose|WCAG 2.4.4 (A)|Normative|003, 102|
+|Focus order|WCAG 2.4.3 (A)|Normative|001|
+|Descriptive labels|WCAG 2.4.6 (AA)|Normative|004|
+|Name, role, state|WCAG 4.1.2 (A)|Normative|003, 004|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|Very long link name|Tedious, unclear|Link wraps the whole card|Link on the title; extend the clickable area with CSS|
+|Three links to the same page|Noise|Image, title and "Read more" all linked|One link; hide duplicates from AT and focus|
+|Buttons inside a card link|Unpredictable activation|Nested interactive content|Separate the controls from the link|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Tab stops and focus|001|Not tested|Not applicable||
+|Heading and order|002, 101|Not tested|Not tested||
+|One short link per card|003, 102|Not tested|Not tested||
+|Controls named in context|004|Not tested|Not applicable||
+|List semantics|005|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Link](../actions/link.md) · [List](list.md) · [Image](image.md)

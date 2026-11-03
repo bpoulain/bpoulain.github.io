@@ -8,72 +8,177 @@ status: specification
 
 # Icon Button
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Trigger an action using an icon. Test these variants/states: Label variants, pressed, disabled.
+## 1. Component overview
+
+**Purpose:** a button showing only an icon. All [Button](button.md) tests apply; this specification adds what is specific to the missing visible text.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Icon only, with accessible name|Name describes the action, not the icon|002, 101|
+|With a tooltip|Tooltip is not the only name; name and tooltip agree|003, 102|
+|Toggle (pressed)|State, stable name|004, 103|
+|Disabled|State|005|
+|Same icon, different actions in a list (e.g. "Delete" per row)|Names distinguishable|006|
+
+### Main accessibility risks
+
+- No name: "button" only.
+- Name describing the icon ("trash") instead of the action ("Delete").
+- Name only in a tooltip, absent on iOS.
+- Icon announced as a separate image.
+- Repeated identical names in a list.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-ICB-001|macOS|Keyboard operation without VoiceOver|Critical|WCAG 2.1.1, 2.4.7|
+|TEST-ICB-002|macOS|Name and role|Critical|WCAG 1.1.1, 4.1.2|
+|TEST-ICB-003|macOS|Tooltip and name|High|WCAG 1.4.13, 4.1.2|
+|TEST-ICB-004|macOS|Toggle state|High|WCAG 4.1.2|
+|TEST-ICB-005|macOS|Disabled|Medium|WCAG 4.1.2|
+|TEST-ICB-006|macOS|Repeated actions in a list|High|WCAG 2.4.6, 4.1.2|
+|TEST-ICB-101|iOS|Name and role|Critical|WCAG 1.1.1, 4.1.2|
+|TEST-ICB-102|iOS|No tooltip dependency|Critical|WCAG 4.1.2|
+|TEST-ICB-103|iOS|Toggle state|High|WCAG 4.1.2|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-ICB-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-ICB-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+"Settings" (gear icon) with a tooltip; "Bold" toggle; a disabled "Share"; a list of three files each with a "Delete" icon button.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Icon-only control exposes action name; state and activation are understandable. Accessible information must agree with the visible purpose; exact speech may vary.
+Nothing pressed; tooltips hidden.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-ICB-002 — Operation and state changes
+Contract: [Keyboard Interactions §4.3–4.4](../../../04-interaction-quality/keyboard-interactions.md).
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+### TEST-ICB-001 — Keyboard operation without VoiceOver
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab to each icon button|Visible focus; tooltip appears on focus if it exists|Fail if focus is invisible|
+|2|Press Return and Space|Action runs once|Fail if not|
+|3|Press Escape with the tooltip shown|Tooltip hides; focus stays|Fail if it cannot be dismissed (WCAG 1.4.13)|
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+### TEST-ICB-002 — Name and role
 
-### TEST-ICB-003 — Edge states and focus
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Right Arrow` to "Settings"|Action name and role, e.g. "Settings, button"|Fail if only "button", an icon name ("gear") or a file name|
+|2|Check stops|One stop, icon not read separately|Fail on an extra "image" (A11Y-34)|
 
-**macOS steps:** Visit each supported state (Label variants, pressed, disabled); inspect announcements and browser keyboard focus before/after any transition.
+### TEST-ICB-003 — Tooltip and name
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Focus "Settings"; listen|Name, possibly followed by the tooltip as description; not twice the same text in a disturbing way|Minor if duplicated|
+|2|Compare tooltip text and name|Same words, or the name starts with the tooltip words|Fail if they differ (users of speech input say the tooltip words, WCAG 2.5.3)|
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+### TEST-ICB-004 — Toggle state
 
-## 4. Component-specific assertions
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Space` on "Bold"|Pressed state spoken; name unchanged|Fail if no state, or the name changes while a state is also exposed|
 
-- Purpose: Trigger an action using an icon.
-- States to verify: Label variants, pressed, disabled.
-- Primary success condition: Icon-only control exposes action name; state and activation are understandable.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+### TEST-ICB-005 — Disabled
 
-## 5. Applicable references
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to "Share", `VO + Space`|Disabled spoken; no action|Fail if it acts|
 
-WCAG 2.1.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-ICB-006 — Repeated actions in a list
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + U`, **Form Controls** list|The three delete buttons are distinguishable, e.g. "Delete report.pdf"|Minor if identical but the context is clear when navigating linearly; Fail if the target cannot be determined|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+## 4. VoiceOver tests on iOS
 
-## 7. Checklist
+### TEST-ICB-101 — Name and role
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe to each icon button|Action name and role|Fail if only "button"|
 
-## 8. Related guidance
+### TEST-ICB-102 — No tooltip dependency
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe to "Settings" without any hover|Full name spoken|Fail if the name needs the tooltip|
+
+### TEST-ICB-103 — Toggle state
+
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Double tap "Bold"|State spoken|Fail if not|
+
+### Differences from macOS
+
+|Point|macOS|iOS|
+|---|---|---|
+|Tooltip|Shown on focus and hover|Never shown to VoiceOver users|
+
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Icon button|Action|Button|—|Visual order|Return, Space, `VO + Space`, double tap|Stays|—|
+|Toggle|Stable action name|Toggle or button|Pressed|Same|Same|Stays|New state|
+|In a list|Action + object|Button|—|Row order|Same|Stays|—|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Icon button|"Settings, button"|
+|iOS|In a list|"Delete report.pdf, button"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Text alternative|WCAG 1.1.1 (A)|Normative|002, 101, 102|
+|Name, role, state|WCAG 4.1.2 (A); A11Y-30|Normative|002, 004, 005, 101, 103|
+|Tooltip dismissible|WCAG 1.4.13 (AA)|Normative|001|
+|Tooltip text in the name|WCAG 2.5.3 (A)|Normative|003|
+|Descriptive labels|WCAG 2.4.6 (AA)|Normative|006|
+|Decorative icon hidden|A11Y-34|Best practice|002|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|"button" only|Action unknown|No `aria-label`|Add a name describing the action|
+|Name only via tooltip|Unnamed on iOS|`title` or tooltip used as name|Explicit accessible name|
+|"Delete" ×3|Wrong file deleted|Same name|Include the object in the name|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard operation; tooltip dismissible|001|Not tested|Not applicable||
+|Action name and role; icon hidden|002, 101|Not tested|Not tested||
+|Name independent of tooltip and consistent with it|003, 102|Not tested|Not tested||
+|Toggle state|004, 103|Not tested|Not tested||
+|Disabled|005|Not tested|Not applicable||
+|Repeated actions distinguishable|006|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Button](button.md) · [Tooltip](../overlays/tooltip.md) · [Icon](../content/icon.md)

@@ -8,72 +8,152 @@ status: specification
 
 # Progress Indicator
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Show progress. Test these variants/states: Determinate, indeterminate, complete.
+## 1. Component overview
+
+**Purpose:** show how far a task has progressed (upload, installation). A loading state without measurable progress is tested with [Loading State](loading.md). Multi-step forms (steppers) show position in a process: their current step must also be exposed, see TEST-PRG-005.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Determinate|Name, role, value|002, 101|
+|Indeterminate|Busy without value|003|
+|Updating|Updates perceivable without flooding|004|
+|Complete or failed|Result announced|004, 102|
+|Step indicator|Current step and total|005|
+
+### Main accessibility risks
+
+- No name: "progress indicator" without saying what progresses.
+- Value only as a visual bar.
+- Every percentage change announced.
+- Completion silent.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-PRG-001|macOS|Name, role, value|Critical|WCAG 4.1.2|
+|TEST-PRG-002|macOS|Value text|High|WCAG 1.3.1|
+|TEST-PRG-003|macOS|Indeterminate|Medium|WCAG 4.1.2|
+|TEST-PRG-004|macOS|Updates and completion|High|WCAG 4.1.3|
+|TEST-PRG-005|macOS|Step indicator|Medium|WCAG 1.3.1|
+|TEST-PRG-101|iOS|Name, role, value|Critical|WCAG 4.1.2|
+|TEST-PRG-102|iOS|Completion|High|WCAG 4.1.3|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md).
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-PRG-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+"Uploading report.pdf" determinate bar that progresses over about 20 seconds then completes; an indeterminate variant; a 4-step indicator on step 2, if supported.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Progress label/value are meaningful and updates are manageable. Accessible information must agree with the visible purpose; exact speech may vary.
+Upload not started.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-PRG-002 — Operation and state changes
+### TEST-PRG-001 — Name, role, value
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Start the upload. `VO + Right Arrow` to the bar|Name, progress role and value, e.g. "Uploading report.pdf, 40%, progress indicator"|Fail if name or value is missing|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-PRG-002 — Value text
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Compare with visible text, e.g. "4 of 10 MB"|The spoken value matches, or a meaningful value text is exposed|Minor if only a percentage is spoken while the screen shows a more useful text|
 
-### TEST-PRG-003 — Edge states and focus
+### TEST-PRG-003 — Indeterminate
 
-**macOS steps:** Visit each supported state (Determinate, indeterminate, complete); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the indeterminate bar|Name and role, no fake value|Fail if a misleading value is spoken (e.g. "0%" forever)|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+### TEST-PRG-004 — Updates and completion
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Move the VoiceOver cursor elsewhere; wait|No announcement for every change; occasional milestones are acceptable|Minor if every change is announced (A11Y-32)|
+|2|Wait for completion|"Upload complete" announced, or the failure|Fail if completion is silent and the bar disappears (WCAG 4.1.3)|
 
-## 4. Component-specific assertions
+### TEST-PRG-005 — Step indicator
 
-- Purpose: Show progress.
-- States to verify: Determinate, indeterminate, complete.
-- Primary success condition: Progress label/value are meaningful and updates are manageable.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` through the steps|Each step name, completed/current state, position, e.g. "Step 2 of 4, Shipping, current"|Fail if the current step is visual only|
 
-## 5. Applicable references
+## 4. VoiceOver tests on iOS
 
-WCAG 1.3.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-PRG-101 — Name, role, value
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe to the bar during upload|Name, role, value|Fail if missing|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+### TEST-PRG-102 — Completion
 
-## 7. Checklist
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Wait on another element|Completion announced|Fail if silent|
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+### Differences from macOS
 
-## 8. Related guidance
+No specific difference; iOS may announce value changes of the focused bar automatically. Record it.
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State or value|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Determinate|Task|Progress bar|Value, value text|Near the task|None|Unchanged|Completion|
+|Indeterminate|Task|Progress bar|No value; busy|Same|None|Unchanged|Completion|
+|Step|Step name|List item or link|Current, completed|Step order|If links|—|—|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Determinate|"Uploading report.pdf, 40 percent, progress indicator"|
+|iOS|Complete|"Upload complete"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Name, role, value|WCAG 4.1.2 (A); A11Y-30|Normative|001, 003, 101|
+|Value and steps exposed|WCAG 1.3.1 (A)|Normative|002, 005|
+|Completion as status|WCAG 4.1.3 (AA); A11Y-31|Normative|004, 102|
+|No flood of updates|A11Y-32|Best practice|004|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|No name|Unknown task|Bar without label|`aria-label` or `aria-labelledby`|
+|Value missing|Progress unknown|Width-only bar|`role="progressbar"` with `aria-valuenow`, or native `progress`|
+|Completion silent|User waits|Bar removed|Announce completion|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Name, role, value|001, 101|Not tested|Not tested||
+|Value text matches screen|002|Not tested|Not applicable||
+|Indeterminate honest|003|Not tested|Not applicable||
+|Updates not flooding; completion announced|004, 102|Not tested|Not tested||
+|Step indicator|005|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Loading State](loading.md) · [Notification](notification.md)

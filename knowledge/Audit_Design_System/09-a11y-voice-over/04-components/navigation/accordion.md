@@ -8,72 +8,174 @@ status: specification
 
 # Accordion
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string. This specification also covers a single collapsible section.
 
-Expand or collapse content. Test these variants/states: Expanded, collapsed, nested.
+## 1. Component overview
+
+**Purpose:** show and hide sections of content under headed buttons.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Collapsed / expanded section|Expanded state; content follows the header|002, 003, 101, 102|
+|Single-open accordion (opening one closes the others)|Closed sections announced correctly|004|
+|Nested accordion|Levels understandable|005|
+|Optional arrow-key navigation|Works as documented|001|
+|Disabled section|State spoken|006|
+
+### Main accessibility risks
+
+- Header is a `div` with a click handler, not a button.
+- No expanded state.
+- Header button not inside a heading: the structure disappears from the headings rotor.
+- Collapsed content still read.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-ACC-001|macOS|Keyboard operation without VoiceOver|Critical|WCAG 2.1.1|
+|TEST-ACC-002|macOS|Header: heading, button, state|Critical|WCAG 4.1.2, 1.3.1|
+|TEST-ACC-003|macOS|Expanding and collapsing|Critical|WCAG 4.1.2|
+|TEST-ACC-004|macOS|Single-open behavior|Medium|WCAG 4.1.2|
+|TEST-ACC-005|macOS|Nested sections|Low|WCAG 1.3.1|
+|TEST-ACC-006|macOS|Disabled section|Low|WCAG 4.1.2|
+|TEST-ACC-101|iOS|Discovery through headings|High|WCAG 1.3.1|
+|TEST-ACC-102|iOS|Expanding and collapsing|Critical|WCAG 4.1.2|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-ACC-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-ACC-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+An accordion "FAQ" with 3 sections ("Shipping", "Returns", "Payment"), each with a paragraph and a link; a single-open variant if supported; a nested accordion if supported; a disabled section if supported.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Header control exposes expanded state; content follows logically. Accessible information must agree with the visible purpose; exact speech may vary.
+All sections collapsed.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-ACC-002 — Operation and state changes
+Contract: [Keyboard Interactions §12](../../../04-interaction-quality/keyboard-interactions.md).
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+### TEST-ACC-001 — Keyboard operation without VoiceOver
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab to "Shipping"|Visible focus|Fail if skipped or invisible|
+|2|Press Return, then Space|Each toggles the section|Fail if a key does nothing|
+|3|Expanded: press Tab|Focus enters the section's link|Fail if skipped|
+|4|Collapsed: press Tab|The link inside is skipped|Fail if hidden content takes focus|
+|5|If arrow navigation is documented: Down/Up, Home/End between headers|Works as documented|Fail if documented but broken|
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+### TEST-ACC-002 — Header: heading, button, state
 
-### TEST-ACC-003 — Edge states and focus
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Right Arrow` to "Shipping"|Heading level, button role and collapsed state, e.g. "heading level 3, Shipping, collapsed, button"|Fail if no button role or no state|
+|2|`VO + Command + H` from the top of the page|Each header is reached as a heading|Observation if headers are not headings; Fail if the visual design makes them headings (WCAG 1.3.1)|
 
-**macOS steps:** Visit each supported state (Expanded, collapsed, nested); inspect announcements and browser keyboard focus before/after any transition.
+### TEST-ACC-003 — Expanding and collapsing
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Space` on "Shipping"|Expanded spoken|Fail if not spoken|
+|2|`VO + Right Arrow`|The section content follows immediately|Fail if content is elsewhere|
+|3|Collapse; `VO + Right Arrow`|The next header, not the hidden content|Fail if hidden content is read (A11Y-33)|
+|4|Check focus after toggling|Stays on the header|Fail if it moves|
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+### TEST-ACC-004 — Single-open behavior
 
-## 4. Component-specific assertions
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Expand "Shipping", then "Returns"|"Shipping" collapses; re-reading it says collapsed|Fail if the state is stale|
 
-- Purpose: Expand or collapse content.
-- States to verify: Expanded, collapsed, nested.
-- Primary success condition: Header control exposes expanded state; content follows logically.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+### TEST-ACC-005 — Nested sections
 
-## 5. Applicable references
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Expand a parent then a child|Heading levels or structure distinguish the levels|Minor if levels are indistinguishable|
 
-WCAG 2.1.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-ACC-006 — Disabled section
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to it, `VO + Space`|Disabled spoken; no change|Fail if it toggles|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+## 4. VoiceOver tests on iOS
 
-## 7. Checklist
+### TEST-ACC-101 — Discovery through headings
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Rotor **Headings**, swipe down|Each header is reached|Observation, as in 002|
+|2|Swipe right on a header|Button role and state|Fail if missing|
 
-## 8. Related guidance
+### TEST-ACC-102 — Expanding and collapsing
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Double tap "Shipping"|Expanded spoken|Fail if not spoken|
+|2|Swipe right|Section content|Fail if elsewhere|
+|3|Collapse; swipe right|Next header|Fail if hidden content is read|
+
+### Differences from macOS
+
+|Point|macOS|iOS|
+|---|---|---|
+|Jump between headers|`VO + Command + H`, or optional arrows|Rotor **Headings**|
+
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Header|Section title|Button inside a heading|Expanded / collapsed|Header then content|Return, Space, `VO + Space`, double tap|Stays on the header|New state|
+|Content|—|Region (optional)|—|Right after its header|—|—|—|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Collapsed|"heading level 3, Shipping, collapsed, button"|
+|iOS|Expanded|"Shipping, button, expanded, heading level 3"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Name, role, expanded state|WCAG 4.1.2 (A); A11Y-30|Normative|002, 003, 004, 006, 101, 102|
+|Heading structure, content order|WCAG 1.3.1 (A), 1.3.2 (A)|Normative|002, 003, 005|
+|Keyboard operation|WCAG 2.1.1 (A)|Normative|001|
+|Hidden content not focusable or read|A11Y-33; Keyboard Interactions §12.3|Best practice|001, 003|
+|Button inside heading; optional arrows|[APG Accordion](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/)|Best practice|001, 002|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|No state|User cannot tell if content is shown|No `aria-expanded`|Add it to the button|
+|Header not a button|Not operable|`div` click handler|`button` inside a heading|
+|Hidden content read|Confusion|Hidden by height or opacity|`hidden`, or `display: none`|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard operation; hidden content skipped|001|Not tested|Not applicable||
+|Heading, button, state|002, 101|Not tested|Not tested||
+|Toggle updates state; content order|003, 102|Not tested|Not tested||
+|Single-open state accurate|004|Not tested|Not applicable||
+|Nested levels|005|Not tested|Not applicable||
+|Disabled section|006|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Keyboard Interactions §12](../../../04-interaction-quality/keyboard-interactions.md) · [Tabs](tabs.md) · [Navigation Menu](menu.md)

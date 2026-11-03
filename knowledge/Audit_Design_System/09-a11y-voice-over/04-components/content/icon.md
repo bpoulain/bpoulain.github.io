@@ -8,72 +8,122 @@ status: specification
 
 # Icon
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string. An icon is read, not operated; an icon used as a control is tested with [Icon Button](../actions/icon-button.md).
 
-Represent meaning or decoration. Test these variants/states: Decorative, meaningful, interactive.
+## 1. Component overview
+
+**Purpose:** a small symbol, decorative next to text, or meaningful on its own (status, warning).
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Decorative next to text|Hidden|001, 101|
+|Meaningful alone (status)|Named|002, 101|
+|Icon font or emoji|No stray characters read|003|
+
+### Main accessibility risks
+
+- Decorative icons announced ("image", glyph name, private-use characters).
+- Status icon without text: meaning lost.
+- Emoji read with their long names.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-ICN-001|macOS|Decorative icon hidden|High|A11Y-34|
+|TEST-ICN-002|macOS|Meaningful icon named|Critical|WCAG 1.1.1|
+|TEST-ICN-003|macOS|Icon fonts and emoji|Medium|WCAG 1.1.1|
+|TEST-ICN-101|iOS|Same checks by swiping|High|WCAG 1.1.1|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md).
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-ICN-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+A "Download" text with a decorative icon; a status column with a meaningful "Error" icon without text; an icon from an icon font, if supported; an emoji used decoratively.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Meaning is conveyed without duplicate noise. Accessible information must agree with the visible purpose; exact speech may vary.
+Static.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-ICN-002 — Operation and state changes
+### TEST-ICN-001 — Decorative icon hidden
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` across "Download"|Only "Download" is spoken|Minor if "image" or a glyph is spoken in addition|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-ICN-002 — Meaningful icon named
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the status icon|Its meaning, e.g. "Error"|Fail if silent or "image" only|
 
-### TEST-ICN-003 — Edge states and focus
+### TEST-ICN-003 — Icon fonts and emoji
 
-**macOS steps:** Visit each supported state (Decorative, meaningful, interactive); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Reach the icon-font icon|Hidden, or named|Fail if a strange character or nothing meaningful is read where meaning is needed|
+|2|Reach the decorative emoji|Hidden|Minor if read|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+## 4. VoiceOver tests on iOS
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+### TEST-ICN-101 — Same checks by swiping
 
-## 4. Component-specific assertions
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe across each case|Same results as macOS|Same criteria|
 
-- Purpose: Represent meaning or decoration.
-- States to verify: Decorative, meaningful, interactive.
-- Primary success condition: Meaning is conveyed without duplicate noise.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+### Differences from macOS
 
-## 5. Applicable references
+No specific difference.
 
-WCAG 1.1.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+## 5. Expected results
 
-## 6. Common failures and remediation
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Decorative|None|Hidden|—|Skipped|None|—|—|
+|Meaningful|Meaning|Image|—|Visual order|None|—|—|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Meaningful|"Error, image"|
 
-## 7. Checklist
+## 6. Conformance criteria
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Text alternative for meaningful icons|WCAG 1.1.1 (A)|Normative|002, 003, 101|
+|Not by color or shape alone|WCAG 1.4.1 (A)|Normative|002|
+|Decorative hidden|A11Y-34|Best practice|001, 003|
 
-## 8. Related guidance
+## 7. Common failures
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|"image" next to every label|Noise|SVG not hidden|`aria-hidden="true"`|
+|Status silent|Meaning lost|Icon without name|`role="img"` with `aria-label`, or visible text|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Decorative hidden|001, 101|Not tested|Not tested||
+|Meaningful named|002, 101|Not tested|Not tested||
+|Icon fonts and emoji|003|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Icon Button](../actions/icon-button.md) · [Image](image.md)

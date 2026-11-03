@@ -8,72 +8,166 @@ status: specification
 
 # Alert
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Communicate important information. Test these variants/states: Info, warning, error, dismissible.
+## 1. Component overview
+
+**Purpose:** a message block in the page (info, success, warning, error), static or inserted after an event. A temporary floating message is a [Notification](notification.md); a message requiring a decision is an alert dialog, tested with [Dialog](../overlays/dialog.md).
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Present at page load|Read in order; type perceivable|002, 101|
+|Inserted after an event|Announced once|003, 102|
+|Info, success, warning, error|Type conveyed in text, not only by color or icon|004|
+|Dismissible|Close button named; focus after closing|005, 103|
+
+### Main accessibility risks
+
+- Severity conveyed only by color or icon.
+- `role="alert"` on content present at load: announced unexpectedly, or not at all.
+- Inserted alert not announced.
+- Focus lost after dismissal.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-ALT-001|macOS|Keyboard operation without VoiceOver|Medium|WCAG 2.1.1|
+|TEST-ALT-002|macOS|Static alert in reading order|High|WCAG 1.3.2|
+|TEST-ALT-003|macOS|Inserted alert announced|Critical|WCAG 4.1.3|
+|TEST-ALT-004|macOS|Severity conveyed in text|High|WCAG 1.4.1, 1.1.1|
+|TEST-ALT-005|macOS|Dismissing|Medium|WCAG 4.1.2, 2.4.3|
+|TEST-ALT-101|iOS|Static alert|High|WCAG 1.3.2|
+|TEST-ALT-102|iOS|Inserted alert|Critical|WCAG 4.1.3|
+|TEST-ALT-103|iOS|Dismissing|Medium|WCAG 4.1.2|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-ALT-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-ALT-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+1. A static warning alert under the page heading.
+2. A button inserting an error alert "Connection lost".
+3. A dismissible info alert with a link.
+4. One alert of each type.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Message is available and not repeated excessively. Accessible information must agree with the visible purpose; exact speech may vary.
+Only static alerts visible.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-ALT-002 — Operation and state changes
+### TEST-ALT-001 — Keyboard operation without VoiceOver
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab through an alert with a link and a close button|Both receive visible focus|Fail if skipped|
+|2|Press Return on the close button|Alert closed; focus to a logical element|Fail if focus is lost|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-ALT-002 — Static alert in reading order
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. Reload; `VO + Right Arrow` from the page heading|The alert is read in its visual position|Fail if read elsewhere or skipped|
+|2|Listen at page load|A static alert should not interrupt the page load announcement|Minor if announced as an alert on load without reason|
 
-### TEST-ALT-003 — Edge states and focus
+### TEST-ALT-003 — Inserted alert announced
 
-**macOS steps:** Visit each supported state (Info, warning, error, dismissible); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Space` on the trigger|"Connection lost" is spoken promptly, once|Fail if silent (WCAG 4.1.3)|
+|2|Check focus|Unchanged|Fail if moved without reason|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+### TEST-ALT-004 — Severity conveyed in text
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Read each alert|The type is in the text or the icon's name, e.g. "Warning: …"|Fail if only color or an unnamed icon conveys it|
 
-## 4. Component-specific assertions
+### TEST-ALT-005 — Dismissing
 
-- Purpose: Communicate important information.
-- States to verify: Info, warning, error, dismissible.
-- Primary success condition: Message is available and not repeated excessively.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the close button|Named, e.g. "Dismiss, button"|Fail if only "button"|
+|2|`VO + Space`|Closed; VoiceOver speaks the new focused element|Fail if focus is lost|
 
-## 5. Applicable references
+## 4. VoiceOver tests on iOS
 
-WCAG 1.3.1, WCAG 4.1.3. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-ALT-101 — Static alert
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe from the heading|The alert is read in order, with its type|Fail if skipped or type missing|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+### TEST-ALT-102 — Inserted alert
 
-## 7. Checklist
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Double tap the trigger|Message spoken; VoiceOver focus unchanged|Fail if silent|
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+### TEST-ALT-103 — Dismissing
 
-## 8. Related guidance
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe to the close button, double tap|Named; closed; focus not at the top of the page|Fail if unnamed or lost|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+### Differences from macOS
+
+No specific difference beyond activation and navigation gestures.
+
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Static|—|None or note|—|Visual position|Links, close|—|—|
+|Inserted error|—|Alert|—|Insertion point|—|Unchanged|Message, once|
+|Close button|"Dismiss"|Button|—|Inside the alert|Return, Space, double tap|Logical element|—|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Inserted|"Error: Connection lost"|
+|iOS|Close|"Dismiss, button"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Inserted message announced|WCAG 4.1.3 (AA); A11Y-31|Normative|003, 102|
+|Reading order|WCAG 1.3.2 (A)|Normative|002, 101|
+|Not by color alone; icon alternative|WCAG 1.4.1 (A), 1.1.1 (A)|Normative|004|
+|Close button named|WCAG 4.1.2 (A)|Normative|005, 103|
+|Focus after dismissal|WCAG 2.4.3 (A)|Normative|001, 005|
+|`role="alert"` only for inserted urgent messages|[APG Alert](https://www.w3.org/WAI/ARIA/apg/patterns/alert/)|Best practice|002, 003|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|Inserted alert silent|Critical information missed|Region inserted with content|Pre-render the region or use `role="alert"` on insertion|
+|Type only in color|Severity missed|Color or icon only|Add a text prefix or icon label|
+|Focus lost on close|Disorientation|Element removed with focus|Move focus before removal|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard reach of alert controls|001|Not tested|Not applicable||
+|Static alert in order|002, 101|Not tested|Not tested||
+|Inserted alert announced|003, 102|Not tested|Not tested||
+|Severity in text|004|Not tested|Not tested||
+|Dismiss named, focus logical|005, 103|Not tested|Not tested||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Notification](notification.md) · [Error Message](error-message.md) · [Dialog](../overlays/dialog.md)

@@ -8,72 +8,169 @@ status: specification
 
 # Switch
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Toggle a binary setting. Test these variants/states: On, off, disabled.
+## 1. Component overview
+
+**Purpose:** turn a setting on or off with immediate effect. A choice submitted later with a form is better served by a [Checkbox](checkbox.md).
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Off / on|Role and state; state updated|002, 003, 101, 102|
+|With a description|Description tied to the switch|004|
+|Disabled|State; no change|005, 103|
+|With asynchronous effect|Result perceivable; state reverts with an error if it fails|006|
+
+### Main accessibility risks
+
+- Custom switch without role or state.
+- State conveyed by color or thumb position only.
+- Visible "On/Off" text changing the name instead of the state.
+- Asynchronous failure silent.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-SWT-001|macOS|Keyboard operation without VoiceOver|Critical|WCAG 2.1.1, 2.4.7|
+|TEST-SWT-002|macOS|Name, role, state|Critical|WCAG 4.1.2|
+|TEST-SWT-003|macOS|Toggling|Critical|WCAG 4.1.2|
+|TEST-SWT-004|macOS|Description|Medium|WCAG 1.3.1|
+|TEST-SWT-005|macOS|Disabled|Medium|WCAG 4.1.2|
+|TEST-SWT-006|macOS|Asynchronous effect|High|WCAG 4.1.3|
+|TEST-SWT-101|iOS|Discovery|Critical|WCAG 4.1.2|
+|TEST-SWT-102|iOS|Toggling|Critical|WCAG 4.1.2|
+|TEST-SWT-103|iOS|Disabled|Medium|WCAG 4.1.2|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-SWT-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-SWT-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+"Wi-Fi" (off), "Notifications" (on, with description "Get an email for each comment"), a disabled switch, and a switch whose change is saved to a server and can be made to fail.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** On/off state and name are conveyed. Accessible information must agree with the visible purpose; exact speech may vary.
+As listed.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-SWT-002 — Operation and state changes
+Contract: [Keyboard Interactions §5.4](../../../04-interaction-quality/keyboard-interactions.md).
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+### TEST-SWT-001 — Keyboard operation without VoiceOver
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab to "Wi-Fi"|Visible focus|Fail if skipped or invisible|
+|2|Press Space|Toggles|Fail if not|
+|3|Press Return|Toggles or does nothing, as documented|Observation|
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+### TEST-SWT-002 — Name, role, state
 
-### TEST-SWT-003 — Edge states and focus
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Right Arrow` to "Wi-Fi"|Name, switch role, off state, e.g. "Wi-Fi, off, switch"|Fail if no state; Minor if spoken as a checkbox with a correct state|
 
-**macOS steps:** Visit each supported state (On, off, disabled); inspect announcements and browser keyboard focus before/after any transition.
+### TEST-SWT-003 — Toggling
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Space`|On; new state spoken; name unchanged|Fail if the spoken state differs from the screen, or the name changes ("Wi-Fi on")|
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+### TEST-SWT-004 — Description
 
-## 4. Component-specific assertions
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to "Notifications"|Description spoken with the switch, possibly after a pause|Minor if only reachable as separate text next to it|
 
-- Purpose: Toggle a binary setting.
-- States to verify: On, off, disabled.
-- Primary success condition: On/off state and name are conveyed.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+### TEST-SWT-005 — Disabled
 
-## 5. Applicable references
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow`, `VO + Space`|Disabled spoken; no change|Fail if it toggles|
 
-WCAG 2.1.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-SWT-006 — Asynchronous effect
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Toggle the server switch with the failure enabled|The error is announced; the switch returns to its real state; re-reading speaks the real state|Fail if the switch shows a state that was not saved, or the failure is silent|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+## 4. VoiceOver tests on iOS
 
-## 7. Checklist
+### TEST-SWT-101 — Discovery
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe to "Wi-Fi"|Name, switch role, state, e.g. "Wi-Fi, switch button, off"|Fail if no state|
 
-## 8. Related guidance
+### TEST-SWT-102 — Toggling
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Double tap|State toggles and is spoken|Fail if not spoken|
+
+### TEST-SWT-103 — Disabled
+
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe, double tap|Disabled; no change|Fail if it toggles|
+
+### Differences from macOS
+
+No specific difference beyond activation and navigation gestures.
+
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Switch|Stable label|Switch|On / off|Visual order|Space, `VO + Space`, double tap|Stays|New state|
+|Failure|Label|Switch|Real state|—|—|Stays|Error|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Off|"Wi-Fi, off, switch"|
+|iOS|On|"Wi-Fi, switch button, on"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Name, role, state|WCAG 4.1.2 (A); A11Y-30|Normative|002, 003, 005, 101–103|
+|Keyboard, visible focus|WCAG 2.1.1 (A), 2.4.7 (AA)|Normative|001|
+|Description associated|WCAG 1.3.1 (A)|Normative|004|
+|Failure announced|WCAG 4.1.3 (AA); A11Y-31|Normative|006|
+|`role="switch"` with `aria-checked`|[APG Switch](https://www.w3.org/WAI/ARIA/apg/patterns/switch/)|Best practice|002|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|No state spoken|Setting unknown|Custom `div`|`role="switch"` + `aria-checked`, or a native checkbox|
+|Name changes with state|Confusing|"On/Off" text inside the label|Keep the name stable; show state separately and hide it from AT|
+|Failure silent|Wrong belief that the setting is saved|Optimistic update|Revert and announce|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard operation|001|Not tested|Not applicable||
+|Name, role, state|002, 101|Not tested|Not tested||
+|Toggle updates state; stable name|003, 102|Not tested|Not tested||
+|Description|004|Not tested|Not applicable||
+|Disabled|005, 103|Not tested|Not tested||
+|Asynchronous failure|006|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Checkbox](checkbox.md) · [Keyboard Interactions §5.4](../../../04-interaction-quality/keyboard-interactions.md)

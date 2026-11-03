@@ -8,72 +8,149 @@ status: specification
 
 # Pagination
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Move between result pages. Test these variants/states: First, middle, last, disabled controls.
+## 1. Component overview
+
+**Purpose:** move between pages of a list of results.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|First, middle, last page|Current page; previous/next availability|002, 003, 101|
+|Links (new URL) or buttons (same page update)|Role and focus after change|004, 102|
+|Truncated with ellipsis|Ellipsis not announced as a control|002|
+|Compact "Page 3 of 10"|Position spoken|002|
+
+### Main accessibility risks
+
+- Page numbers spoken as "3, link" without saying it is a page.
+- Current page not exposed.
+- Disabled previous/next still spoken as active.
+- Content updated in place with focus left on the pagination and no announcement.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-PAG-001|macOS|Keyboard operation without VoiceOver|High|WCAG 2.1.1|
+|TEST-PAG-002|macOS|Landmark, names, current page|Critical|WCAG 2.4.4, 1.3.1|
+|TEST-PAG-003|macOS|Previous/next at the edges|High|WCAG 4.1.2|
+|TEST-PAG-004|macOS|Changing page: focus and feedback|Critical|WCAG 2.4.3, 4.1.3|
+|TEST-PAG-101|iOS|Discovery|Critical|WCAG 2.4.4|
+|TEST-PAG-102|iOS|Changing page|Critical|WCAG 2.4.3|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-PAG-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-PAG-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+A list of results with 10 pages, a pagination in a `nav` labelled "Pagination", with previous, next, numbers and an ellipsis; start on page 1.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Current page and page controls have clear names. Accessible information must agree with the visible purpose; exact speech may vary.
+Page 1.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-PAG-002 — Operation and state changes
+### TEST-PAG-001 — Keyboard operation without VoiceOver
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab through the pagination|Each control receives visible focus; the ellipsis does not|Fail if the ellipsis is focusable or a control is skipped|
+|2|Press Return on "Next"|Page 2 loads|Fail if nothing happens|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-PAG-002 — Landmark, names, current page
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Right Arrow` into the pagination|"Pagination, navigation" or similar|Observation if no landmark|
+|2|Continue|Numbers spoken as pages, e.g. "Page 2, link"; current page with a current state|Fail if the current page is not exposed (WCAG 1.3.1)|
+|3|Reach "Previous" and "Next"|Named|Fail if arrows only, e.g. "‹, link" (WCAG 2.4.4)|
 
-### TEST-PAG-003 — Edge states and focus
+### TEST-PAG-003 — Previous/next at the edges
 
-**macOS steps:** Visit each supported state (First, middle, last, disabled controls); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|On page 1, reach "Previous"|Absent, or spoken as disabled|Fail if spoken as active and does nothing|
+|2|On page 10, reach "Next"|Same|Same|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+### TEST-PAG-004 — Changing page: focus and feedback
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Space` on "Page 3"|New URL: page loads and is read from the top or a skip target. Same page: focus moves to the results heading, or the change is announced|Fail if content changes silently and focus stays on the pagination with no indication|
+|2|Re-read the pagination|"Page 3" now current|Fail if stale|
 
-## 4. Component-specific assertions
+## 4. VoiceOver tests on iOS
 
-- Purpose: Move between result pages.
-- States to verify: First, middle, last, disabled controls.
-- Primary success condition: Current page and page controls have clear names.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+### TEST-PAG-101 — Discovery
 
-## 5. Applicable references
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe through the pagination|Pages named, current page exposed, edges disabled or absent|Fail on any of the macOS failures|
 
-WCAG 2.4.4, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-PAG-102 — Changing page
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Double tap "Next"|New content perceivable; VoiceOver focus on the results or the change announced|Fail if silent|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+### Differences from macOS
 
-## 7. Checklist
+No specific difference beyond activation and navigation gestures.
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+## 5. Expected results
 
-## 8. Related guidance
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Container|"Pagination"|Navigation|—|After results|—|—|—|
+|Number|"Page n"|Link or button|Current, if applicable|Numeric order|Return, `VO + Space`, double tap|Results or new page|Change|
+|Previous / next|"Previous page", "Next page"|Link or button|Disabled at edges|Ends|Same|Same|Same|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Current|"current page, link, Page 1"|
+|iOS|Next|"Next page, link"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Link purpose|WCAG 2.4.4 (A)|Normative|002, 101|
+|Current page exposed|WCAG 1.3.1 (A)|Normative|002, 004|
+|Disabled state|WCAG 4.1.2 (A)|Normative|003|
+|Focus after change|WCAG 2.4.3 (A)|Normative|004, 102|
+|Change announced when focus stays|WCAG 4.1.3 (AA)|Normative|004, 102|
+|Keyboard operation|WCAG 2.1.1 (A)|Normative|001|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|"3, link"|Purpose unclear out of context|Number only|Hidden text "Page"|
+|Current page silent|Position unknown|Styling only|`aria-current="page"`|
+|Silent in-place update|User thinks nothing happened|Focus left on pagination|Move focus to the results heading|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard reach; ellipsis not focusable|001|Not tested|Not applicable||
+|Names and current page|002, 101|Not tested|Not tested||
+|Edges disabled or absent|003, 101|Not tested|Not tested||
+|Focus and feedback after change|004, 102|Not tested|Not tested||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Link](../actions/link.md) · [Navigation Menu](menu.md) · [Data Table](../content/table.md)

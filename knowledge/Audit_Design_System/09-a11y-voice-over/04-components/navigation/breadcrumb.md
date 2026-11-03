@@ -8,72 +8,132 @@ status: specification
 
 # Breadcrumb
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Show hierarchical location. Test these variants/states: Current page, long trail.
+## 1. Component overview
+
+**Purpose:** show where the current page sits in the hierarchy, with links to its ancestors.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Short trail|Landmark, list, links, current page|002, 101|
+|Long trail collapsed with an ellipsis button|Button named; expansion; focus|003|
+|Current page as text or link|Current state; not a needless link|002|
+
+### Main accessibility risks
+
+- Separators ("/", "›") read as content.
+- Current page not identified.
+- No landmark name, so it is confused with the main navigation.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-BRC-001|macOS|Keyboard operation without VoiceOver|Medium|WCAG 2.1.1|
+|TEST-BRC-002|macOS|Structure, separators, current page|High|WCAG 1.3.1, 2.4.8|
+|TEST-BRC-003|macOS|Collapsed trail|Medium|WCAG 4.1.2|
+|TEST-BRC-101|iOS|Structure and current page|High|WCAG 1.3.1|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-BRC-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-BRC-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+A breadcrumb "Home › Products › Chairs › Office chair" in a `nav` labelled "Breadcrumb"; a long variant collapsed with an ellipsis button, if supported.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Hierarchy and current location are understandable. Accessible information must agree with the visible purpose; exact speech may vary.
+Collapsed variant collapsed.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-BRC-002 — Operation and state changes
+Contract: [Keyboard Interactions §13.2](../../../04-interaction-quality/keyboard-interactions.md).
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+### TEST-BRC-001 — Keyboard operation without VoiceOver
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab through|Each ancestor link focusable; separators not; current page not focusable unless it is a link|Fail if separators take focus|
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+### TEST-BRC-002 — Structure, separators, current page
 
-### TEST-BRC-003 — Edge states and focus
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Right Arrow` into it|"Breadcrumb, navigation", a list with a count|Observation if no landmark name|
+|2|Continue|Links in order; separators silent|Minor if separators are read ("slash", "greater than")|
+|3|Reach "Office chair"|Current state spoken, e.g. "current page"|Fail if the current page is not identifiable|
 
-**macOS steps:** Visit each supported state (Current page, long trail); inspect announcements and browser keyboard focus before/after any transition.
+### TEST-BRC-003 — Collapsed trail
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` to the ellipsis|Named, e.g. "Show full path, button", with state|Fail if "…" or "button" only|
+|2|`VO + Space`|Hidden links appear and follow in order; focus stays or moves to the first new link|Fail if focus lost|
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+## 4. VoiceOver tests on iOS
 
-## 4. Component-specific assertions
+### TEST-BRC-101 — Structure and current page
 
-- Purpose: Show hierarchical location.
-- States to verify: Current page, long trail.
-- Primary success condition: Hierarchy and current location are understandable.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Rotor **Landmarks** to the breadcrumb; swipe through|Links, no separators, current page identified|Same criteria as 002|
 
-## 5. Applicable references
+### Differences from macOS
 
-WCAG 1.3.1, WCAG 2.4.4. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+No specific difference beyond activation and navigation gestures.
 
-## 6. Common failures and remediation
+## 5. Expected results
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Container|"Breadcrumb"|Navigation, ordered list|—|Before main content|—|—|—|
+|Ancestor|Page name|Link|—|Hierarchy order|Return, double tap|New page|—|
+|Current|Page name|Text or link|Current|Last|—|—|—|
 
-## 7. Checklist
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Container|"Breadcrumb, navigation"|
+|iOS|Current|"Office chair, current page"|
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+## 6. Conformance criteria
 
-## 8. Related guidance
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Structure and current page|WCAG 1.3.1 (A)|Normative|002, 101|
+|Ellipsis button named and stateful|WCAG 4.1.2 (A)|Normative|003|
+|Keyboard operation|WCAG 2.1.1 (A)|Normative|001|
+|Location within a set of pages|WCAG 2.4.8 (AAA)|Best practice at A/AA|002|
+|Breadcrumb pattern|[APG Breadcrumb](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/)|Best practice|002|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|"greater than" between items|Noise|Text separators|CSS or hidden decorative separators|
+|Current page unknown|Disorientation|No `aria-current`|`aria-current="page"`|
+|Two unnamed navigations|Landmarks indistinguishable|No label|`aria-label="Breadcrumb"`|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Separators not focusable|001|Not tested|Not applicable||
+|Landmark, list, silent separators|002, 101|Not tested|Not tested||
+|Current page identified|002, 101|Not tested|Not tested||
+|Collapsed trail|003|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Link](../actions/link.md) · [Navigation Menu](menu.md)

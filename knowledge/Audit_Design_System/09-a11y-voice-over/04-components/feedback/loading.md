@@ -8,72 +8,164 @@ status: specification
 
 # Loading State
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Indicate pending work. Test these variants/states: Loading, completed, failed.
+## 1. Component overview
+
+**Purpose:** show that content is loading: spinner, skeleton placeholders, a region updating. A button in loading state is tested in [Button](../actions/button.md) TEST-BTN-008.
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Spinner with a label|Status perceivable|002, 101|
+|Skeleton placeholders|Not read as content|003, 102|
+|Region loading (busy)|Content not read half-loaded; completion perceivable|004|
+|Completed|New content perceivable; focus kept|004, 103|
+|Failed|Error announced; retry reachable|005|
+
+### Main accessibility risks
+
+- Silent loading: the user thinks nothing happens.
+- Skeleton shapes read as empty items, or the spinner read as an image.
+- Focus lost when the content replaces the loader.
+- Failure shown only visually.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-LOD-001|macOS|Keyboard and focus during loading|High|WCAG 2.4.3|
+|TEST-LOD-002|macOS|Loading status|High|WCAG 4.1.3|
+|TEST-LOD-003|macOS|Skeletons hidden|Medium|A11Y-33|
+|TEST-LOD-004|macOS|Completion|High|WCAG 4.1.3, 2.4.3|
+|TEST-LOD-005|macOS|Failure|High|WCAG 4.1.3|
+|TEST-LOD-101|iOS|Loading status|High|WCAG 4.1.3|
+|TEST-LOD-102|iOS|Skeletons hidden|Medium|A11Y-33|
+|TEST-LOD-103|iOS|Completion and focus|High|WCAG 2.4.3|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-LOD-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level.
 
-### TEST-LOD-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+A "Load orders" button filling a list after about 3 seconds, with skeleton rows while loading; a variant that fails with a "Retry" button.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Busy status and completion are discoverable. Accessible information must agree with the visible purpose; exact speech may vary.
+List empty.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-LOD-002 — Operation and state changes
+### TEST-LOD-001 — Keyboard and focus during loading
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Press Return on "Load orders"|Focus stays on the button or a documented element|Fail if focus is lost to the page body|
+|2|Press Tab during loading|Skeletons are not focusable|Fail if they take focus|
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+### TEST-LOD-002 — Loading status
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Space` on "Load orders"; listen|"Loading orders" or similar is spoken, or reachable as the next item|Fail if nothing is perceivable|
+|2|`VO + Right Arrow` to the spinner|Spoken with a name, not as an unlabeled image|Fail if "image" alone|
 
-### TEST-LOD-003 — Edge states and focus
+### TEST-LOD-003 — Skeletons hidden
 
-**macOS steps:** Visit each supported state (Loading, completed, failed); inspect announcements and browser keyboard focus before/after any transition.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Right Arrow` through the loading list|Skeletons not read, or the region is read as busy|Fail if empty items or "group" stops are read for each skeleton|
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+### TEST-LOD-004 — Completion
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Wait without moving|Completion announced, e.g. "12 orders loaded"|Fail if silent|
+|2|`VO + Right Arrow`|The loaded content follows, in order|Fail if the cursor was reset to the top|
 
-## 4. Component-specific assertions
+### TEST-LOD-005 — Failure
 
-- Purpose: Indicate pending work.
-- States to verify: Loading, completed, failed.
-- Primary success condition: Busy status and completion are discoverable.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Trigger the failing variant|Error announced|Fail if silent|
+|2|Reach "Retry"|Named button next to the message|Fail if unreachable|
 
-## 5. Applicable references
+## 4. VoiceOver tests on iOS
 
-WCAG 4.1.2, WCAG 4.1.3. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-LOD-101 — Loading status
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Double tap "Load orders"|Loading spoken or reachable|Fail if not|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+### TEST-LOD-102 — Skeletons hidden
 
-## 7. Checklist
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Touch the skeleton area during loading|Nothing read, or a single busy status|Fail if each skeleton is a stop|
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+### TEST-LOD-103 — Completion and focus
 
-## 8. Related guidance
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Wait for completion; swipe right|Completion announced; loaded content follows; VoiceOver focus did not jump|Fail if focus jumped to the top|
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+### Differences from macOS
+
+No specific difference beyond navigation gestures.
+
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Loading|"Loading orders"|Status|Busy|Where content will appear|None|Unchanged|Loading|
+|Skeleton|—|Hidden|—|—|None|Not focusable|—|
+|Completed|Content|Content roles|—|Same place|Normal|Unchanged|Completion|
+|Failed|Message|Alert|—|Same place|Retry|Unchanged|Error|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Loading|"Loading orders"|
+|iOS|Completed|"12 orders loaded"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Status messages|WCAG 4.1.3 (AA); A11Y-31|Normative|002, 004, 005, 101, 103|
+|Focus order preserved|WCAG 2.4.3 (A)|Normative|001, 004, 103|
+|Spinner name if exposed|WCAG 1.1.1 (A)|Normative|002|
+|Placeholders hidden from AT|A11Y-33|Best practice|003, 102|
+|No repeated announcements|A11Y-32|Best practice|002|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|Silent loading|User repeats the action|No status|Polite status message|
+|Skeletons read|Noise|Visible placeholders exposed|`aria-hidden="true"` on skeletons; `aria-busy` on the region|
+|Focus reset|Context lost|Container replaced|Update content inside a stable container|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Focus kept; skeletons not focusable|001|Not tested|Not applicable||
+|Loading perceivable|002, 101|Not tested|Not tested||
+|Skeletons hidden|003, 102|Not tested|Not tested||
+|Completion announced, focus kept|004, 103|Not tested|Not tested||
+|Failure announced, retry reachable|005|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Progress Indicator](progress.md) · [Button](../actions/button.md) · [Notification](notification.md)

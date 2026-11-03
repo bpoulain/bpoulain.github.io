@@ -8,72 +8,189 @@ status: specification
 
 # Tabs
 
-## 1. Purpose and scope
+Follows the structure of the reference specifications [Button](../actions/button.md) and [Dialog](../overlays/dialog.md). Every step separates the **tester action**, the **expected behavior** and the **validation criterion**. Spoken examples are illustrative: wording varies with OS version, language, verbosity and markup. Assert the information conveyed, never the exact string.
 
-Switch among panels. Test these variants/states: Selected, unselected, disabled.
+## 1. Component overview
+
+**Purpose:** switch between panels of related content in the same place. Links that load other pages, even styled as tabs, are a navigation and are tested with [Navigation Menu](menu.md).
+
+### Variants and states
+
+|Variant or state|What to verify|Test IDs|
+|---|---|---|
+|Horizontal, automatic activation|Arrows select and show the panel|001, 003, 004|
+|Horizontal, manual activation|Arrows move focus; Return or Space selects|001, 004|
+|Vertical|Up/Down arrows|001|
+|Disabled tab|Skipped or spoken as disabled|006|
+|Panel with or without focusable content|Tab reaches the panel|005|
+
+### Main accessibility risks
+
+- Tabs built as buttons or links with no tab role or selected state.
+- Every tab is a Tab stop; arrows do nothing.
+- Panel not tied to its tab; the user does not know the panel changed.
+- Focused and selected tabs confused in manual mode.
+
+### Test index
+
+|Test ID|Platform|Scenario|Priority|Reference|
+|---|---|---|---|---|
+|TEST-TAB-001|macOS|Keyboard contract without VoiceOver|Critical|WCAG 2.1.1|
+|TEST-TAB-002|macOS|Tab list, name, role, selected state, position|Critical|WCAG 4.1.2, 1.3.1|
+|TEST-TAB-003|macOS|Selecting a tab|Critical|WCAG 4.1.2|
+|TEST-TAB-004|macOS|Activation mode|High|Keyboard Interactions §6.3|
+|TEST-TAB-005|macOS|Reaching and reading the panel|Critical|WCAG 1.3.1, 2.4.3|
+|TEST-TAB-006|macOS|Disabled tab|Medium|WCAG 4.1.2|
+|TEST-TAB-101|iOS|Discovery|Critical|WCAG 4.1.2|
+|TEST-TAB-102|iOS|Selecting by double tap|Critical|WCAG 4.1.2|
+|TEST-TAB-103|iOS|Reaching the panel|Critical|WCAG 1.3.2|
 
 ## 2. Prerequisites
 
-- Use a stable demo page containing a labeled example and all supported states.
-- Record component version, browser, OS, and VoiceOver configuration.
-- Follow [macOS setup](../../02-voiceover/macos/setup.md) and [iOS setup](../../02-voiceover/ios/setup.md).
-- Verify keyboard-only interaction separately from VoiceOver navigation.
+### Configuration
 
-## 3. Test cases
+- macOS: follow [macOS setup](../../02-voiceover/macos/setup.md). For TEST-TAB-001, enable **System Settings › Keyboard › Keyboard navigation** and Safari **Settings › Advanced › Press Tab to highlight each item on a webpage**, or use Option-Tab and record it.
+- iOS: follow [iOS setup](../../02-voiceover/ios/setup.md).
+- Record OS build, Safari version, VoiceOver language and verbosity level, and the activation mode.
 
-### TEST-TAB-001 — Discovery, name and role
+### Test page
 
-**macOS steps:** 1. Enable VoiceOver. 2. Move through the page using `VO + Right Arrow` until reaching the component. 3. Listen for its name, role, and surrounding context. 4. Navigate backward to confirm order.
+1. A tab list labelled "Account settings" with "Profile", "Security", "Billing" (disabled, if supported), "Notifications".
+2. "Profile" panel: text with a link. "Security" panel: text only.
+3. A focusable element after the tabs.
 
-**iOS steps:** 1. Enable VoiceOver. 2. Swipe right until reaching the component. 3. Listen for its name, role, and context. 4. Swipe left to confirm order; explore by touch.
+### Initial state
 
-**Expected:** Selected tab and associated panel are clear. Accessible information must agree with the visible purpose; exact speech may vary.
+"Profile" selected.
 
-**Result fields:** macOS [Not tested]; iOS [Not tested]. Record observed announcements.
+## 3. VoiceOver tests on macOS
 
-### TEST-TAB-002 — Operation and state changes
+Contract: [Keyboard Interactions §6](../../../04-interaction-quality/keyboard-interactions.md).
 
-**macOS steps:** 1. Focus the component. 2. Activate it with `VO + Space` where applicable, or use the pattern's documented keyboard interaction. 3. Observe the result and new state. 4. Test reverse/close/reset action if available.
+### TEST-TAB-001 — Keyboard contract without VoiceOver
 
-**iOS steps:** 1. Focus via swipe or touch exploration. 2. Double tap to activate where applicable. 3. Inspect updated state by swiping or re-focusing. 4. Reverse/close/reset if available.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver off. Tab to the tab list|Focus on the selected tab, visible|Fail if focus lands on another tab or is invisible|
+|2|Press Right Arrow, then Left Arrow (Down/Up if vertical)|Focus moves to the next/previous tab, wrapping at the ends unless documented otherwise|Fail if arrows do nothing|
+|3|Press Home, then End|First and last tab|Fail if unsupported without documentation|
+|4|Press Tab|Focus moves into the panel (its first focusable element, or the panel itself)|Fail if Tab goes through every tab|
 
-**Expected:** The intended operation is available, the state is correctly exposed, and the user can continue without losing context. Noninteractive content is evaluated for navigation and semantics rather than activation.
+### TEST-TAB-002 — Tab list, name, role, selected state, position
 
-### TEST-TAB-003 — Edge states and focus
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|VoiceOver on. `VO + Right Arrow` to the tab list|The list name may be spoken, e.g. "Account settings, tab group"|Observation if no name|
+|2|`VO + Right Arrow` to "Profile"|Name, role, selected state and position, e.g. "Profile, selected, tab, 1 of 4"|Fail if role or selected state is missing|
+|3|`VO + Right Arrow` to "Security"|Not selected|Fail if spoken as selected|
 
-**macOS steps:** Visit each supported state (Selected, unselected, disabled); inspect announcements and browser keyboard focus before/after any transition.
+### TEST-TAB-003 — Selecting a tab
 
-**iOS steps:** Visit the same states; verify VoiceOver focus and next/previous swipe order after updates.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|`VO + Space` on "Security"|"Security" selected; its panel shown; state spoken|Fail if the panel changes but the selected state does not, or the reverse|
+|2|Re-read "Profile"|Not selected|Fail if stale|
 
-**Expected:** No unreachable content, misleading state, unexpected focus trap, or silent critical change. For dynamic status messages, check whether an announcement is appropriate without moving focus.
+### TEST-TAB-004 — Activation mode
 
-## 4. Component-specific assertions
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|With keyboard focus on a tab, press Right Arrow|Automatic mode: the panel changes. Manual mode: only focus moves, the selected state stays on the previous tab|Fail if the behavior differs from the documented mode|
+|2|Manual mode: press Return or Space|The focused tab becomes selected|Fail if nothing happens|
+|3|Manual mode: listen while moving|Focused tab spoken as not selected until activated|Fail if spoken as selected before activation|
 
-- Purpose: Switch among panels.
-- States to verify: Selected, unselected, disabled.
-- Primary success condition: Selected tab and associated panel are clear.
-- If a state is unsupported, mark it **Not applicable** with a reason.
+### TEST-TAB-005 — Reaching and reading the panel
 
-## 5. Applicable references
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|From the selected tab, `VO + Right Arrow` past the last tab|The selected panel's content follows; hidden panels are not read|Fail if a hidden panel is read (A11Y-33)|
+|2|From the selected tab, press Tab|Focus goes into the panel|Fail if it skips the panel|
+|3|Check the panel name|The panel may be spoken with the tab's name|Observation|
 
-WCAG 1.3.1, WCAG 2.1.1, WCAG 4.1.2. Consult [WCAG mapping](../../03-standards/wcag-2.2.md) and [WAI-ARIA guidance](../../03-standards/wai-aria.md); these are candidate criteria, not an exhaustive conformance claim.
+### TEST-TAB-006 — Disabled tab
 
-## 6. Common failures and remediation
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Arrow to "Billing"|Skipped, or focused and spoken as disabled, as documented|Fail if spoken as available|
+|2|Try to activate it|Nothing changes|Fail if its panel opens|
 
-- Missing or ambiguous accessible name → use native labeling or a programmatically associated label.
-- Incorrect role/state → prefer semantic controls and synchronize accessible state with the UI.
-- Poor reading/focus order → fix DOM/order and focus management rather than relying on speech hints.
-- Inaccessible changes → provide discoverable feedback appropriate to the interaction.
+## 4. VoiceOver tests on iOS
 
-## 7. Checklist
+### TEST-TAB-101 — Discovery
 
-- [ ] Accessible name and role are appropriate.
-- [ ] Reading order and relationships are understandable.
-- [ ] Supported operation works on macOS and iOS.
-- [ ] Relevant values, states and errors are conveyed.
-- [ ] Focus and navigation remain usable after transitions.
-- [ ] Findings, evidence and WCAG mappings are recorded.
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Swipe right through the tabs|Each tab: name, role, selected state, position|Fail if role or selected state is missing|
 
-## 8. Related guidance
+### TEST-TAB-102 — Selecting by double tap
 
-[macOS commands](../../02-voiceover/macos/voiceover-commands.md) · [iOS gestures](../../02-voiceover/ios/gestures.md) · [Test case template](../../06-templates/test-case-template.md)
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|Double tap "Security"|Selected state spoken; panel shown|Fail if not spoken|
+|2|Swipe left to "Profile"|Not selected|Fail if stale|
+
+### TEST-TAB-103 — Reaching the panel
+
+|#|Tester action|Expected behavior|Validation criterion|
+|---|---|---|---|
+|1|From the last tab, swipe right|The selected panel's content|Fail if a hidden panel's content or unrelated content is read|
+|2|Touch the panel area|The visible panel content is read|Fail if hidden content is read|
+
+### Differences from macOS
+
+|Point|macOS|iOS|
+|---|---|---|
+|Moving between tabs|Arrows (keyboard focus)|Swipes; no activation mode difference|
+|Reaching the panel|Tab key or `VO + Right Arrow`|Swipe after the last tab|
+
+## 5. Expected results
+
+|Scenario|Accessible name|Role|State|Order|Interactions|Focus|Announcement|
+|---|---|---|---|---|---|---|---|
+|Tab list|List label|Tab list|—|Before the panel|—|—|—|
+|Tab|Visible label|Tab|Selected / not selected; position|List order|Arrows, Home, End, Return/Space (manual)|One Tab stop|New selected state|
+|Panel|Tab label|Tab panel|—|After the tab list|Tab enters|Panel content|—|
+
+|Platform|Situation|Illustrative output|
+|---|---|---|
+|macOS|Selected tab|"Profile, selected, tab, 1 of 4"|
+|iOS|Tab|"Security, tab, 2 of 4"|
+
+## 6. Conformance criteria
+
+|Requirement|Basis|Kind|Tests|
+|---|---|---|---|
+|Name, role, selected state|WCAG 4.1.2 (A); A11Y-30|Normative|002, 003, 006, 101, 102|
+|Tab–panel relationship|WCAG 1.3.1 (A)|Normative|005, 103|
+|Keyboard operation|WCAG 2.1.1 (A)|Normative|001, 004|
+|Focus order into the panel|WCAG 2.4.3 (A)|Normative|001, 005|
+|Hidden panels hidden from AT|A11Y-33|Best practice|005, 103|
+|Arrows, Home/End, documented activation mode|Keyboard Interactions §6; [APG Tabs](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)|Best practice|001, 004|
+
+## 7. Common failures
+
+|Symptom|User impact|Likely cause|Fix|
+|---|---|---|---|
+|No selected state|The user does not know which panel is shown|Selection only styled|`aria-selected` on the tab|
+|Every tab is a Tab stop|Slow, unexpected|No roving tabindex|`tabindex="-1"` on unselected tabs, arrows|
+|Hidden panel read|Confusion|Panels hidden visually only|`hidden` on inactive panels|
+|Panel not reached with Tab|Content skipped|Panel not focusable and empty of focusable elements|`tabindex="0"` on the panel when it has no focusable content|
+
+## 8. Validation checklist
+
+Status: Pass, Fail, Not applicable, Not tested, Blocked. Copy this table into a campaign report in [07-reports](../../07-reports/README.md).
+
+|Check|Tests|macOS|iOS|Observations|
+|---|---|---|---|---|
+|Keyboard contract: one Tab stop, arrows, Home/End, Tab to panel|001|Not tested|Not applicable||
+|Role, name, selected state, position|002, 101|Not tested|Not tested||
+|Selecting updates state and panel|003, 102|Not tested|Not tested||
+|Activation mode matches documentation|004|Not tested|Not applicable||
+|Panel reachable; hidden panels not read|005, 103|Not tested|Not tested||
+|Disabled tab|006|Not tested|Not applicable||
+
+**Defects found:** issue IDs from the [Issue Template](../../06-templates/issue-template.md). **Evidence:** speech recording or transcript, environment, date (TEST-32).
+
+## Related guidance
+
+[Keyboard Interactions §6](../../../04-interaction-quality/keyboard-interactions.md) · [Accordion](accordion.md) · [Navigation Menu](menu.md)
