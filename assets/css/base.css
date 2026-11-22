@@ -1,0 +1,153 @@
+/* Socle commun : jetons, thèmes, composition du splash. Repris de bp x GrainLab. */
+
+:root {
+  --bg: #f3f0e9;
+  --fg: #19191b;
+  --muted: #74716b;
+  --line: rgba(25, 25, 27, 0.12);
+  --chrome: rgba(243, 240, 233, 0.86);
+  --accent: #19191b;
+
+  --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --mono-size: clamp(168px, 30vmin, 300px);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #111113;
+  --fg: #ecebe6;
+  --muted: #8f8c86;
+  --line: rgba(236, 235, 230, 0.14);
+  --chrome: rgba(17, 17, 19, 0.82);
+  --accent: #ecebe6;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+bp-monogram:not(:defined) {
+  display: block;
+  width: 256px;
+  aspect-ratio: 1;
+}
+
+/* ---------- Composition du splash ---------- */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+/* Couche de fond, sous tout le reste : c'est elle qui reçoit les effets d'impression. */
+.ground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.lockup {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px;
+}
+
+/* Le monogramme peut déborder d'environ 5 % : le cadre lui laisse de l'air (et au filtre aussi). */
+.mark {
+  display: block;
+  padding: calc(var(--mono-size) * 0.07);
+  margin: calc(var(--mono-size) * -0.07);
+}
+
+.mark bp-monogram {
+  width: var(--mono-size);
+}
+
+.name {
+  margin: clamp(20px, 3.6vmin, 36px) 0 0;
+  font-size: clamp(1.15rem, 2.3vmin + 0.4rem, 1.7rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+.sig {
+  margin: 0.55em 0 0;
+  font-family: var(--mono);
+  font-size: clamp(0.72rem, 0.9vmin + 0.45rem, 0.86rem);
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* Légende technique : petite, discrète, jamais au centre. */
+.colophon {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  /* Un aplat de fond : la légende reste lisible sur une trame. */
+  margin: 0;
+  padding: 3px 6px;
+  border-radius: 3px;
+  background: var(--bg);
+}
+
+/* Entrée du texte : il arrive après l'image, et jamais avec un effet. */
+.reveal {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.is-ready .reveal {
+  opacity: 1;
+  transform: none;
+}
+.is-ready .reveal.late {
+  transition-delay: 0.18s;
+}
+:root[data-motion="reduce"] .reveal {
+  transform: none;
+  transition: opacity 0.4s ease;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Petits écrans : les légendes techniques cèdent la place à la composition. */
+@media (max-width: 600px) {
+  .colophon {
+    display: none;
+  }
+}

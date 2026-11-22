@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benoit Poulain</title>
+  <meta name="description" content="Benoit Poulain, a product designer who builds: product × design × tech.">
+  <link rel="canonical" href="https://bpoulain.github.io/">
+  <link rel="alternate" hreflang="en" href="https://bpoulain.github.io/">
+  <link rel="alternate" hreflang="fr" href="https://bpoulain.github.io/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://bpoulain.github.io/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Benoit Poulain">
+  <meta property="og:title" content="Benoit Poulain">
+  <meta property="og:description" content="Benoit Poulain, a product designer who builds: product × design × tech.">
+  <meta property="og:locale" content="en_US"><script>try{var t=localStorage.getItem('bp.theme');document.documentElement.dataset.theme=(!t||t==='auto')?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):t}catch(e){}</script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/splash.css">
+</head>
+<body data-marker="command">
+<main class="splash playground territories drift nuances" id="splash" data-experience="nuances">
+  <div class="ground" id="ground" aria-hidden="true"><div class="coarse-wrap"><div class="src" id="coarse"></div></div><div class="lens"><div class="src" id="fine"></div></div></div>
+  <header class="scene-head">
+    <nav class="lang-switch" aria-label="Language">
+  <a href="/" hreflang="en" lang="en" aria-current="page" title="English">EN</a>
+  <a href="/fr/" hreflang="fr" lang="fr" title="Français">FR</a>
+</nav>
+
+    <nav class="scene-nav" aria-label="Explore"><button id="help" type="button" aria-expanded="false" aria-controls="notes">A few hints</button></nav>
+  </header>
+  <div class="field-targets" id="targets" role="group" aria-label="Explore the six territories"></div><span class="probe" id="probe" aria-hidden="true"></span>
+  <div class="lockup">
+    <div class="anchor"><svg class="tether" aria-hidden="true"><path id="tether"></path></svg><button class="mark" id="mark" type="button" aria-label="Moodglyph: tap or press Enter for another expression from the same family, drag to play" aria-describedby="hint nuance-readout"><bp-monogram id="logo" seed="73" fps="30" label="bp monogram"></bp-monogram></button></div>
+    <h1 class="name reveal">benoit poulain</h1>
+    <p class="sig reveal late">product × design × tech</p>
+  </div>
+  <footer class="scene-foot"><p class="mood-status" id="status" aria-live="polite" aria-atomic="true">shall we get acquainted?</p><p class="hint" id="hint">Move closer to a sign. The emotion grows.</p><p class="nuance-readout" id="nuance-readout"><span id="expression-label" aria-live="polite">One family, many faces.</span><span class="intensity-track" aria-hidden="true"><i id="intensity-fill"></i></span><span id="intensity-label">come closer, gently</span></p><p class="found-count" id="found">six moods are hiding here</p></footer>
+  <div class="mobile-exploration" role="group" aria-label="Mobile exploration">
+    <div class="tilt-actions"><button type="button" id="tilt-toggle" aria-pressed="false">Tilt to explore</button><button type="button" id="tilt-center" hidden>Recenter</button></div>
+    <p id="input-hint" aria-live="polite">Slide your finger. Lift it to let the discovery happen.</p>
+  </div>
+  <button class="pause" id="pause" type="button" aria-pressed="false">Pause</button>
+</main>
+<aside class="notes" id="notes" aria-labelledby="notes-title" hidden inert>
+  <button class="close-notes" type="button" aria-label="Close hints">×</button>
+  <h2 id="notes-title">The shades of a mood.</h2><div class="notes-controls" id="notes-controls"></div>
+  <p>A risograph-printed texture, six hidden territories and a focus that follows your exploration. Linger for a second to reveal a sign. On mobile, slide your finger or turn on tilt: the phone’s starting position becomes its resting point. The Recenter button lets you change it. You can always go back to your finger or pick a mood below.</p>
+  <div class="organ-options"><button type="button" id="organ-toggle" aria-pressed="true">Colours by feature</button><div class="organ-swatches" aria-label="Face palette"><span><i id="swatch-face"></i>face</span><span><i id="swatch-eye"></i>eye</span><span><i id="swatch-stem"></i>stem</span><span><i id="swatch-bowl"></i>bowl</span></div></div>
+  <p>The closer the cursor gets to the sign, the stronger the expression. Come back to a family to meet a new expression, or touch Moodglyph. With the keyboard, the up and down arrows set the intensity of a selected territory.</p>
+  <div class="mood-actions" id="mood-actions" role="group" aria-label="Invite an emotion"></div>
+</aside>
+<script type="application/json" id="i18n">{"script":{"foundAll":"all six moods met. And still more shades.","foundOne":"{n} mood met · keep wandering","foundMany":"{n} moods met · keep wandering","foundNone":"six moods are hiding here","refuge":"{label} · you found its refuge","rest":"just right, here.","start":"take the scenic route.","expression":"One family, many faces.","intensity":{"rest":"at rest","faint":"almost neutral","subtle":"subtle","strong":"strong","intense":"intense"},"invitations":"{n} expressions to meet","territory":"Explore the {label} territory","tiltOn":"Back to touch","tiltOff":"Tilt to explore","pause":"Pause","resume":"Resume animation","touchLift":"Explore with your finger. The cursor stays put when you lift your hand.","touchStay":"Explore with your finger. The cursor stays where you leave it.","touch":"Explore with your finger.","paused":"Animation paused. Resume whenever you like.","escape":"Explore with your finger or the mouse.","hidden":"Tilt stopped. You can turn it back on.","tiltMessages":{"recentered":"Resting position recalibrated. Tilt gently.","started":"Tilt gently. Linger to discover a mood.","https":"Tilt needs an HTTPS connection. You can explore with your finger.","unavailable":"Tilt isn’t available here. Explore with your finger.","waiting":"Hold your phone in a comfortable position…","denied":"Permission not granted. Touch mode is still available.","noMotion":"No motion detected. Carry on with your finger, or try again.","failed":"Couldn’t turn on tilt. Explore with your finger."},"emotions":{"joy":"joy","surprise":"surprise","fear":"fear","anger":"anger","disgust":"disgust","sadness":"sadness"}},"states":{"neutral":"Neutral","J1":"Open joy","J2":"Laughing eyes","J3":"Wonder","J4":"Tenderness","J5":"Mischief","T1":"Dejection","T2":"Disappointment","T3":"Pleading","T4":"Exhaustion","P1":"Apprehension","P2":"Dread","P3":"Anxiety","P4":"Panic","C1":"Glare","C2":"Anger","C3":"Rage","C4":"Annoyance","S1":"Astonishment","S2":"Shock","S3":"Skeptical","S4":"Curiosity","D1":"Revulsion","D2":"Nausea","D3":"Rejection","D4":"Disdain"}}</script>
+<script type="module" src="/assets/js/playground.js"></script>
+</body>
+</html>

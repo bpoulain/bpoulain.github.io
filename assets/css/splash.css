@@ -1,0 +1,169 @@
+:root { --mono-size: clamp(170px, 28vmin, 285px); --letter-ink: #18243c; --letter-edge: #fffaf2; }
+:root[data-theme="dark"] { --letter-ink: #fffaf2; --letter-edge: #11131e; }
+.playground { touch-action: none; overflow: hidden; }
+.ground, .src, .coarse-wrap, .lens { position: absolute; inset: 0; }
+.ground canvas.src { width: 100% !important; height: 100% !important; }
+.ground { --x: 50vw; --y: 50vh; --r: 0px; }
+.territories .coarse-wrap { mask-image: radial-gradient(circle at var(--x) var(--y), transparent calc(var(--r) * .65), #000 var(--r)); -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), transparent calc(var(--r) * .65), #000 var(--r)); }
+.territories .lens { mask-image: radial-gradient(circle at var(--x) var(--y), #000 calc(var(--r) * .65), transparent var(--r)); -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), #000 calc(var(--r) * .65), transparent var(--r)); }
+.scene-head { position: absolute; inset: 28px 32px auto; z-index: 6; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; pointer-events: none; }
+.scene-head > * { pointer-events: auto; }
+.scene-head p { margin: 0; font: 12px/1.6 var(--mono); color: var(--letter-ink); }
+.scene-head h2 { margin: 3px 0 0; font-size: 19px; font-weight: 500; letter-spacing: -.03em; }
+.scene-nav { display: flex; align-items: center; gap: 10px; }
+.scene-nav a, .scene-nav button, .pause { appearance: none; color: var(--fg); text-decoration: none; border: 1px solid var(--line); background: var(--chrome); border-radius: 30px; padding: 9px 13px; font: 14px var(--sans); cursor: pointer; }
+.scene-nav a:hover, .scene-nav button:hover, .pause:hover { background: var(--bg); }
+.lockup { transform: translateY(-2vh); pointer-events: none; }
+.anchor { width: var(--mono-size); height: var(--mono-size); position: relative; }
+button.mark { position: relative; appearance: none; border: 0; background: transparent; color: inherit; font: inherit; cursor: grab; touch-action: none; pointer-events: auto; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; will-change: transform; }
+.mark.dragging { cursor: grabbing; }
+.mark bp-monogram { --bp-face: var(--face-color, #18243c); --bp-stem: #fffaf2; --bp-bowl: #fffaf2; --bp-eye: var(--face-color, #18243c); filter: drop-shadow(1px 0 0 #fffaf2) drop-shadow(-1px 0 0 #fffaf2) drop-shadow(0 1px 0 #fffaf2) drop-shadow(0 -1px 0 #fffaf2); }
+[data-theme="dark"] .mark bp-monogram { --bp-face: var(--face-color, #fffaf2); --bp-stem: #172034; --bp-bowl: #172034; --bp-eye: var(--face-color, #fffaf2); filter: drop-shadow(1px 0 0 #172034) drop-shadow(-1px 0 0 #172034) drop-shadow(0 1px 0 #172034) drop-shadow(0 -1px 0 #172034); }
+/* Le détourage appartient aux glyphes. Aucune réserve ni plaque dans le fond. */
+.name, .sig, .scene-title, .scene-head > div > p, .hint, .mood-status, .found-count { color: var(--letter-ink); paint-order: stroke fill; -webkit-text-stroke: 3px var(--letter-edge); }
+.name { font-size: clamp(26px, 3.6vmin, 38px); font-weight: 600; letter-spacing: -.035em; margin-top: 30px; }
+.sig { font-size: 15px; font-weight: 500; letter-spacing: .02em; -webkit-text-stroke-width: 2px; }
+.tether { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.tether path { fill: none; stroke: var(--letter-ink); stroke-width: 1.5; stroke-dasharray: 2 7; opacity: .45; }
+.scene-foot { position: absolute; bottom: 104px; left: 50%; width: min(540px, calc(100% - 40px)); transform: translateX(-50%); text-align: center; z-index: 4; pointer-events: none; }
+.mood-status { min-height: 22px; margin: 0 0 10px; font: 14px var(--mono); }
+.hint { margin: 0; font: 16px/1.5 var(--sans); text-wrap: balance; }
+.found-count { margin: 13px 0 0; font: 12px var(--mono); }
+.pause { position: absolute; bottom: 94px; right: 32px; z-index: 5; }
+.ink-toy { position: absolute; z-index: 3; left: 77%; top: 62%; width: 44px; height: 44px; border: 0; background: transparent; cursor: grab; touch-action: none; padding: 6px; }
+.ink-toy span { display: block; width: 100%; height: 100%; background: #729333; border: 1px solid #fffaf2; border-radius: 41% 58% 34% 65% / 45% 38% 63% 54%; box-shadow: 4px 5px 0 #18243c22; transform: rotate(-17deg); }
+.ink-toy:active { cursor: grabbing; }
+.field-targets { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.field-target { position: absolute; width: 54px; height: 54px; margin: -27px 0 0 -27px; background: transparent; border: 0; border-radius: 50%; color: var(--letter-ink); cursor: pointer; pointer-events: auto; font: 30px var(--sans); display: grid; place-items: center; padding: 0; }
+.field-target span { opacity: 0; display: block; line-height: 0; transform: scale(.6); transition: opacity .5s, transform .5s; }
+.field-target:hover span, .field-target:focus-visible span, .field-target.revealed span { opacity: 1; transform: scale(1); }
+.field-target:focus-visible { outline: 2px solid var(--letter-ink); outline-offset: 5px; background: var(--chrome); }
+.probe { position: absolute; pointer-events: none; z-index: 3; width: 26px; height: 26px; margin: -13px; border: 1px solid var(--letter-ink); border-radius: 50%; opacity: 0; box-shadow: 0 0 0 1px var(--letter-edge); transition: opacity .3s; }
+.probe.on { opacity: .45; }
+.notes { position: fixed; z-index: 70; top: 92px; right: 24px; width: min(370px, calc(100vw - 32px)); max-height: calc(100dvh - 170px); overflow: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 50px #0002; padding: 24px; }
+.notes[hidden] { display: none; }
+.notes h2 { font-size: 20px; font-weight: 500; margin: 0 35px 12px 0; }
+.notes p { font-size: 15px; line-height: 1.55; margin: 0 0 16px; color: var(--muted); }
+.notes .close-notes { position: absolute; right: 13px; top: 12px; border: 0; background: transparent; color: var(--fg); font: 24px var(--sans); cursor: pointer; }
+.mood-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mood-actions button { border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--fg); cursor: pointer; text-align: left; padding: 12px; font: 14px var(--sans); }
+.mood-actions button:hover, .mood-actions button[aria-pressed="true"] { background: var(--line); }
+.mood-actions small { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.4; }
+@media (max-width: 700px) {
+  .scene-head { inset: 20px 18px auto; }
+  .scene-head h2 { font-size: 17px; }
+  .scene-nav { gap: 6px; }
+  .scene-nav a, .scene-nav button { font-size: 12px; padding: 8px 10px; }
+  .scene-foot { bottom: 133px; }
+  .pause { right: 50%; transform: translateX(50%); bottom: 81px; font-size: 12px; }
+  .notes { top: 80px; right: 16px; }
+  .lockup { transform: translateY(-4vh); }
+  .ink-toy { left: 80%; top: 60%; }
+}
+@media (max-height: 620px) {
+  :root { --mono-size: clamp(115px, 25vmin, 180px); }
+  .scene-head { top: 12px; }
+  .scene-foot { bottom: 80px; }
+  .hint { font-size: 14px; }
+  .mood-status { margin-bottom: 5px; }
+  .found-count { display: none; }
+  .name { margin-top: 16px; font-size: 24px; }
+  .pause { right: 16px; bottom: 78px; transform: none; }
+  .lockup { transform: translateY(-1vh); }
+}
+[data-motion="reduce"] .field-target span { transition: none; }
+
+/* Dérive : même papier que la 12, même loupe et mêmes découvertes que la 13. */
+.mobile-exploration { display: none; }
+.drift .probe { width: 24px; height: 24px; margin: -12px; border-color: var(--letter-ink); }
+.drift .probe::after { content: ''; position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(var(--letter-ink) calc(var(--dwell, 0) * 1turn), transparent 0); mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); -webkit-mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); }
+.tilt-actions { display: flex; justify-content: center; gap: 8px; }
+.tilt-actions button { appearance: none; border: 1px solid var(--line); background: var(--chrome); border-radius: 25px; padding: 9px 13px; font: 14px var(--sans); color: var(--fg); cursor: pointer; }
+.tilt-actions button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.tilt-actions button[hidden] { display: none; }
+#input-hint { margin: 9px auto 0; max-width: 40ch; font: 12px/1.45 var(--sans); color: var(--letter-ink); paint-order: stroke fill; -webkit-text-stroke: 2.5px var(--letter-edge); text-wrap: balance; }
+@media (max-width: 700px), (pointer: coarse) {
+  .drift .scene-foot { bottom: 210px; }
+  .mobile-exploration { display: block; position: absolute; bottom: 121px; left: 50%; transform: translateX(-50%); width: min(450px, calc(100% - 32px)); text-align: center; z-index: 6; }
+  .drift .pause { left: 50%; right: auto; transform: translateX(-50%); bottom: 78px; font-size: 12px; }
+}
+@media (max-height: 650px) and (max-width: 700px) {
+  .drift { --mono-size: 100px; }
+  .drift .lockup { transform: translateY(-8vh); }
+  .drift .scene-foot { bottom: 200px; }
+  .drift .scene-foot .found-count { display: none; }
+  .drift .hint { font-size: 14px; }
+  .drift .mobile-exploration { bottom: 113px; }
+  #input-hint { font-size: 12px; margin-top: 5px; }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .drift { --mono-size: 110px; }
+  .drift .lockup { transform: translateY(-2vh); }
+  .drift .scene-foot { left: 24px; bottom: 90px; width: 220px; transform: none; text-align: left; }
+  .drift .mobile-exploration { left: auto; right: 24px; bottom: 98px; width: 220px; transform: none; }
+  .drift .scene-foot .found-count { display: none; }
+}
+
+/* Nuances : une palette par organe, une intensité continue, une pose par visite. */
+.nuance-readout { margin: 12px 0 0; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; color: var(--letter-ink); font: 12px/1.5 var(--mono); paint-order: stroke fill; -webkit-text-stroke: 2.5px var(--letter-edge); }
+.intensity-track { display: inline-block; width: 44px; height: 3px; background: var(--line); border-radius: 3px; box-shadow: 0 0 0 1px var(--letter-edge); overflow: hidden; }
+.intensity-track i { display: block; height: 100%; background: var(--letter-ink); transform: scaleX(0); transform-origin: left; }
+.nuances .field-target { color: var(--emotion-color, var(--letter-ink)); }
+.nuances .field-target.revealed.is-current::after { content: ''; position: absolute; inset: -9px; border-radius: 50%; border: 1px solid currentColor; opacity: calc(.15 + var(--intensity, 0) * .6); transform: scale(calc(.8 + var(--intensity, 0) * .25)); pointer-events: none; }
+.organ-options { padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
+.organ-options button { color: var(--fg); font: 14px var(--sans); padding: 9px 12px; border: 1px solid var(--line); background: transparent; border-radius: 30px; cursor: pointer; }
+.organ-options button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.organ-swatches { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.organ-swatches span { display: inline-flex; gap: 5px; align-items: center; font-size: 12px; color: var(--muted); }
+.organ-swatches i { display: inline-block; width: 13px; height: 13px; border-radius: 4px; border: 1px solid var(--line); }
+@media (max-width: 700px) {
+  .nuances .lockup { transform: translateY(-9vh); }
+  .nuances .found-count { margin-top: 9px; }
+}
+@media (max-height: 650px) and (max-width: 700px) {
+  .nuances .lockup { transform: translateY(-16vh); }
+  .nuances .name { margin-top: 12px; font-size: 22px; }
+}
+@media (max-height: 560px) and (max-width: 700px) {
+  .nuances .scene-foot .hint { display: none; }
+}
+
+/* La loupe est composée dans la même passe GPU que le papier. */
+.gpu-lens > .coarse-wrap, .gpu-lens > .lens { display: none; }
+.riso-surface { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+.playground .mark bp-monogram { filter: none; }
+.field-target, .probe { left: 0; top: 0; }
+.field-target { will-change: transform; }
+.render-perf { position: fixed; left: 12px; bottom: 66px; z-index: 80; padding: 6px 9px; border-radius: 5px; color: var(--fg); background: var(--bg); font: 12px var(--mono); }
+
+/* Marqueur des territoires : disque plein (distinct de l'anneau du curseur) ou ⌘,
+   choisi par `marker` dans le front matter de la page (`data-marker` sur <body>).
+   Le détourage couleur papier garde le signe lisible sur la trame. */
+.marker { width: 26px; height: 26px; overflow: visible; }
+.marker-disc { fill: currentColor; stroke: var(--letter-edge); stroke-width: 2.5; paint-order: stroke fill; }
+.marker-command { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+body:not([data-marker="command"]) .marker-command,
+body[data-marker="command"] .marker-disc { display: none; }
+/* Détourage du ⌘ : un halo couleur papier serré autour du tracé. */
+body[data-marker="command"] .field-target .marker { filter: drop-shadow(0 0 1px var(--letter-edge)) drop-shadow(0 0 1px var(--letter-edge)); }
+.mood-actions .marker { width: 14px; height: 14px; margin-right: 8px; vertical-align: -2px; color: var(--emotion-color, currentColor); }
+.mood-actions .marker-disc { stroke: none; }
+
+/* Sélecteur de langue : même voix que les légendes (mono, détourage papier). */
+.lang-switch { display: flex; gap: 2px; }
+.lang-switch a { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; padding: 0 6px; border-radius: 30px; font: 500 12px var(--mono); letter-spacing: .06em; color: var(--letter-ink); text-decoration: none; opacity: .6; paint-order: stroke fill; -webkit-text-stroke: 3px var(--letter-edge); }
+.lang-switch a:hover { opacity: 1; }
+.lang-switch a[aria-current="page"] { opacity: 1; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+/* Écran compact (téléphone) : la scène ne garde que le nom et la signature. Les découvertes
+   se lisent sur le visage et les ⌘ ; inclinaison et pause sont dans « Quelques indices ». */
+.notes-controls:empty { display: none; }
+@media (max-width: 700px) {
+  .scene-foot { display: none; }
+  .nuances .lockup, .drift .lockup { transform: none; }
+  .notes-controls { display: grid; gap: 10px; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .notes .mobile-exploration { position: static; transform: none; width: auto; text-align: left; }
+  .notes .tilt-actions { justify-content: flex-start; flex-wrap: wrap; }
+  .notes #input-hint { margin: 8px 0 0; max-width: none; color: var(--muted); -webkit-text-stroke: 0; font-size: 13px; text-wrap: pretty; }
+  .notes .pause { position: static; transform: none; justify-self: start; font-size: 14px; }
+}
