@@ -203,6 +203,14 @@ function tick(now) {
     $('probe').classList.toggle('on', pointer.inside || forcedRegion >= 0);
     setStyle($('probe'), 'transform', `translate3d(${px(tx)}, ${px(ty)}, 0)`);
     if (hybrid) setStyle($('probe'), '--dwell', Math.min(1, dwell / 1.05).toFixed(2));
+    // Le même chargement autour de la cible visée, tant que son humeur reste à découvrir :
+    // il montre où mène l'attente. Une fois révélée, la cible garde son anneau d'intensité.
+    const exploring = pointer.inside && forcedRegion < 0 && !drag && !paused;
+    fieldButtons.forEach((b, j) => {
+      const loading = exploring && j === candidate && !found.has(j) && dwell > .05;
+      if (b.classList.contains('is-loading') !== loading) b.classList.toggle('is-loading', loading);
+      if (loading) setStyle(b, '--dwell', Math.min(1, dwell / 1.05).toFixed(2));
+    });
     if (pointer.inside || forcedRegion >= 0) gazeAt(tx, ty, a);
   } else if (!paused && !drag && !toyDrag && time > reactionUntil) {
     const distance = Math.hypot(pointer.x - a.x, pointer.y - a.y);
@@ -229,7 +237,8 @@ function tick(now) {
 }
 // Réserve tramée sous les textes : la trame s'éclaircit autour d'eux pour qu'ils se lisent,
 // sans plaque ni cadre. Les rectangles suivent la mise en page (mesurés au plus 5 fois/s).
-const RESERVED = ['.lang-switch', '.lockup .name', '.lockup .sig', '#status', '#hint', '#nuance-readout', '#found', '#input-hint'];
+// Le pied de scène est masqué (lecteurs d'écran seulement) : pas de réserve pour lui.
+const RESERVED = ['.lang-switch', '.lockup .name', '.lockup .sig', '#input-hint'];
 let reservesAt = -Infinity, reservesKey = '';
 function updateReserves(now) {
   if (!surface || now - reservesAt < 200) return;

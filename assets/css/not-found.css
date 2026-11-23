@@ -1,7 +1,5 @@
 /* 404 : MoodGlyph central, texte sobre, une seule action de reprise. */
 
-body.is-scrollable { overflow: auto; }
-
 .not-found {
   min-height: calc(100dvh - 72px);
   display: flex;

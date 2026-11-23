@@ -1,0 +1,79 @@
+/* À propos : une colonne de lecture, des intertitres en mono, le MoodGlyph en tête. */
+
+.about-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px 16px 0;
+}
+.about-home {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font: 500 13px var(--mono);
+  color: var(--muted);
+  text-decoration: none;
+}
+.about-home:hover { color: var(--fg); }
+.lang-switch { display: flex; gap: 2px; }
+.lang-switch a {
+  min-width: 44px; min-height: 44px;
+  display: inline-grid; place-items: center;
+  font: 500 12px var(--mono); letter-spacing: .06em;
+  color: var(--muted); text-decoration: none;
+}
+.lang-switch a:hover, .lang-switch a[aria-current="page"] { color: var(--fg); }
+.lang-switch a[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+.about {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.about-figure { position: relative; width: 120px; aspect-ratio: 1; margin: 0 0 28px; }
+.about-figure > img, .about-figure > bp-monogram { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.about-figure > bp-monogram { opacity: 0; transition: opacity .4s ease; }
+.about-figure[data-engine="ready"] > bp-monogram { opacity: 1; }
+.about-figure[data-engine="ready"] > img { visibility: hidden; }
+.about-fallback--dark { display: none; }
+:root[data-theme="dark"] .about-fallback--light { display: none; }
+:root[data-theme="dark"] .about-fallback--dark { display: block; }
+
+.about-title { margin: 0; font-size: clamp(2rem, 4vw + 1rem, 2.6rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.05; }
+.about-tagline { margin: 8px 0 24px; font: 500 13px var(--mono); letter-spacing: .04em; color: var(--muted); }
+.about-intro { margin: 0 0 8px; font-size: 17px; text-wrap: pretty; }
+
+.about section { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); }
+.about h2 { margin: 0 0 12px; font: 500 11px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.about section p { margin: 0 0 10px; text-wrap: pretty; }
+.about a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+.about-list { margin: 0; display: grid; gap: 6px; }
+.about-list > div { display: grid; grid-template-columns: minmax(120px, 34%) 1fr; gap: 16px; }
+.about-list dt { color: var(--muted); }
+.about-list dd { margin: 0; font-family: var(--mono); font-size: 14px; }
+.about-list--stacked dd { font-family: var(--sans); font-size: 15px; }
+
+.about-credits { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.about-meta { color: var(--muted); }
+
+.about-foot {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px;
+  padding: 24px 32px;
+  border-top: 1px solid var(--line);
+  font: 11px/1.5 var(--mono); letter-spacing: .04em; color: var(--muted);
+}
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (max-width: 560px) {
+  .about-list > div { grid-template-columns: 1fr; gap: 0; }
+  .about-list > div + div { margin-top: 6px; }
+  .about-foot { padding: 20px 16px; }
+}

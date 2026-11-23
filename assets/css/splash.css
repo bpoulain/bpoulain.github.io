@@ -155,11 +155,9 @@ body[data-marker="command"] .field-target .marker { filter: drop-shadow(0 0 1px 
 .lang-switch a:hover { opacity: 1; }
 .lang-switch a[aria-current="page"] { opacity: 1; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 
-/* Écran compact (téléphone) : la scène ne garde que le nom et la signature. Les découvertes
-   se lisent sur le visage et les ⌘ ; inclinaison et pause sont dans « Quelques indices ». */
+/* Écran compact (téléphone) : inclinaison et pause passent dans « Quelques indices ». */
 .notes-controls:empty { display: none; }
 @media (max-width: 700px) {
-  .scene-foot { display: none; }
   .nuances .lockup, .drift .lockup { transform: none; }
   .notes-controls { display: grid; gap: 10px; padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
   .notes .mobile-exploration { position: static; transform: none; width: auto; text-align: left; }
@@ -167,3 +165,11 @@ body[data-marker="command"] .field-target .marker { filter: drop-shadow(0 0 1px 
   .notes #input-hint { margin: 8px 0 0; max-width: none; color: var(--muted); -webkit-text-stroke: 0; font-size: 13px; text-wrap: pretty; }
   .notes .pause { position: static; transform: none; justify-self: start; font-size: 14px; }
 }
+
+/* Pied de scène (statut, indice, intensité, compteur) : masqué à l'écran sur tous les appareils,
+   il chevauchait le nom et la signature. Il reste lu par les lecteurs d'écran : ses régions
+   `aria-live` annoncent toujours les découvertes. */
+.scene-foot { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; border: 0 !important; transform: none !important; }
+
+/* Chargement de découverte autour de la cible visée, à l'image de celui du curseur. */
+.field-target.is-loading::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none; background: conic-gradient(currentColor calc(var(--dwell, 0) * 1turn), transparent 0); mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); -webkit-mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); filter: drop-shadow(0 0 1px var(--letter-edge)); }
