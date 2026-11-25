@@ -16,11 +16,11 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #111113;
+  --bg: #19181c;
   --fg: #ecebe6;
   --muted: #8f8c86;
   --line: rgba(236, 235, 230, 0.14);
-  --chrome: rgba(17, 17, 19, 0.82);
+  --chrome: rgba(25, 24, 28, 0.84);
   --accent: #ecebe6;
   color-scheme: dark;
 }

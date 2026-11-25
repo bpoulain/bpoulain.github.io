@@ -1,5 +1,5 @@
 :root { --mono-size: clamp(170px, 28vmin, 285px); --letter-ink: #18243c; --letter-edge: #fffaf2; }
-:root[data-theme="dark"] { --letter-ink: #fffaf2; --letter-edge: #11131e; }
+:root[data-theme="dark"] { --letter-ink: #f3eee4; --letter-edge: #19181c; }
 .playground { touch-action: none; overflow: hidden; }
 .ground, .src, .coarse-wrap, .lens { position: absolute; inset: 0; }
 .ground canvas.src { width: 100% !important; height: 100% !important; }
@@ -35,8 +35,19 @@ button.mark { position: relative; appearance: none; border: 0; background: trans
 .ink-toy:active { cursor: grabbing; }
 .field-targets { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .field-target { position: absolute; width: 54px; height: 54px; margin: -27px 0 0 -27px; background: transparent; border: 0; border-radius: 50%; color: var(--letter-ink); cursor: pointer; pointer-events: auto; font: 30px var(--sans); display: grid; place-items: center; padding: 0; }
-.field-target span { opacity: 0; display: block; line-height: 0; transform: scale(.6); transition: opacity .5s, transform .5s; }
-.field-target:hover span, .field-target:focus-visible span, .field-target.revealed span { opacity: 1; transform: scale(1); }
+.field-target { --near: 0; }
+/* Au repos, les six signes restent présents (discrets, ils respirent) : on voit où aller.
+   À l'approche, le signe grandit et s'affirme avec l'intensité (`--near`, 0 → 1). */
+.field-target span { opacity: calc(.72 + var(--near) * .28); display: block; line-height: 0; padding: 7px; border-radius: 50%; background: radial-gradient(closest-side, var(--letter-edge) 55%, transparent); transform: scale(calc(.86 + var(--near) * .36)); transition: opacity .35s, transform .18s ease-out; }
+.field-target:hover span, .field-target:focus-visible span, .field-target.revealed span { opacity: 1; transform: scale(calc(1 + var(--near) * .22)); }
+.field-target .marker { animation: target-breathe 3.6s ease-in-out infinite; animation-delay: calc(var(--i, 0) * -.6s); }
+.field-target.revealed .marker, .field-target.is-loading .marker { animation: none; }
+@keyframes target-breathe { 50% { opacity: .55; transform: scale(.88); } }
+/* Entrée : les signes s'allument l'un après l'autre, puis retombent. */
+.is-intro .field-target span { opacity: 1; transform: scale(1.15); transition-delay: calc(var(--i, 0) * 110ms); }
+/* Guide près du curseur. */
+.coach { position: absolute; left: 0; top: 0; z-index: 4; margin: 0; pointer-events: none; white-space: nowrap; font: 500 13px/1.3 var(--sans); color: var(--letter-ink); paint-order: stroke fill; -webkit-text-stroke: 3px var(--letter-edge); opacity: 0; transition: opacity .3s; }
+.coach.on { opacity: 1; }
 .field-target:focus-visible { outline: 2px solid var(--letter-ink); outline-offset: 5px; background: var(--chrome); }
 .probe { position: absolute; pointer-events: none; z-index: 3; width: 26px; height: 26px; margin: -13px; border: 1px solid var(--letter-ink); border-radius: 50%; opacity: 0; box-shadow: 0 0 0 1px var(--letter-edge); transition: opacity .3s; }
 .probe.on { opacity: .45; }
@@ -72,11 +83,12 @@ button.mark { position: relative; appearance: none; border: 0; background: trans
   .lockup { transform: translateY(-1vh); }
 }
 [data-motion="reduce"] .field-target span { transition: none; }
+[data-motion="reduce"] .field-target .marker { animation: none; }
 
 /* Dérive : même papier que la 12, même loupe et mêmes découvertes que la 13. */
 .mobile-exploration { display: none; }
 .drift .probe { width: 24px; height: 24px; margin: -12px; border-color: var(--letter-ink); }
-.drift .probe::after { content: ''; position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(var(--letter-ink) calc(var(--dwell, 0) * 1turn), transparent 0); mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); -webkit-mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); }
+.drift .probe::after { content: ''; position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(var(--letter-ink) calc(var(--near, 0) * 1turn), transparent 0); mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); -webkit-mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); }
 .tilt-actions { display: flex; justify-content: center; gap: 8px; }
 .tilt-actions button { appearance: none; border: 1px solid var(--line); background: var(--chrome); border-radius: 25px; padding: 9px 13px; font: 14px var(--sans); color: var(--fg); cursor: pointer; }
 .tilt-actions button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
@@ -171,5 +183,5 @@ body[data-marker="command"] .field-target .marker { filter: drop-shadow(0 0 1px 
    `aria-live` annoncent toujours les découvertes. */
 .scene-foot { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; border: 0 !important; transform: none !important; }
 
-/* Chargement de découverte autour de la cible visée, à l'image de celui du curseur. */
-.field-target.is-loading::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none; background: conic-gradient(currentColor calc(var(--dwell, 0) * 1turn), transparent 0); mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); -webkit-mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); filter: drop-shadow(0 0 1px var(--letter-edge)); }
+/* Jauge de proximité autour de la cible visée (même remplissage que l'anneau du curseur). */
+.field-target.is-loading::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; pointer-events: none; background: conic-gradient(currentColor calc(var(--near, 0) * 1turn), transparent 0); mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); -webkit-mask: radial-gradient(transparent 60%, #000 64%, #000 70%, transparent 74%); filter: drop-shadow(0 0 1px var(--letter-edge)); }

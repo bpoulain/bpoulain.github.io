@@ -14,7 +14,7 @@ export function fieldFalloff(distance) {
 
 // Aucun « territoire gagnant » ici : chaque point peut recevoir toutes les
 // encres. Les zones de détection servent uniquement au choix de l'expression.
-export function landscapeField({ seconds, reduced, territories, hybrid, blend, inks, trail = [], waves = [] }) {
+export function landscapeField({ seconds, drift, reduced, territories, hybrid, blend, inks, trail = [], waves = [] }) {
   const t = reduced ? 0 : seconds;
   const masses = [];
   const mass = (x, y, rx, ry, color, opacity) => {
@@ -24,7 +24,7 @@ export function landscapeField({ seconds, reduced, territories, hybrid, blend, i
   mass(.82, .55 + Math.sin(t * .08) * .12, .95, 1.05, inks[1], .34);
   mass(.36, .9, 1, .8, inks[2], .28);
   EMOTIONS.forEach((m, i) => {
-    const c = territories ? territoryCenter(i, t, reduced) : { x: .5 + Math.cos(t * .07 + i * 1.05) * .4, y: .5 + Math.sin(t * .09 + i * 1.05) * .38 };
+    const c = territories ? territoryCenter(i, drift ?? t, reduced) : { x: .5 + Math.cos(t * .07 + i * 1.05) * .4, y: .5 + Math.sin(t * .09 + i * 1.05) * .38 };
     const active = blend[i];
     let rx = .4 + active * .19, ry = .48 + (reduced ? 0 : Math.sin(t * m.speed + i) * .035);
     if (m.id === 'sadness') { c.y += active * .1; ry += active * .25; }

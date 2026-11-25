@@ -22,7 +22,10 @@ const nuances = scene.dataset.experience === 'nuances';
 const hybrid = nuances || scene.dataset.experience === 'drift';
 const territories = hybrid || scene.dataset.experience === 'territories';
 const risograph = hybrid || !territories;
-const INKS = { light: ['#e7ad32', '#536ec1', '#df726c'], dark: ['#ebbd5e', '#9caee8', '#ea9694'] };
+const INKS = { light: ['#e7ad32', '#536ec1', '#df726c'], dark: ['#e3a83c', '#7b8fe6', '#e47a76'] };
+// Sur papier sombre, une même couverture d'encre claire paraît bien plus chargée qu'une encre
+// foncée sur papier clair : on dépose moins d'encre pour garder l'air du thème clair.
+const INK_DENSITY = { light: .7, dark: .46 };
 const found = new Set();
 let frameId = 0, lastTime = 0, seconds = 0, playing = false, paused = false;
 let current = -1, strength = .6, targetStrength = .6, blend = [0, 0, 0, 0, 0, 0];
@@ -30,7 +33,16 @@ let position = { x: 0, y: 0, vx: 0, vy: 0 };
 let pointer = { x: innerWidth / 2, y: innerHeight / 2, inside: false, time: 0, speed: 0 };
 let drag = null, toyDrag = null, suppressClick = false;
 let pullTimes = [], gentleTime = 0, lastInput = 0, returnAt = 0, reactionUntil = 0;
-let candidate = -1, dwell = 0, forcedRegion = -1, feelingTime = 0;
+let candidate = -1, forcedRegion = -1, feelingTime = 0;
+// Exploration des zones : `zone` est la zone où se trouve le curseur (-1 : entre les zones),
+// `nearness` l'intensité qu'elle donne (jauge du curseur et de la cible), `core` le temps
+// passé dans son cœur (révélation au-delà de CORE_HOLD secondes).
+let zone = -1, nearness = 0, core = 0;
+const CORE_HOLD = .3;
+// Une horloge de dérive par cible : celle qu'on explore ralentit jusqu'à s'immobiliser.
+const drift = [0, 0, 0, 0, 0, 0], driftSpeed = [1, 1, 1, 1, 1, 1];
+// Guide près du curseur : consigne tant que rien n'est trouvé, puis nom de chaque humeur révélée.
+let coachFound = '', coachUntil = 0;
 let trail = [], waves = [], bond = 0, nextKeyboard = 0;
 let toyPosition = null, toyMoved = false;
 let touchId = null, tilt = null;
@@ -70,9 +82,11 @@ function announceDiscovery(i) {
   found.add(i);
   $('found').textContent = found.size === 6 ? t('foundAll') : t(found.size > 1 ? 'foundMany' : 'foundOne', { n: found.size });
   fieldButtons[i]?.classList.add('revealed');
+  coachFound = found.size === 6 ? t('foundAll') : t('coachFound', { label: EMOTIONS[i].label });
+  coachUntil = nowSeconds() + 2.2;
 }
 function applyMoodColors() {
-  const face = current >= 0 ? color(EMOTIONS[current]) : prefs.theme === 'dark' ? '#dae1ec' : '#243147';
+  const face = current >= 0 ? color(EMOTIONS[current]) : prefs.theme === 'dark' ? '#aeb6c6' : '#243147';
   if (current >= 0) logo.style.setProperty('--face-color', face);
   else logo.style.removeProperty('--face-color');
   if (!nuances) return;
@@ -121,13 +135,13 @@ function feel(id, intensity = .65, hold = 0, discover = true, newVisit = false) 
 // Les zones de détection et le champ d'encre sont indépendants. Les six
 // contributions se chevauchent ; aucune frontière de zone n'est imprimée.
 function currentField() {
-  return landscapeField({ seconds, reduced: prefs.reduced, territories, hybrid, blend, inks: INKS[prefs.theme], trail, waves });
+  return landscapeField({ seconds, drift, reduced: prefs.reduced, territories, hybrid, blend, inks: INKS[prefs.theme], trail, waves });
 }
 const rasterize = createLandscapeRaster();
 function landscape(ctx, _time, dimensions) { paintLandscape(ctx, currentField(), dimensions); }
 const printOptions = (theme, size) => ({ renderer: 'webgl', source: landscape, process: 'riso', inks: INKS[theme], separation: 'auto',
   screening: { type: risograph ? 'am' : 'bayer', shape: 'round', size: territories ? size : 5, softness: .04 }, registration: 0,
-  ink: { density: .7, irregularity: 0, spread: 0, wobble: 0 }, paper: { color: pageColor(), grain: 0, tooth: 0 },
+  ink: { density: INK_DENSITY[theme], irregularity: 0, spread: 0, wobble: 0 }, paper: { color: pageColor(), grain: 0, tooth: 0 },
   overprint: theme === 'dark' ? 'opaque' : 'multiply', animation: { speed: 0, amount: 0 } });
 const legacyPrints = () => (territories ? (hybrid ? [5, 1.25] : [6, 1]) : [4]).map((size, i) => print($(i ? 'fine' : 'coarse'), {
   fps: 12, seed: 73,
@@ -180,37 +194,52 @@ function tick(now) {
   if (current >= 0) feelingTime += dt;
 
   if (territories) {
-    fieldButtons.forEach((b, i) => { const c = territoryCenter(i, seconds, prefs.reduced); setStyle(b, 'transform', `translate3d(${px(c.x * innerWidth)}, ${px(c.y * innerHeight)}, 0)`); });
+    if (!paused && !prefs.reduced) drift.forEach((_, i) => {
+      driftSpeed[i] += ((i === zone ? 0 : 1) - driftSpeed[i]) * Math.min(1, dt * 3);
+      drift[i] += dt * driftSpeed[i];
+    });
+    fieldButtons.forEach((b, i) => { const c = territoryCenter(i, drift, prefs.reduced); setStyle(b, 'transform', `translate3d(${px(c.x * innerWidth)}, ${px(c.y * innerHeight)}, 0)`); });
     if (!paused && (pointer.inside || forcedRegion >= 0) && !drag && time > reactionUntil) {
-      const hit = forcedRegion >= 0 ? { index: forcedRegion, strength: .85, intensity: keyboardIntensity } : nuances
-        ? territoryResponse(pointer.x / innerWidth, pointer.y / innerHeight, seconds, innerWidth, innerHeight, { previous: current, reduced: prefs.reduced })
-        : territoryAt(pointer.x / innerWidth, pointer.y / innerHeight, seconds, innerWidth / innerHeight, prefs.reduced);
-      if (candidate !== hit.index) { candidate = hit.index; dwell = 0; }
-      dwell += dt;
-      feel(EMOTIONS[hit.index].id, nuances ? hit.intensity : .3 + hit.strength * .65, 0, false);
-      if (dwell > 1.05 && !found.has(hit.index)) {
-        announceDiscovery(hit.index);
-        status(t('refuge', { label: EMOTIONS[hit.index].label }));
-        waves.push({ x: pointer.x / innerWidth, y: pointer.y / innerHeight, time: seconds });
+      const hit = forcedRegion >= 0 ? { index: forcedRegion, inside: true, atCore: true, intensity: keyboardIntensity } : nuances
+        ? territoryResponse(pointer.x / innerWidth, pointer.y / innerHeight, drift, innerWidth, innerHeight, { previous: current, reduced: prefs.reduced })
+        : { ...territoryAt(pointer.x / innerWidth, pointer.y / innerHeight, seconds, innerWidth / innerHeight, prefs.reduced), inside: true, atCore: false };
+      if (hit.inside) {
+        if (candidate !== hit.index) { candidate = hit.index; core = 0; }
+        zone = hit.index;
+        nearness = nuances ? hit.intensity : .3 + hit.strength * .65;
+        feel(EMOTIONS[hit.index].id, nearness, 0, false);
+        core = hit.atCore ? core + dt : Math.max(0, core - dt * 2);
+        if (core > CORE_HOLD && !found.has(hit.index)) {
+          announceDiscovery(hit.index);
+          status(t('refuge', { label: EMOTIONS[hit.index].label }));
+          waves.push({ x: pointer.x / innerWidth, y: pointer.y / innerHeight, time: seconds });
+        }
+      } else {
+        // Entre les zones : le visage se repose, la cible reprend sa dérive.
+        zone = candidate = -1; nearness = core = 0;
+        if (current >= 0 && !returnAt) feel('neutral', 1, 0, false);
       }
-    }
-    const tx = forcedRegion >= 0 ? territoryCenter(forcedRegion, seconds, prefs.reduced).x * innerWidth : pointer.x;
-    const ty = forcedRegion >= 0 ? territoryCenter(forcedRegion, seconds, prefs.reduced).y * innerHeight : pointer.y;
+    } else if (!pointer.inside && forcedRegion < 0) { zone = candidate = -1; nearness = core = 0; }
+    const tx = forcedRegion >= 0 ? territoryCenter(forcedRegion, drift, prefs.reduced).x * innerWidth : pointer.x;
+    const ty = forcedRegion >= 0 ? territoryCenter(forcedRegion, drift, prefs.reduced).y * innerHeight : pointer.y;
     const k = prefs.reduced ? 1 : Math.min(1, dt * 9);
     lens.x += (tx - lens.x) * k; lens.y += (ty - lens.y) * k;
     lens.r += (((pointer.inside || forcedRegion >= 0) ? Math.min(innerWidth, innerHeight) * .25 : 0) - lens.r) * k;
     if (!surface) { setStyle($('ground'), '--x', px(lens.x)); setStyle($('ground'), '--y', px(lens.y)); setStyle($('ground'), '--r', px(lens.r)); }
     $('probe').classList.toggle('on', pointer.inside || forcedRegion >= 0);
     setStyle($('probe'), 'transform', `translate3d(${px(tx)}, ${px(ty)}, 0)`);
-    if (hybrid) setStyle($('probe'), '--dwell', Math.min(1, dwell / 1.05).toFixed(2));
-    // Le même chargement autour de la cible visée, tant que son humeur reste à découvrir :
-    // il montre où mène l'attente. Une fois révélée, la cible garde son anneau d'intensité.
+    // Jauge locale : l'anneau du curseur se remplit à mesure qu'on approche du signe,
+    // le signe grandit et s'affirme ; tant que son humeur reste à découvrir, il porte la
+    // même jauge. Une fois révélé, il garde son anneau d'intensité.
+    const near = zone >= 0 ? nearness : 0;
+    if (hybrid) setStyle($('probe'), '--near', near.toFixed(2));
     const exploring = pointer.inside && forcedRegion < 0 && !drag && !paused;
     fieldButtons.forEach((b, j) => {
-      const loading = exploring && j === candidate && !found.has(j) && dwell > .05;
+      setStyle(b, '--near', (j === zone ? near : 0).toFixed(2));
+      const loading = exploring && j === zone && !found.has(j);
       if (b.classList.contains('is-loading') !== loading) b.classList.toggle('is-loading', loading);
-      if (loading) setStyle(b, '--dwell', Math.min(1, dwell / 1.05).toFixed(2));
     });
+    if (nuances) updateCoach(time, tx, ty, exploring);
     if (pointer.inside || forcedRegion >= 0) gazeAt(tx, ty, a);
   } else if (!paused && !drag && !toyDrag && time > reactionUntil) {
     const distance = Math.hypot(pointer.x - a.x, pointer.y - a.y);
@@ -249,7 +278,28 @@ function updateReserves(now) {
     .filter(r => r.width > pad * 2 && r.height > pad * 2);
   const key = rects.map(r => [r.x, r.y, r.width, r.height].map(Math.round).join(',')).join(';');
   if (key === reservesKey) return;
-  reservesKey = key; surface.setReserves(rects);
+  reservesKey = key;
+  // Sur papier sombre, une réserve complète se lit comme une ombre : on la garde plus légère.
+  surface.setReserves(rects, { amount: prefs.theme === 'dark' ? .6 : .78 });
+}
+// Guide : une ligne près du curseur. Avant la première découverte, il dit quoi faire
+// (approcher, puis atteindre le centre) ; ensuite, il nomme brièvement chaque humeur révélée.
+let coachText = null, coachWidth = 0;
+function updateCoach(time, x, y, exploring) {
+  const coach = $('coach');
+  let text = '';
+  if (time < coachUntil) text = coachFound;
+  else if (exploring && !found.size) text = zone >= 0 ? t('coachNear') : t('coachFar');
+  if (text !== coachText) {
+    coachText = text;
+    if (text) { coach.textContent = text; coachWidth = coach.offsetWidth; }
+    coach.classList.toggle('on', !!text);
+  }
+  if (!text) return;
+  // À droite du curseur, ou à gauche s'il manque la place ; toujours dans l'écran.
+  const right = x + 24, left = x - 24 - coachWidth;
+  const at = right + coachWidth <= innerWidth - 8 ? right : clamp(left, 8, innerWidth - 8 - coachWidth);
+  setStyle(coach, 'transform', `translate3d(${px(at)}, ${px(y + 16)}, 0)`);
 }
 function wake() { if (playing && !document.hidden) frameId ||= requestAnimationFrame(tick); }
 function interactiveTarget(e) { return e.target.closest('button,a,select,input,aside,.tools'); }
@@ -316,7 +366,7 @@ if (hybrid) {
   scene.addEventListener('pointercancel', releaseTouch);
   scene.addEventListener('lostpointercapture', releaseTouch);
 }
-scene.addEventListener('pointerleave', () => { if (drag || toyDrag || (hybrid && (touchId !== null || scene.dataset.input === 'touch' || tilt?.active))) return; pointer.inside = false; if (nuances) revisitAfter = nowSeconds() + .65; gentleTime = 0; candidate = -1; dwell = 0; wake(); });
+scene.addEventListener('pointerleave', () => { if (drag || toyDrag || (hybrid && (touchId !== null || scene.dataset.input === 'touch' || tilt?.active))) return; pointer.inside = false; if (nuances) revisitAfter = nowSeconds() + .65; gentleTime = 0; candidate = zone = -1; nearness = core = 0; wake(); });
 mark.addEventListener('pointerdown', e => {
   if (!playing || e.button !== 0 || drag || toyDrag || touchId !== null) return;
   e.preventDefault();
@@ -368,7 +418,7 @@ EMOTIONS.forEach((m, i) => {
   invitation.addEventListener('click', () => { returnAt = 0; feel(m.id, nuances ? keyboardIntensity : .8, 2, true, nuances); lastInput = nowSeconds(); if (territories) forcedRegion = i; });
   $('mood-actions').append(invitation);
   if (territories) {
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'field-target'; b.setAttribute('aria-label', t('territory', { label: m.label })); b.innerHTML = `<span aria-hidden="true">${MARKER}</span>`;
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'field-target'; b.setAttribute('aria-label', t('territory', { label: m.label })); b.innerHTML = `<span aria-hidden="true">${MARKER}</span>`; b.style.setProperty('--i', i);
     b.addEventListener('focus', () => { forcedRegion = i; if (nuances) keyboardIntensity = 1; wake(); });
     b.addEventListener('blur', () => { if (forcedRegion === i) forcedRegion = -1; wake(); });
     b.addEventListener('click', () => { forcedRegion = i; feel(m.id, nuances ? keyboardIntensity : .85, 0, true, nuances); lastInput = nowSeconds(); wake(); });
@@ -437,18 +487,23 @@ addEventListener('keydown', e => {
 addEventListener('blur', () => { cancelTouch(); release(true); toyDrag = null; pointer.inside = false; });
 addEventListener('resize', () => { anchorDirty = true; surface?.resize(); cancelTouch(); release(true); toyDrag = null; toyPosition = null; if (toy) { toy.style.left = ''; toy.style.top = ''; } wake(); });
 document.fonts?.ready.then(() => { anchorDirty = true; wake(); });
-addEventListener('prefs', () => { surface?.configure(); applyMoodColors(); syncAnimation(); });
+addEventListener('prefs', () => { reservesKey = ''; reservesAt = -Infinity; surface?.configure(); applyMoodColors(); syncAnimation(); });
 document.addEventListener('visibilitychange', () => { if (document.hidden) { tilt?.stop(t('hidden')); cancelTouch(); release(true); cancelAnimationFrame(frameId); frameId = 0; lastTime = 0; } else wake(); });
 addEventListener('pagehide', () => tilt?.stop());
 
 setupPage({
   play: async ({ ready }) => {
     tilt?.stop(); cancelTouch(); release(true); anchorDirty = true; position = { x: 0, y: 0, vx: 0, vy: 0 }; playing = true;
-    returnAt = reactionUntil = 0; gentleTime = bond = 0; candidate = forcedRegion = -1; dwell = 0; pullTimes = []; trail = []; waves = [];
+    returnAt = reactionUntil = 0; gentleTime = bond = 0; candidate = forcedRegion = zone = -1; nearness = core = 0; coachUntil = 0; pullTimes = []; trail = []; waves = [];
     pointer.inside = false; found.clear(); fieldButtons.forEach(b => b.classList.remove('revealed'));
     revisitAfter = 0; keyboardIntensity = 1;
     $('found').textContent = t('foundNone'); lastInput = nowSeconds();
     feel('neutral', 1); status(t('start'));
     await logo.ready; applyMoodColors(); ready(); syncAnimation(); wake();
+    // Les six signes s'allument l'un après l'autre, puis retombent à leur présence discrète.
+    if (territories && !prefs.reduced) {
+      scene.classList.add('is-intro');
+      setTimeout(() => scene.classList.remove('is-intro'), 1500);
+    }
   },
 });

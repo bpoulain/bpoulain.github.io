@@ -113,7 +113,7 @@ export function print(target, { options, fps = 12, animate = true, seed } = {}) 
  * GrainLab refuse un papier vide (l'erreur interrompt tout le splash). On retombe sur les
  * valeurs de `base.css` pour le thème courant.
  */
-const PAPER = { light: '#f3f0e9', dark: '#111113' };
+const PAPER = { light: '#f3f0e9', dark: '#19181c' };
 export const pageColor = () =>
   getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || PAPER[prefs.theme];
 

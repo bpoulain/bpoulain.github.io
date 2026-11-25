@@ -2,6 +2,11 @@ import { clamp, territoryCenter } from './emotional-model.js';
 
 // La même distance en pixels est perçue de la même façon sur les deux axes.
 // Une marge de 18 px évite les changements de famille au moindre frémissement.
+//
+// Chaque zone a un bord : au-delà, le visage reste neutre, et entrer dans une zone est un
+// événement net (le visage passe d'emblée à une humeur légère). Plus on s'approche du signe,
+// plus l'humeur s'affirme ; dans le cœur (un petit disque autour du signe), elle est au maximum
+// et c'est là que l'humeur se révèle.
 export function territoryResponse(x, y, seconds, width, height, { previous = -1, reduced = false } = {}) {
   const centers = Array.from({ length: 6 }, (_, i) => territoryCenter(i, seconds, reduced));
   const distances = centers.map(c => Math.hypot((x - c.x) * width, (y - c.y) * height));
@@ -9,10 +14,12 @@ export function territoryResponse(x, y, seconds, width, height, { previous = -1,
   if (previous >= 0 && previous < 6 && distances[previous] <= distances[index] + 18) index = previous;
   const c = centers[index];
   const spacing = Math.min(...centers.filter((_, i) => i !== index).map(other => Math.hypot((c.x - other.x) * width, (c.y - other.y) * height)));
-  const radius = Math.max(64, spacing * .82);
-  const proximity = clamp(1 - distances[index] / radius, 0, 1);
+  const radius = clamp(spacing * .46, 72, 210);
+  const core = Math.max(22, radius * .17);
+  const distance = distances[index];
+  const proximity = clamp((radius - distance) / (radius - core), 0, 1);
   const smooth = proximity * proximity * (3 - 2 * proximity);
-  return { index, distance: distances[index], radius, intensity: .06 + .94 * smooth };
+  return { index, distance, radius, core, inside: distance < radius, atCore: distance <= core, intensity: .14 + .86 * smooth };
 }
 
 // Un paquet mélangé par famille : chaque état est rencontré avant de recommencer,
